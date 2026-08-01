@@ -7,7 +7,7 @@ import { useDemo } from "./demo-modal";
 import { Reveal, SectionHeading } from "./ui";
 import { company } from "@/lib/company";
 import {
-  PLANS, TRIAL_DAYS, CURRENCY_META, formatPrice, guessCurrency,
+  PLANS, TRIAL_DAYS, formatPrice, guessCurrency,
   monthsFree, yearlyDiscountPercent,
   type Currency, type Period,
 } from "@/lib/pricing";
@@ -137,20 +137,10 @@ export function Pricing() {
             ))}
           </div>
 
-          <div className="glass inline-flex rounded-xl p-1" role="group" aria-label="Para birimi">
-            {(Object.keys(CURRENCY_META) as Currency[]).map((c) => (
-              <button
-                key={c}
-                onClick={() => setCurrency(c)}
-                aria-pressed={currency === c}
-                className={`rounded-lg px-3.5 py-2 text-sm font-semibold transition ${
-                  currency === c ? "bg-accent text-white" : "text-mist hover:text-frost"
-                }`}
-              >
-                {CURRENCY_META[c].symbol} {c}
-              </button>
-            ))}
-          </div>
+          {/* Para birimi seçici bilinçli olarak YOK: ziyaretçiye yalnızca
+              kendi pazarının fiyatı gösterilir. Farklı pazarlara farklı
+              fiyat uygulanıyor; hepsini yan yana göstermek hem kafa
+              karıştırır hem "neden onlara daha ucuz" sorusunu doğurur. */}
         </div>
 
         <div className="mt-12 grid gap-6 lg:grid-cols-3">

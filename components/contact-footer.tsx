@@ -4,6 +4,7 @@ import { Mail, MapPin, MessageCircle, Phone, Send } from "lucide-react";
 import { useState } from "react";
 import { useDemo } from "./demo-modal";
 import { Logo, Reveal, SectionHeading } from "./ui";
+import { company } from "@/lib/company";
 
 /* --- Contact --- */
 export function Contact() {
@@ -111,19 +112,42 @@ export function Contact() {
   );
 }
 
-/* --- Footer --- */
+/* --- Footer ---
+   Bağlantıların tamamı gerçek bir hedefe gider. Önceden hepsi href="#"
+   idi; ölü yasal bağlantı, ödeme alan bir sitede uyum sorunudur —
+   tüketicinin sözleşmeye ulaşabilmesi zorunludur. Var olmayan sayfalar
+   (blog, kariyer, basın kiti) listeden çıkarıldı; yokken listelemek
+   ölü bağlantıdan daha kötü. */
 const footerCols = [
   {
     title: "Ürün",
-    links: ["Özellikler", "AI Teşhis", "QR Takip", "Çoklu Şube", "Planlar"],
+    links: [
+      { label: "Özellikler", href: "/#ozellikler" },
+      { label: "AI Teşhis", href: "/#ai" },
+      { label: "Panel", href: "/#panel" },
+      { label: "Nasıl çalışır", href: "/#surec" },
+      { label: "Planlar", href: "/#fiyatlar" },
+    ],
   },
   {
     title: "Şirket",
-    links: ["Hakkımızda", "Blog", "Kariyer", "Basın Kiti", "İletişim"],
+    links: [
+      { label: "İletişim", href: "/#iletisim" },
+      { label: "Sıkça sorulanlar", href: "/#sss" },
+      { label: "Servis paneli girişi", href: "https://panel.motofull.com.tr" },
+    ],
   },
   {
     title: "Yasal",
-    links: ["Gizlilik Politikası", "Kullanım Şartları", "KVKK Aydınlatma Metni", "Çerez Politikası"],
+    links: [
+      { label: "KVKK Aydınlatma Metni", href: "/kvkk" },
+      { label: "Privacy Policy (EN)", href: "/privacy" },
+      { label: "Kullanım Şartları", href: "/kullanim-sartlari" },
+      { label: "Mesafeli Satış Sözleşmesi", href: "/mesafeli-satis" },
+      { label: "İade ve Cayma Hakkı", href: "/iade-ve-cayma" },
+      { label: "Çerez Politikası", href: "/cerez-politikasi" },
+      { label: "Alt İşleyiciler", href: "/alt-isleyiciler" },
+    ],
   },
 ];
 
@@ -139,10 +163,20 @@ export function Footer() {
               teknolojisine — atölyenizi geleceğe taşıyın.
             </p>
             <div className="mt-6 flex gap-3">
-              {["X", "in", "ig", "yt"].map((s) => (
+              {/* Yalnızca adresi girilmiş hesaplar gösterilir */}
+              {([
+                ["X", company.social.x],
+                ["in", company.social.linkedin],
+                ["ig", company.social.instagram],
+                ["yt", company.social.youtube],
+              ] as const)
+                .filter(([, href]) => !!href)
+                .map(([s, href]) => (
                 <a
                   key={s}
-                  href="#"
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={`Sosyal medya: ${s}`}
                   className="glass flex h-10 w-10 items-center justify-center rounded-xl text-sm font-bold text-mist transition hover:border-accent/40 hover:text-accent"
                 >
@@ -156,9 +190,9 @@ export function Footer() {
               <h3 className="mb-4 font-display font-semibold text-frost">{col.title}</h3>
               <ul className="space-y-2.5">
                 {col.links.map((l) => (
-                  <li key={l}>
-                    <a href="#" className="text-sm text-mist transition hover:text-accent-soft">
-                      {l}
+                  <li key={l.label}>
+                    <a href={l.href} className="text-sm text-mist transition hover:text-accent-soft">
+                      {l.label}
                     </a>
                   </li>
                 ))}
@@ -168,7 +202,7 @@ export function Footer() {
         </div>
         <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/5 pt-8 sm:flex-row">
           <p className="text-sm text-mist">
-            © {new Date().getFullYear()} MotoFull. Tüm hakları saklıdır.
+            © {new Date().getFullYear()} {company.legalName}. Tüm hakları saklıdır.
           </p>
           <p className="text-xs text-mist/60">Motosiklet servisleri için ❤ ile geliştirildi.</p>
         </div>

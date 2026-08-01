@@ -2,9 +2,15 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { Building2, ChevronDown, Rocket, Star, Warehouse } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDemo } from "./demo-modal";
 import { Reveal, SectionHeading } from "./ui";
+import { company } from "@/lib/company";
+import {
+  PLANS, TRIAL_DAYS, CURRENCY_META, formatPrice, guessCurrency,
+  monthsFree, yearlyDiscountPercent,
+  type Currency, type Period,
+} from "@/lib/pricing";
 
 /* --- Testimonials --- */
 const testimonials = [
@@ -70,33 +76,25 @@ export function Testimonials() {
   );
 }
 
-/* --- Pricing --- */
-const plans = [
-  {
-    icon: Rocket,
-    name: "Starter",
-    tag: "Küçük atölyeler",
-    features: ["1 kullanıcı", "Müşteri & araç kayıtları", "Dijital iş emirleri", "Temel raporlar", "E-posta destek"],
-    highlight: false,
-  },
-  {
-    icon: Warehouse,
-    name: "Professional",
-    tag: "Büyüyen servisler",
-    features: ["5 kullanıcıya kadar", "AI teşhis asistanı", "Stok & tedarikçi yönetimi", "QR takip + SMS hatırlatma", "Öncelikli destek"],
-    highlight: true,
-  },
-  {
-    icon: Building2,
-    name: "Enterprise",
-    tag: "Zincir & yetkili servisler",
-    features: ["Sınırsız kullanıcı", "Çoklu şube yönetimi", "Özel entegrasyonlar", "Gelişmiş analiz & API", "Özel müşteri temsilcisi"],
-    highlight: false,
-  },
-];
+/* --- Pricing ---
+   Fiyatlar lib/pricing.ts'ten okunur; burada sayı yazılmaz. Aynı fiyatı
+   iki yerde tutmak, birinde değiştirip diğerini unutmak demektir —
+   gösterilen tutarla tahsil edilen tutarın ayrışması tüketici hukuku
+   sorunudur. */
+const PLAN_ICONS: Record<string, typeof Rocket> = {
+  starter: Rocket,
+  pro: Warehouse,
+  enterprise: Building2,
+};
 
 export function Pricing() {
   const { open } = useDemo();
+  const [period, setPeriod] = useState<Period>("yearly");
+  // İlk render sunucuda da çalıştığı için TRY ile başlar; ziyaretçinin
+  // gerçek para birimi istemcide belirlenir (hydration uyuşmazlığı olmasın).
+  const [currency, setCurrency] = useState<Currency>("TRY");
+  useEffect(() => setCurrency(guessCurrency()), []);
+
   return (
     <section id="fiyatlar" className="relative py-24 sm:py-32">
       <div
@@ -111,50 +109,164 @@ export function Pricing() {
               Her ölçekte servise <span className="text-gradient">uygun plan</span>
             </>
           }
-          subtitle="Tek kişilik atölyeden çok şubeli zincire kadar. Size uygun planı birlikte belirleyelim."
+          subtitle={`${TRIAL_DAYS} gün ücretsiz deneyin — kredi kartı istemiyoruz. Beğenmezseniz hiçbir şey ödemezsiniz.`}
         />
-        <div className="mt-14 grid gap-6 lg:grid-cols-3">
-          {plans.map((p, i) => (
-            <Reveal key={p.name} delay={i * 0.08}>
-              <div
-                className={`card-hover relative flex h-full flex-col rounded-3xl p-8 ${
-                  p.highlight
-                    ? "border border-accent/40 bg-accent/[0.07] glow-orange"
-                    : "glass"
+
+        {/* Dönem ve para birimi seçimi */}
+        <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+          <div className="glass inline-flex rounded-xl p-1" role="group" aria-label="Fatura dönemi">
+            {([
+              ["monthly", "Aylık"],
+              ["yearly", "Yıllık"],
+            ] as const).map(([id, label]) => (
+              <button
+                key={id}
+                onClick={() => setPeriod(id)}
+                aria-pressed={period === id}
+                className={`rounded-lg px-5 py-2 text-sm font-semibold transition ${
+                  period === id ? "bg-accent text-white" : "text-mist hover:text-frost"
                 }`}
               >
-                {p.highlight && (
-                  <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-accent px-4 py-1 text-xs font-bold text-white">
-                    En Popüler
+                {label}
+                {id === "yearly" && (
+                  <span className="ml-2 rounded bg-emerald-500/20 px-1.5 py-0.5 text-[10px] font-bold text-emerald-300">
+                    avantajlı
                   </span>
                 )}
-                <span className={`mb-5 flex h-12 w-12 items-center justify-center rounded-2xl ${p.highlight ? "bg-accent text-white" : "bg-accent/12 text-accent"}`}>
-                  <p.icon className="h-6 w-6" />
-                </span>
-                <h3 className="font-display text-2xl font-bold text-frost">{p.name}</h3>
-                <p className="mt-1 text-sm text-mist">{p.tag}</p>
-                <ul className="mt-6 flex-1 space-y-3">
-                  {p.features.map((f) => (
-                    <li key={f} className="flex items-center gap-2.5 text-sm text-frost">
-                      <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-                <button
-                  onClick={open}
-                  className={`mt-8 w-full rounded-xl px-6 py-3.5 font-semibold transition ${
+              </button>
+            ))}
+          </div>
+
+          <div className="glass inline-flex rounded-xl p-1" role="group" aria-label="Para birimi">
+            {(Object.keys(CURRENCY_META) as Currency[]).map((c) => (
+              <button
+                key={c}
+                onClick={() => setCurrency(c)}
+                aria-pressed={currency === c}
+                className={`rounded-lg px-3.5 py-2 text-sm font-semibold transition ${
+                  currency === c ? "bg-accent text-white" : "text-mist hover:text-frost"
+                }`}
+              >
+                {CURRENCY_META[c].symbol} {c}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-12 grid gap-6 lg:grid-cols-3">
+          {PLANS.map((p, i) => {
+            const Icon = PLAN_ICONS[p.id] ?? Rocket;
+            const price = p.price?.[currency];
+            const amount = price ? (period === "yearly" ? price.yearly : price.monthly) : null;
+
+            return (
+              <Reveal key={p.id} delay={i * 0.08}>
+                <div
+                  className={`card-hover relative flex h-full flex-col rounded-3xl p-8 ${
                     p.highlight
-                      ? "bg-accent text-white hover:bg-accent-soft"
-                      : "glass text-frost hover:border-accent/40"
+                      ? "border border-accent/40 bg-accent/[0.07] glow-orange"
+                      : "glass"
                   }`}
                 >
-                  Bize Ulaşın
-                </button>
-              </div>
-            </Reveal>
-          ))}
+                  {p.highlight && (
+                    <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-accent px-4 py-1 text-xs font-bold text-white">
+                      En Popüler
+                    </span>
+                  )}
+                  <span className={`mb-5 flex h-12 w-12 items-center justify-center rounded-2xl ${p.highlight ? "bg-accent text-white" : "bg-accent/12 text-accent"}`}>
+                    <Icon className="h-6 w-6" />
+                  </span>
+                  <h3 className="font-display text-2xl font-bold text-frost">{p.name}</h3>
+                  <p className="mt-1 text-sm text-mist">{p.tagline}</p>
+
+                  {/* Fiyat */}
+                  <div className="mt-6 min-h-[92px]">
+                    {amount !== null && price ? (
+                      <>
+                        <div className="flex items-baseline gap-1.5">
+                          <span className="font-display text-4xl font-bold text-frost">
+                            {formatPrice(amount, currency)}
+                          </span>
+                          <span className="text-sm text-mist">
+                            /{period === "yearly" ? "yıl" : "ay"}
+                          </span>
+                        </div>
+                        {period === "yearly" ? (
+                          <p className="mt-1.5 text-xs text-emerald-300">
+                            %{yearlyDiscountPercent(price)} indirim — yaklaşık {monthsFree(price)} ay bedava
+                          </p>
+                        ) : (
+                          <p className="mt-1.5 text-xs text-mist">
+                            Yıllık ödemede %{yearlyDiscountPercent(price)} indirim
+                          </p>
+                        )}
+                        <p className="mt-1 text-[11px] text-mist/70">KDV dahil değildir.</p>
+                      </>
+                    ) : (
+                      <>
+                        <span className="font-display text-3xl font-bold text-frost">Teklif usulü</span>
+                        <p className="mt-1.5 text-xs text-mist">
+                          İhtiyacınıza göre birlikte belirleyelim.
+                        </p>
+                      </>
+                    )}
+                  </div>
+
+                  {/* Kapsam */}
+                  <ul className="mt-6 space-y-1.5 border-y border-white/10 py-4 text-xs text-mist">
+                    <li>{p.limits.customers}</li>
+                    <li>{p.limits.records}</li>
+                    <li>{p.limits.ai}</li>
+                    <li>{p.limits.users}</li>
+                  </ul>
+
+                  <ul className="mt-5 flex-1 space-y-3">
+                    {p.features.map((f) => (
+                      <li key={f} className="flex items-start gap-2.5 text-sm text-frost">
+                        <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* Kurumsal dışında herkes önce ücretsiz denemeye girer;
+                      ödeme, deneme bitiminde panel içinde alınır. */}
+                  {p.price ? (
+                    <a
+                      href={`${company.panelUrl}/hesap/kayit?plan=${p.id}&period=${period}`}
+                      className={`mt-8 block w-full rounded-xl px-6 py-3.5 text-center font-semibold transition ${
+                        p.highlight
+                          ? "bg-accent text-white hover:bg-accent-soft"
+                          : "glass text-frost hover:border-accent/40"
+                      }`}
+                    >
+                      {TRIAL_DAYS} gün ücretsiz dene
+                    </a>
+                  ) : (
+                    <button
+                      onClick={open}
+                      className="glass mt-8 w-full rounded-xl px-6 py-3.5 font-semibold text-frost transition hover:border-accent/40"
+                    >
+                      Teklif alın
+                    </button>
+                  )}
+                </div>
+              </Reveal>
+            );
+          })}
         </div>
+
+        <p className="mt-8 text-center text-xs text-mist">
+          Kredi kartı bilgisi deneme için istenmez. Ödeme adımında kart bilgileriniz
+          doğrudan lisanslı ödeme kuruluşuna iletilir, sunucularımıza hiç ulaşmaz.{" "}
+          <a href="/iade-ve-cayma" className="text-accent hover:underline">
+            14 gün koşulsuz iade
+          </a>{" "}
+          ·{" "}
+          <a href="/mesafeli-satis" className="text-accent hover:underline">
+            Mesafeli satış sözleşmesi
+          </a>
+        </p>
         <Reveal className="mt-8 text-center">
           <p className="text-sm text-mist">
             Fiyatlar servis büyüklüğüne göre belirlenir. Demo görüşmesinde net teklif alırsınız.

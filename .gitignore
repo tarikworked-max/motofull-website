@@ -3,3 +3,6 @@
 dist
 .env.local
 .vercel
+
+# TypeScript artımlı derleme önbelleği — makineye özel, depoda olmamalı
+*.tsbuildinfo

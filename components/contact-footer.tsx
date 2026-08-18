@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useDemo } from "./demo-modal";
 import { Logo, Reveal, SectionHeading } from "./ui";
 import { company, filledOr, isFilled } from "@/lib/company";
+import { submitContactRequest } from "@/lib/contact";
 import { TRIAL_DAYS } from "@/lib/pricing";
 
 /* --- Contact --- */
@@ -29,61 +30,36 @@ export function Contact() {
   const [errorMsg, setErrorMsg] = useState('');
   const sent = status === 'sent';
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-
+  /**
+   * Gönderim mantığı lib/contact.ts'te tek yerde tutulur — "Talk to us"
+   * modalı da aynı yardımcıyı kullanır. İki kopya tutmak, birinde
+   * düzeltip diğerini unutmak demekti; modal tam bu yüzden uzun süre
+   * sahte başarı gösterdi.
+   */
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
-    const fullName = String(fd.get('name') || '').trim();
-    const phone = String(fd.get('phone') || '').trim();
-    const email = String(fd.get('email') || '').trim();
-    const workshop = String(fd.get('workshop') || '').trim();
-    const message = String(fd.get('message') || '').trim();
 
-    if (!apiUrl) {
-      setStatus('error');
-      setErrorMsg(
-        isFilled(company.email)
-          ? 'The contact form is not connected yet. Please email us directly at ' + company.email + '.'
-          : 'The contact form is not connected yet. Please try again later.'
-      );
+    setStatus('sending');
+    const result = await submitContactRequest({
+      fullName: String(fd.get('name') || ''),
+      phone: String(fd.get('phone') || ''),
+      email: String(fd.get('email') || ''),
+      workshop: String(fd.get('workshop') || ''),
+      message: String(fd.get('message') || ''),
+    });
+
+    if (result.ok) {
+      setStatus('sent');
       return;
     }
 
-    setStatus('sending');
-    try {
-      const res = await fetch(apiUrl.replace(/\/+$/, '') + '/api/public/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          fullName,
-          phone,
-          email,
-          subject: workshop ? 'Website enquiry — ' + workshop : 'Website enquiry',
-          message,
-          requestType: 'demo',
-          audience: 'servis',
-          source: 'website',
-          landingPath: typeof window !== 'undefined' ? window.location.pathname : '/',
-        }),
-      });
-
-      if (res.ok) {
-        setStatus('sent');
-        return;
-      }
-
-      const data = await res.json().catch(() => null);
-      setStatus('error');
-      setErrorMsg(
-        res.status === 429
-          ? 'Too many requests from this connection. Please try again in a little while.'
-          : (data && data.message) || 'We could not send your message. Please try again.'
-      );
-    } catch {
-      setStatus('error');
-      setErrorMsg('We could not reach the server. Please check your connection and try again.');
-    }
+    setStatus('error');
+    setErrorMsg(
+      result.reason === 'not-configured' && isFilled(company.email)
+        ? result.message + ' Please email us directly at ' + company.email + '.'
+        : result.message
+    );
   }
 
   return (

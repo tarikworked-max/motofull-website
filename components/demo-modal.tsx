@@ -10,6 +10,8 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { company, isFilled } from "@/lib/company";
+import { submitContactRequest } from "@/lib/contact";
 
 const DemoContext = createContext<{ open: () => void }>({ open: () => {} });
 
@@ -17,12 +19,44 @@ export const useDemo = () => useContext(DemoContext);
 
 export function DemoProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [errorMsg, setErrorMsg] = useState('');
+  const sent = status === 'sent';
 
   const open = useCallback(() => {
-    setSent(false);
+    setStatus('idle');
+    setErrorMsg('');
     setIsOpen(true);
   }, []);
+
+  /**
+   * Gerçek gönderim. Daha önce burada yalnızca setSent(true) vardı;
+   * ziyaretçiye "aldık" deniyordu ama talep hiçbir yere ulaşmıyordu.
+   * Artık başarı YALNIZCA sunucu 2xx döndürdüğünde gösterilir.
+   */
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const fd = new FormData(e.currentTarget);
+
+    setStatus('sending');
+    const result = await submitContactRequest({
+      fullName: String(fd.get('name') || ''),
+      workshop: String(fd.get('workshop') || ''),
+      email: String(fd.get('email') || ''),
+    });
+
+    if (result.ok) {
+      setStatus('sent');
+      return;
+    }
+
+    setStatus('error');
+    setErrorMsg(
+      result.reason === 'not-configured' && isFilled(company.email)
+        ? result.message + ' Please email us directly at ' + company.email + '.'
+        : result.message
+    );
+  }
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setIsOpen(false);
@@ -87,19 +121,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
                       <p className="text-sm text-mist">Tell us about your workshop and we will scope a plan with you.</p>
                     </div>
                   </div>
-                  {/* BILINEN KUSUR — GONDERIM YOK.
-                      Bu form su an hicbir uc noktaya POST etmiyor; onSubmit
-                      yalnizca setSent(true) yapiyor. Yani ziyaretciye
-                      "aldik" deniyor ama talep HICBIR YERE ULASMIYOR.
-                      Lead sessizce kayboluyor. Backend uc noktasi
-                      baglanana kadar bu bir uretim kusurudur. */}
-                  <form
-                    className="flex flex-col gap-4"
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      setSent(true);
-                    }}
-                  >
+                  <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
                     {[
                       { id: "name", label: "Full name", type: "text", ph: "Your name" },
                       { id: "workshop", label: "Workshop name", type: "text", ph: "Your workshop" },
@@ -118,10 +140,16 @@ export function DemoProvider({ children }: { children: ReactNode }) {
                     ))}
                     <button
                       type="submit"
-                      className="mt-2 rounded-xl bg-accent px-6 py-3.5 font-semibold text-white transition hover:bg-accent-soft glow-orange"
+                      disabled={status === 'sending'}
+                      className="mt-2 rounded-xl bg-accent px-6 py-3.5 font-semibold text-white transition hover:bg-accent-soft glow-orange disabled:cursor-not-allowed disabled:opacity-60"
                     >
-                      Send
+                      {status === 'sending' ? 'Sending…' : 'Send'}
                     </button>
+                    {status === 'error' && (
+                      <p role="alert" className="text-center text-sm text-red-300">
+                        {errorMsg}
+                      </p>
+                    )}
                     <p className="text-center text-xs text-mist/70">
                       We only use your details to contact you about MotoFull.
                     </p>

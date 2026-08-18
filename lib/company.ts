@@ -16,7 +16,7 @@
 export const company = {
   /* ── Ticari kimlik ──────────────────────────────────────────── */
   /** Yasal ticaret unvanı — sözleşmelerde geçen tam ad. */
-  legalName: 'TODO: Tam Ticaret Unvanı A.Ş. / Ltd. Şti.',
+  legalName: 'Motofull Software',
   /** Markanın günlük kullanılan adı. */
   brandName: 'MotoFull',
 
@@ -36,13 +36,24 @@ export const company = {
     postalCode: 'TODO: Posta kodu',
     country: 'Türkiye',
   },
-  phone: 'TODO: +90 ... ... .. ..',
+  phone: '+90 531 789 92 95',
   /** Genel iletişim adresi. */
-  email: 'TODO: info@motofull.com.tr',
-  /** KVKK/GDPR başvurularının gideceği adres — genel e-postadan ayrı olmalı. */
-  privacyEmail: 'TODO: kvkk@motofull.com.tr',
-  /** Destek talepleri. */
-  supportEmail: 'TODO: destek@motofull.com.tr',
+  email: 'info@motofull.com.tr',
+  /**
+   * KVKK/GDPR başvurularının gideceği adres — ideal olarak genel
+   * e-postadan ayrı olmalıdır.
+   *
+   * ŞU AN info@ kullanılıyor çünkü ayrı bir kvkk@ kutusunun mevcut
+   * olduğu doğrulanmadı. KVKK başvuruları yasal süre içinde
+   * yanıtlanmak zorundadır; var olmayan bir adres yayınlamak
+   * başvuruların ulaşmaması demektir — bu, ayrı kutu olmamasından
+   * daha ağır bir kusurdur.
+   *
+   * kvkk@motofull.com.tr açıldığında burası güncellenmelidir.
+   */
+  privacyEmail: 'info@motofull.com.tr',
+  /** Destek talepleri. Ayrı destek kutusu açılınca güncellenmeli. */
+  supportEmail: 'info@motofull.com.tr',
 
   /* ── Alan adları ────────────────────────────────────────────── */
   websiteUrl: 'https://motofull.com.tr',

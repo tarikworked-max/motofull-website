@@ -4,7 +4,7 @@ import { Mail, MapPin, MessageCircle, Phone, Send } from "lucide-react";
 import { useState } from "react";
 import { useDemo } from "./demo-modal";
 import { Logo, Reveal, SectionHeading } from "./ui";
-import { company } from "@/lib/company";
+import { company, filledOr, isFilled } from "@/lib/company";
 import { TRIAL_DAYS } from "@/lib/pricing";
 
 /* --- Contact --- */
@@ -43,7 +43,9 @@ export function Contact() {
     if (!apiUrl) {
       setStatus('error');
       setErrorMsg(
-        'The contact form is not connected yet. Please email us directly at ' + company.email + '.'
+        isFilled(company.email)
+          ? 'The contact form is not connected yet. Please email us directly at ' + company.email + '.'
+          : 'The contact form is not connected yet. Please try again later.'
       );
       return;
     }
@@ -75,12 +77,12 @@ export function Contact() {
       setStatus('error');
       setErrorMsg(
         res.status === 429
-          ? 'Too many requests from this connection. Please try again later, or email us at ' + company.email + '.'
-          : (data && data.message) || 'We could not send your message. Please email us at ' + company.email + '.'
+          ? 'Too many requests from this connection. Please try again in a little while.'
+          : (data && data.message) || 'We could not send your message. Please try again.'
       );
     } catch {
       setStatus('error');
-      setErrorMsg('We could not reach the server. Please email us at ' + company.email + '.');
+      setErrorMsg('We could not reach the server. Please check your connection and try again.');
     }
   }
 
@@ -154,11 +156,13 @@ export function Contact() {
           {/* info */}
           <Reveal delay={0.1} className="lg:col-span-2">
             <div className="flex h-full flex-col gap-4">
+              {/* Doldurulmamis iletisim kanali GOSTERILMEZ; ziyaretciye
+                  "TODO: ..." yazmaktansa hic gostermemek dogrudur. */}
               {[
                 { icon: Phone, label: "Phone", value: company.phone },
                 { icon: MessageCircle, label: "WhatsApp", value: company.phone },
                 { icon: Mail, label: "Email", value: company.email },
-              ].map((c) => (
+              ].filter((c) => isFilled(c.value)).map((c) => (
                 <div key={c.label} className="glass card-hover flex items-center gap-4 rounded-2xl p-5">
                   <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-accent/12 text-accent">
                     <c.icon className="h-5 w-5" />
@@ -276,7 +280,7 @@ export function Footer() {
         </div>
         <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/5 pt-8 sm:flex-row">
           <p className="text-sm text-mist">
-            © {new Date().getFullYear()} {company.legalName}. All rights reserved.
+            © {new Date().getFullYear()} {filledOr(company.legalName, company.brandName)}. All rights reserved.
           </p>
           <p className="text-xs text-mist/60">Built for motorcycle service businesses.</p>
         </div>

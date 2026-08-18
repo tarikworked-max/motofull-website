@@ -81,6 +81,21 @@ export const company = {
   legalLastUpdated: '2026-08-01',
 } as const;
 
+/**
+ * Bir alan gercekten doldurulmus mu?
+ * "TODO:" ile isaretli sablon degerler DOLU SAYILMAZ — bunlarin
+ * ziyaretciye gosterilmesi (ornegin altbilgide "TODO: Tam Ticaret
+ * Unvani" yazmasi) yayina cikmis bir hatadir.
+ */
+export function isFilled(value?: string | null): boolean {
+  return typeof value === 'string' && value.trim().length > 0 && !value.includes('TODO');
+}
+
+/** Doluysa degeri, degilse yedegi dondurur. */
+export function filledOr(value: string, fallback: string): string {
+  return isFilled(value) ? value : fallback;
+}
+
 /** Altbilgi ve sözleşmelerde kullanılan tek satırlık adres. */
 export function formattedAddress(): string {
   const a = company.address;

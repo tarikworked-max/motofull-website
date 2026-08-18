@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { Building2, ChevronDown, Rocket, Star, Warehouse } from "lucide-react";
+import { Building2, ChevronDown, Rocket, Warehouse } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDemo } from "./demo-modal";
 import { Reveal, SectionHeading } from "./ui";
@@ -12,25 +12,99 @@ import {
   type Currency, type Period,
 } from "@/lib/pricing";
 
-/* --- Testimonials --- */
-const testimonials = [
+/* --- Testimonials ---
+   ÖNEMLİ / IMPORTANT: Bu bölümdeki 15 görüş KURGUSALDIR. Gerçek MotoFull
+   müşterisi değildir. Her kart UI'da açıkça "Demo Example" olarak
+   etiketlenir ve bölüm açıklaması da bunu belirtir. "Trusted by",
+   "Our customers", "Verified customer" gibi doğrulanmamış güven
+   ifadeleri KULLANILMAZ — kanıtı olmayan sosyal kanıt yanıltıcı reklamdır.
+   Gerçek referanslar geldiğinde bu dizi onlarla değiştirilmelidir. */
+type Testimonial = {
+  name: string;
+  role: string;
+  workshop: string;
+  location: string;
+  initials: string;
+  text: string;
+  /** Öne çıkarılan MotoFull yeteneği — her kart farklı bir faydayı anlatır. */
+  focus: string;
+};
+
+const testimonials: Testimonial[] = [
   {
-    name: "Serkan Aydın",
-    role: "Moto Garage İstanbul · Kurucu",
-    initials: "SA",
-    text: "20 yıllık defter alışkanlığını bir haftada bıraktık. Artık müşteri aradığında geçmişi saniyesinde açıyorum. Müşteriler 'siz kurumsal olmuşsunuz' diyor.",
+    name: "James Whitfield", role: "Owner", workshop: "Whitfield Moto Works",
+    location: "Manchester, United Kingdom", initials: "JW", focus: "Customer history",
+    text: "A rider walks in and I pull up every service we have ever done on that bike in seconds. No more asking customers to repeat their details at the counter.",
   },
   {
-    name: "Elif Kaya",
-    role: "İki Teker Servis · İşletme Müdürü",
-    initials: "EK",
-    text: "Bakım hatırlatma SMS'leri sayesinde geri dönen müşteri oranımız gözle görülür şekilde arttı. Sistem kendini ilk ay ödedi.",
+    name: "Andrea Bergmann", role: "Workshop Manager", workshop: "Bergmann Zweirad",
+    location: "Stuttgart, Germany", initials: "AB", focus: "Work orders",
+    text: "Creating a work order used to mean rewriting the same customer and bike details every time. Now it is picked from the record and the job sheet is ready before the rider sits down.",
   },
   {
-    name: "Murat Demir",
-    role: "RPM Motosiklet · Baş Teknisyen",
-    initials: "MD",
-    text: "AI teşhis özellikle nadir gördüğümüz modellerde çok işe yarıyor. Kontrol sırası öneriyor, deneme yanılmayla parça değiştirme devri bitti.",
+    name: "Luca Ferretti", role: "Founder", workshop: "Officina Ferretti",
+    location: "Bologna, Italy", initials: "LF", focus: "Service history",
+    text: "Our history used to live in three notebooks and a spreadsheet. Having one searchable record per motorcycle changed how quickly we can quote a repeat job.",
+  },
+  {
+    name: "Carmen Ruiz", role: "Service Advisor", workshop: "Talleres Ruiz Motos",
+    location: "Valencia, Spain", initials: "CR", focus: "Customer updates",
+    text: "The public tracking link stopped the constant phone calls asking if the bike is ready. Customers check the status themselves and we get on with the work.",
+  },
+  {
+    name: "Elodie Marchand", role: "Co-owner", workshop: "Atelier Deux Roues",
+    location: "Lyon, France", initials: "EM", focus: "Maintenance reminders",
+    text: "Follow-up services were the thing we always forgot. Reminders mean the next service is scheduled instead of quietly lost.",
+  },
+  {
+    name: "Marcus Delaney", role: "Shop Owner", workshop: "Delaney Cycle Service",
+    location: "Austin, United States", initials: "MD", focus: "Returning customers",
+    text: "Searching by phone number or plate finds a returning customer instantly. That alone removed a few minutes from every single intake.",
+  },
+  {
+    name: "Priya Raman", role: "Operations Lead", workshop: "Northline Moto",
+    location: "Toronto, Canada", initials: "PR", focus: "Multiple technicians",
+    text: "With several technicians on the floor, seeing who is on which job removed most of the shouting across the workshop.",
+  },
+  {
+    name: "Khalid Al-Rashid", role: "General Manager", workshop: "Desert Wheels Service",
+    location: "Dubai, United Arab Emirates", initials: "KA", focus: "Multiple locations",
+    text: "Running two locations from one panel means I can see both workloads without driving between them.",
+  },
+  {
+    name: "Kenji Nakamura", role: "Head Technician", workshop: "Nakamura Moto Garage",
+    location: "Osaka, Japan", initials: "KN", focus: "Technical context",
+    text: "Seeing the previous repair before opening the engine matters. The technician gets the context instead of starting from a blank page.",
+  },
+  {
+    name: "Sarah Whitcombe", role: "Owner", workshop: "Southside Motorcycles",
+    location: "Melbourne, Australia", initials: "SW", focus: "Inventory",
+    text: "Parts used on a job come straight off the stock count. We stopped discovering shortages halfway through a service.",
+  },
+  {
+    name: "Rafael Moreira", role: "Founder", workshop: "Oficina Moreira Motos",
+    location: "Sao Paulo, Brazil", initials: "RM", focus: "Paperless intake",
+    text: "We moved off paper job cards and messaging threads. Everything about a job now lives in one place instead of four.",
+  },
+  {
+    name: "Valeria Cruz", role: "Service Manager", workshop: "Taller Cruz Motos",
+    location: "Guadalajara, Mexico", initials: "VC", focus: "Reporting",
+    text: "At the end of the month I can actually see what we did and what it earned, without rebuilding it from receipts.",
+  },
+  {
+    name: "Thabo Mokoena", role: "Owner", workshop: "Mokoena Moto Care",
+    location: "Johannesburg, South Africa", initials: "TM", focus: "Small workshops",
+    text: "We are a three-person shop. I expected something built for big dealerships, but we were running real jobs through it the same week.",
+  },
+  {
+    name: "Sanne de Vries", role: "Workshop Lead", workshop: "De Vries Motoren",
+    location: "Utrecht, Netherlands", initials: "SV", focus: "Tablet friendly",
+    text: "The technicians use it on a tablet at the bench rather than walking back to a desktop to write anything down.",
+  },
+  {
+    name: "Wei Lin Tan", role: "Director", workshop: "Lion City Moto",
+    location: "Singapore", initials: "WT", focus: "AI assistance",
+    text: "For models we rarely see, the assistant suggests where to look first. It is a starting point for diagnosis, not a replacement for the technician.",
   },
 ];
 
@@ -39,32 +113,48 @@ export function Testimonials() {
     <section className="relative py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
         <SectionHeading
-          eyebrow="Referanslar"
+          eyebrow="Example customer stories"
           title={
             <>
-              Servis sahipleri <span className="text-gradient">ne diyor?</span>
+              How a motorcycle workshop <span className="text-gradient">uses MotoFull</span>
             </>
           }
         />
-        <div className="mt-14 grid gap-6 md:grid-cols-3">
+
+        {/* Dürüstlük notu: kurgusal oldukları hem burada hem her kartta yazar. */}
+        <p className="mx-auto mt-5 max-w-2xl text-center text-sm leading-relaxed text-mist">
+          These are illustrative examples, not real customer references. They show the kind of
+          day-to-day problems MotoFull is built to solve in motorcycle service businesses worldwide.
+        </p>
+
+        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {testimonials.map((t, i) => (
-            <Reveal key={t.name} delay={i * 0.08}>
-              <figure className="card-hover glass flex h-full flex-col rounded-3xl p-8">
-                <div className="mb-4 flex gap-1" aria-label="5 üzerinden 5 yıldız">
-                  {Array.from({ length: 5 }).map((_, j) => (
-                    <Star key={j} className="h-4 w-4 fill-accent text-accent" />
-                  ))}
+            <Reveal key={t.name} delay={Math.min(i, 5) * 0.06}>
+              <figure className="card-hover glass flex h-full flex-col rounded-3xl p-7">
+                <div className="mb-4 flex items-center justify-between gap-3">
+                  <span className="rounded-full border border-white/12 bg-white/5 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-mist">
+                    Demo Example
+                  </span>
+                  <span className="text-[11px] font-medium text-mist">{t.focus}</span>
                 </div>
-                <blockquote className="flex-1 leading-relaxed text-frost">
+
+                <blockquote className="flex-1 text-[15px] leading-relaxed text-frost">
                   &ldquo;{t.text}&rdquo;
                 </blockquote>
+
                 <figcaption className="mt-6 flex items-center gap-3 border-t border-white/8 pt-5">
-                  <span className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-accent to-accent-soft font-display text-sm font-bold text-white">
+                  <span
+                    aria-hidden="true"
+                    className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-accent to-accent-soft font-display text-sm font-bold text-white"
+                  >
                     {t.initials}
                   </span>
-                  <div>
-                    <p className="font-semibold text-frost">{t.name}</p>
-                    <p className="text-xs text-mist">{t.role}</p>
+                  <div className="min-w-0">
+                    <p className="truncate font-semibold text-frost">{t.name}</p>
+                    <p className="truncate text-xs text-mist">
+                      {t.role} · {t.workshop}
+                    </p>
+                    <p className="truncate text-xs text-mist/80">{t.location}</p>
                   </div>
                 </figcaption>
               </figure>

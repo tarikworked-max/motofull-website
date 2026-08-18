@@ -271,7 +271,7 @@ export function StickyCTA() {
   return (
     <div className="glass-strong fixed inset-x-0 bottom-0 z-[70] border-t border-white/10 p-3 lg:hidden">
       <a
-        href={company.panelUrl + '/hesap/kayit?plan=demo'}
+        href={company.panelUrl + '/demo-kayit'}
         className="block w-full rounded-xl bg-accent py-3.5 text-center font-semibold text-white glow-orange"
       >
         {`Start ${TRIAL_DAYS}-day demo`}

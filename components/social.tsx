@@ -273,7 +273,7 @@ export function Pricing() {
 
                   {isDemo ? (
                     <a
-                      href={`${company.panelUrl}/hesap/kayit?plan=demo`}
+                      href={`${company.panelUrl}/demo-kayit`}
                       className="mt-8 block w-full rounded-xl bg-accent px-6 py-3.5 text-center font-semibold text-white transition hover:bg-accent-soft"
                     >
                       {`Start ${TRIAL_DAYS}-day demo`}

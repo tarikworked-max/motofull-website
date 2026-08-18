@@ -2,15 +2,11 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { Building2, ChevronDown, Rocket, Warehouse } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDemo } from "./demo-modal";
 import { Reveal, SectionHeading } from "./ui";
 import { company } from "@/lib/company";
-import {
-  PLANS, TRIAL_DAYS, formatPrice, guessCurrency,
-  monthsFree, yearlyDiscountPercent,
-  type Currency, type Period,
-} from "@/lib/pricing";
+import { PLANS, TRIAL_DAYS } from "@/lib/pricing";
 
 /* --- Testimonials ---
    ÖNEMLİ / IMPORTANT: Bu bölümdeki 15 görüş KURGUSALDIR. Gerçek MotoFull
@@ -179,11 +175,6 @@ const PLAN_ICONS: Record<string, typeof Rocket> = {
 
 export function Pricing() {
   const { open } = useDemo();
-  const [period, setPeriod] = useState<Period>("yearly");
-  // İlk render sunucuda da çalıştığı için TRY ile başlar; ziyaretçinin
-  // gerçek para birimi istemcide belirlenir (hydration uyuşmazlığı olmasın).
-  const [currency, setCurrency] = useState<Currency>("TRY");
-  useEffect(() => setCurrency(guessCurrency()), []);
 
   return (
     <section id="fiyatlar" className="relative py-24 sm:py-32">
@@ -193,106 +184,77 @@ export function Pricing() {
       />
       <div className="relative mx-auto max-w-7xl px-5 lg:px-8">
         <SectionHeading
-          eyebrow="Planlar"
+          eyebrow="Plans"
           title={
             <>
-              Her ölçekte servise <span className="text-gradient">uygun plan</span>
+              A plan for <span className="text-gradient">every workshop size</span>
             </>
           }
-          subtitle={`${TRIAL_DAYS} gün ücretsiz deneyin — kredi kartı istemiyoruz. Beğenmezseniz hiçbir şey ödemezsiniz.`}
+          subtitle={`Start with a free ${TRIAL_DAYS}-day demo — no card required. Pricing for paid plans is tailored to your workshop.`}
         />
 
-        {/* Dönem ve para birimi seçimi */}
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-          <div className="glass inline-flex rounded-xl p-1" role="group" aria-label="Fatura dönemi">
-            {([
-              ["monthly", "Aylık"],
-              ["yearly", "Yıllık"],
-            ] as const).map(([id, label]) => (
-              <button
-                key={id}
-                onClick={() => setPeriod(id)}
-                aria-pressed={period === id}
-                className={`rounded-lg px-5 py-2 text-sm font-semibold transition ${
-                  period === id ? "bg-accent text-white" : "text-mist hover:text-frost"
-                }`}
-              >
-                {label}
-                {id === "yearly" && (
-                  <span className="ml-2 rounded bg-emerald-500/20 px-1.5 py-0.5 text-[10px] font-bold text-emerald-300">
-                    avantajlı
-                  </span>
-                )}
-              </button>
-            ))}
-          </div>
+        {/* Halka acik sayfada SAYISAL fiyat gosterilmiyor (HIDE_PUBLIC_PRICES).
+            Bu yuzden donem/para birimi secici de kaldirildi: gosterilecek
+            tutar yokken "aylik/yillik" secmek anlamsizdir.
+            Fiyat altyapisi lib/pricing.ts icinde DURUYOR, silinmedi. */}
 
-          {/* Para birimi seçici bilinçli olarak YOK: ziyaretçiye yalnızca
-              kendi pazarının fiyatı gösterilir. Farklı pazarlara farklı
-              fiyat uygulanıyor; hepsini yan yana göstermek hem kafa
-              karıştırır hem "neden onlara daha ucuz" sorusunu doğurur. */}
-        </div>
-
-        <div className="mt-12 grid gap-6 lg:grid-cols-3">
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
           {PLANS.map((p, i) => {
             const Icon = PLAN_ICONS[p.id] ?? Rocket;
-            const price = p.price?.[currency];
-            const amount = price ? (period === "yearly" ? price.yearly : price.monthly) : null;
+            const isDemo = p.id === "demo";
 
             return (
               <Reveal key={p.id} delay={i * 0.08}>
                 <div
-                  className={`card-hover relative flex h-full flex-col rounded-3xl p-8 ${
+                  className={`card-hover relative flex h-full flex-col rounded-3xl p-7 ${
                     p.highlight
                       ? "border border-accent/40 bg-accent/[0.07] glow-orange"
                       : "glass"
                   }`}
                 >
                   {p.highlight && (
-                    <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-accent px-4 py-1 text-xs font-bold text-white">
-                      En Popüler
+                    <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-accent px-4 py-1 text-xs font-bold text-white">
+                      Most popular
                     </span>
                   )}
-                  <span className={`mb-5 flex h-12 w-12 items-center justify-center rounded-2xl ${p.highlight ? "bg-accent text-white" : "bg-accent/12 text-accent"}`}>
+                  {isDemo && (
+                    <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-emerald-500 px-4 py-1 text-xs font-bold text-white">
+                      Free
+                    </span>
+                  )}
+
+                  <span
+                    className={`mb-5 flex h-12 w-12 items-center justify-center rounded-2xl ${
+                      p.highlight ? "bg-accent text-white" : "bg-accent/12 text-accent"
+                    }`}
+                  >
                     <Icon className="h-6 w-6" />
                   </span>
+
                   <h3 className="font-display text-2xl font-bold text-frost">{p.name}</h3>
                   <p className="mt-1 text-sm text-mist">{p.tagline}</p>
 
-                  {/* Fiyat */}
-                  <div className="mt-6 min-h-[92px]">
-                    {amount !== null && price ? (
+                  {/* Fiyat alani — sayisal tutar YOK. */}
+                  <div className="mt-6 min-h-[76px]">
+                    {isDemo ? (
                       <>
-                        <div className="flex items-baseline gap-1.5">
-                          <span className="font-display text-4xl font-bold text-frost">
-                            {formatPrice(amount, currency)}
-                          </span>
-                          <span className="text-sm text-mist">
-                            /{period === "yearly" ? "yıl" : "ay"}
-                          </span>
-                        </div>
-                        {period === "yearly" ? (
-                          <p className="mt-1.5 text-xs text-emerald-300">
-                            %{yearlyDiscountPercent(price)} indirim — yaklaşık {monthsFree(price)} ay bedava
-                          </p>
-                        ) : (
-                          <p className="mt-1.5 text-xs text-mist">
-                            Yıllık ödemede %{yearlyDiscountPercent(price)} indirim
-                          </p>
-                        )}
-                        <p className="mt-1 text-[11px] text-mist/70">KDV dahil değildir.</p>
+                        <span className="font-display text-3xl font-bold text-frost">
+                          Free for {TRIAL_DAYS} days
+                        </span>
+                        <p className="mt-1.5 text-xs text-mist">No card required.</p>
                       </>
                     ) : (
                       <>
-                        <span className="font-display text-3xl font-bold text-frost">Teklif usulü</span>
+                        <span className="font-display text-3xl font-bold text-frost">
+                          Tailored pricing
+                        </span>
                         <p className="mt-1.5 text-xs text-mist">
-                          İhtiyacınıza göre birlikte belirleyelim.
+                          Tell us your workshop size and we will scope it with you.
                         </p>
                       </>
                     )}
                   </div>
 
-                  {/* Kapsam */}
                   <ul className="mt-6 space-y-1.5 border-y border-white/10 py-4 text-xs text-mist">
                     <li>{p.limits.customers}</li>
                     <li>{p.limits.records}</li>
@@ -309,25 +271,19 @@ export function Pricing() {
                     ))}
                   </ul>
 
-                  {/* Kurumsal dışında herkes önce ücretsiz denemeye girer;
-                      ödeme, deneme bitiminde panel içinde alınır. */}
-                  {p.price ? (
+                  {isDemo ? (
                     <a
-                      href={`${company.panelUrl}/hesap/kayit?plan=${p.id}&period=${period}`}
-                      className={`mt-8 block w-full rounded-xl px-6 py-3.5 text-center font-semibold transition ${
-                        p.highlight
-                          ? "bg-accent text-white hover:bg-accent-soft"
-                          : "glass text-frost hover:border-accent/40"
-                      }`}
+                      href={`${company.panelUrl}/hesap/kayit?plan=demo`}
+                      className="mt-8 block w-full rounded-xl bg-accent px-6 py-3.5 text-center font-semibold text-white transition hover:bg-accent-soft"
                     >
-                      {TRIAL_DAYS} gün ücretsiz dene
+                      {`Start ${TRIAL_DAYS}-day demo`}
                     </a>
                   ) : (
                     <button
                       onClick={open}
                       className="glass mt-8 w-full rounded-xl px-6 py-3.5 font-semibold text-frost transition hover:border-accent/40"
                     >
-                      Teklif alın
+                      Contact us
                     </button>
                   )}
                 </div>
@@ -336,52 +292,73 @@ export function Pricing() {
           })}
         </div>
 
-        <p className="mt-8 text-center text-xs text-mist">
-          Kredi kartı bilgisi deneme için istenmez. Ödeme adımında kart bilgileriniz
-          doğrudan lisanslı ödeme kuruluşuna iletilir, sunucularımıza hiç ulaşmaz.{" "}
-          <a href="/iade-ve-cayma" className="text-accent hover:underline">
-            14 gün koşulsuz iade
-          </a>{" "}
-          ·{" "}
-          <a href="/mesafeli-satis" className="text-accent hover:underline">
-            Mesafeli satış sözleşmesi
-          </a>
+        <p className="mt-10 text-center text-sm text-mist">
+          Every paid plan starts with the same free {TRIAL_DAYS}-day demo.
         </p>
-        <Reveal className="mt-8 text-center">
-          <p className="text-sm text-mist">
-            Fiyatlar servis büyüklüğüne göre belirlenir. Demo görüşmesinde net teklif alırsınız.
-          </p>
-        </Reveal>
       </div>
     </section>
   );
 }
 
-/* --- FAQ --- */
+/* --- FAQ ---
+   Yalnizca urunun GERCEKTEN yaptigi seyler iddia edilir.
+   Desteklenmeyen ozellik vaadi verilmez. */
 const faqs = [
   {
-    q: "MotoFull'u kullanmak için teknik bilgi gerekiyor mu?",
-    a: "Hayır. MotoFull, WhatsApp kullanabilen herkesin 1 günde öğrenebileceği sadelikte tasarlandı. Kurulumda ekibimiz tüm verilerinizin aktarımında ve eğitimde yanınızda olur.",
+    q: "Who is MotoFull for?",
+    a: "Motorcycle workshops and service centres — from a single-bay independent shop to a multi-location business. It is built around motorcycle servicing specifically, not adapted from generic car garage software.",
   },
   {
-    q: "Mevcut kağıt kayıtlarımı sisteme aktarabilir miyim?",
-    a: "Evet. Müşteri ve araç listelerinizi Excel'den toplu içe aktarabilirsiniz. Dilerseniz geçiş sürecinde veri girişini ekibimiz sizin için yapar.",
+    q: "Can a small workshop use it?",
+    a: "Yes. A one or two person workshop can use the same customer records, work orders and service history as a larger shop. There is no minimum team size.",
   },
   {
-    q: "İnternet kesilirse verilerim kaybolur mu?",
-    a: "Hayır. Tüm veriler bulutta güvenle saklanır ve otomatik yedeklenir. İnternet geldiğinde kaldığınız yerden devam edersiniz; hiçbir kayıt kaybolmaz.",
+    q: "Can I use MotoFull on a tablet?",
+    a: "Yes. The panel is web based and responsive, so technicians can use it on a tablet at the bench instead of walking back to a desktop.",
   },
   {
-    q: "AI teşhis gerçekten işe yarıyor mu?",
-    a: "AI, arıza kodlarını ve şikayetleri marka/modele özel bilgi tabanıyla analiz ederek olası nedenleri kontrol sırasıyla listeler. Karar her zaman ustanındır; AI süreci hızlandırır ve deneme-yanılmayı azaltır.",
+    q: "Can I add a motorcycle that is not in the catalogue?",
+    a: "Yes. The built-in catalogue is a starting point, but you can record any motorcycle manually with its own details, and it will still carry full service history.",
   },
   {
-    q: "Birden fazla şubem var, hepsini tek yerden yönetebilir miyim?",
-    a: "Evet. Enterprise planında tüm şubelerinizi tek panelden izler, şube bazlı yetki ve raporlama yaparsınız. Her şubenin verisi birbirinden tamamen izole tutulur.",
+    q: "Can I find a returning customer quickly?",
+    a: "Yes. You can search by customer name, phone number or vehicle and open their previous work without re-entering their details.",
   },
   {
-    q: "Sözleşme veya taahhüt var mı?",
-    a: "Uzun vadeli taahhüt zorunluluğu yoktur. Aylık kullanır, dilediğiniz zaman ayrılabilirsiniz. Verilerinizi her zaman dışa aktarabilirsiniz — veri sizindir.",
+    q: "How long is the demo?",
+    a: `The demo runs for ${TRIAL_DAYS} days and does not require a card. It opens with sample workshop data so you can see how MotoFull behaves before entering anything real.`,
+  },
+  {
+    q: `What happens after the ${TRIAL_DAYS} days?`,
+    a: "Your demo access becomes restricted, but your data is not deleted automatically. If you continue on a paid plan, you keep what you entered.",
+  },
+  {
+    q: "Is my customer data isolated from other workshops?",
+    a: "Yes. Each workshop is a separate tenant and data is scoped to that tenant. One workshop cannot see another workshop's customers, vehicles or records.",
+  },
+  {
+    q: "Can MotoFull be used outside Turkey?",
+    a: "Yes. MotoFull is designed for motorcycle service businesses in any country. The public site and product interface are available in English.",
+  },
+  {
+    q: "Does MotoFull handle inventory?",
+    a: "Yes. You can track parts and stock, and link parts used to the work order they were consumed on.",
+  },
+  {
+    q: "Does MotoFull support multiple technicians?",
+    a: "Yes. Multiple users can work in the same workshop account, and work orders show who is handling which job. The number of users depends on your plan.",
+  },
+  {
+    q: "What are the AI features?",
+    a: "MotoFull includes an AI assistant and OBD/ECU fault-code support that suggest where to look first during diagnosis. It is a decision aid for the technician, not an automatic repair decision.",
+  },
+  {
+    q: "Can I manage full service history?",
+    a: "Yes. Every service record stays attached to the motorcycle, so the next technician can see what was done previously before opening the job.",
+  },
+  {
+    q: "Do my customers get notified when work is finished?",
+    a: "Yes. MotoFull can generate a public tracking link so customers can check the status of their motorcycle themselves instead of calling the workshop.",
   },
 ];
 
@@ -391,10 +368,10 @@ export function FAQ() {
     <section id="sss" className="relative py-24 sm:py-32">
       <div className="mx-auto max-w-3xl px-5 lg:px-8">
         <SectionHeading
-          eyebrow="SSS"
+          eyebrow="FAQ"
           title={
             <>
-              Merak <span className="text-gradient">edilenler</span>
+              Frequently asked <span className="text-gradient">questions</span>
             </>
           }
         />

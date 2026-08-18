@@ -10,33 +10,33 @@ const siteUrl = "https://motofull.com";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "MotoFull — Motosiklet Servisleri İçin İşletim Sistemi",
+    default: "MotoFull — Workshop Management for Motorcycle Service",
     template: "%s | MotoFull",
   },
   description:
-    "MotoFull, motosiklet servis merkezleri için geliştirilmiş bulut tabanlı yönetim platformu. İş emirleri, müşteri yönetimi, stok, AI teşhis ve çok şubeli yapı — hepsi tek panelde.",
+    "MotoFull is workshop management software for motorcycle service businesses. Customers, motorcycle history, work orders, inventory, maintenance reminders and AI-assisted diagnosis in one panel. Free 7-day demo.",
   keywords: [
-    "motosiklet servis programı",
-    "motosiklet servis yönetimi",
-    "servis takip yazılımı",
-    "iş emri yönetimi",
-    "motosiklet atölye yazılımı",
+    "motorcycle workshop software",
+    "motorcycle service management",
+    "workshop management software",
+    "work order software",
+    "motorcycle garage software",
     "MotoFull",
   ],
   openGraph: {
     type: "website",
-    locale: "tr_TR",
+    locale: "en",
     url: siteUrl,
     siteName: "MotoFull",
-    title: "MotoFull — Motosiklet Servisleri İçin İşletim Sistemi",
+    title: "MotoFull — Workshop Management for Motorcycle Service",
     description:
-      "Kağıt defterleri kapatın. İş emirleri, müşteriler, stok, AI teşhis ve raporlar — servisinizin tamamı tek panelde.",
+      "Customers, motorcycle history, work orders, inventory and AI-assisted diagnosis in one panel. Free 7-day demo.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "MotoFull — Motosiklet Servisleri İçin İşletim Sistemi",
+    title: "MotoFull — Workshop Management for Motorcycle Service",
     description:
-      "Motosiklet servis merkezleri için bulut tabanlı yönetim platformu. Demo talep edin.",
+      "Workshop management software for motorcycle service businesses. Start a free 7-day demo.",
   },
   robots: { index: true, follow: true },
 };
@@ -48,12 +48,12 @@ const jsonLd = {
   applicationCategory: "BusinessApplication",
   operatingSystem: "Web",
   description:
-    "Motosiklet servis merkezleri için bulut tabanlı yönetim platformu: iş emirleri, müşteri yönetimi, stok takibi, AI teşhis, çok şubeli yapı.",
+    "Workshop management software for motorcycle service businesses: work orders, customer management, inventory, AI-assisted diagnosis, multi-location support.",
   offers: {
     "@type": "Offer",
     price: "0",
-    priceCurrency: "TRY",
-    description: "Demo talebi ücretsizdir.",
+    priceCurrency: "USD",
+    description: "Free 7-day demo. No card required.",
   },
   publisher: {
     "@type": "Organization",
@@ -64,7 +64,7 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="tr" className={`${inter.variable} ${grotesk.variable}`}>
+    <html lang="en" className={`${inter.variable} ${grotesk.variable}`}>
       <body className="antialiased">
         <script
           type="application/ld+json"

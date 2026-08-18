@@ -5,14 +5,15 @@ import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDemo } from "./demo-modal";
 import { Logo } from "./ui";
+import { TRIAL_DAYS } from "@/lib/pricing";
 
 const links = [
-  { href: "#ozellikler", label: "Özellikler" },
-  { href: "#ai", label: "AI Teşhis" },
-  { href: "#surec", label: "Nasıl Çalışır" },
-  { href: "#fiyatlar", label: "Planlar" },
-  { href: "#sss", label: "SSS" },
-  { href: "#iletisim", label: "İletişim" },
+  { href: "#ozellikler", label: "Features" },
+  { href: "#ai", label: "AI Diagnosis" },
+  { href: "#surec", label: "How it works" },
+  { href: "#fiyatlar", label: "Plans" },
+  { href: "#sss", label: "FAQ" },
+  { href: "#iletisim", label: "Contact" },
 ];
 
 export function Navbar() {
@@ -29,8 +30,8 @@ export function Navbar() {
         scrolled ? "glass-strong shadow-lg shadow-black/30" : "bg-transparent"
       }`}
     >
-      <nav className="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-5 lg:px-8" aria-label="Ana menü">
-        <a href="#" aria-label="MotoFull ana sayfa">
+      <nav className="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-5 lg:px-8" aria-label="Main navigation">
+        <a href="#" aria-label="MotoFull home">
           <Logo />
         </a>
 
@@ -52,14 +53,14 @@ export function Navbar() {
             onClick={open}
             className="rounded-xl bg-accent px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-accent-soft glow-orange"
           >
-            Demo Talep Et
+            {`Start ${TRIAL_DAYS}-day demo`}
           </button>
         </div>
 
         <button
           className="rounded-lg p-2 text-frost lg:hidden"
           onClick={() => setMobileOpen((v) => !v)}
-          aria-label={mobileOpen ? "Menüyü kapat" : "Menüyü aç"}
+          aria-label={mobileOpen ? "Close menu" : "Open menu"}
           aria-expanded={mobileOpen}
         >
           {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -95,7 +96,7 @@ export function Navbar() {
                   }}
                   className="w-full rounded-xl bg-accent px-5 py-3.5 font-semibold text-white"
                 >
-                  Demo Talep Et
+                  {`Start ${TRIAL_DAYS}-day demo`}
                 </button>
               </li>
             </ul>

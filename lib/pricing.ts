@@ -20,7 +20,7 @@ export interface PlanPrice {
 
 export interface Plan {
   /** Sistemdeki paket anahtarı — Tenant.planType ile aynı olmalı. */
-  id: 'starter' | 'pro' | 'enterprise';
+  id: 'demo' | 'starter' | 'pro' | 'enterprise';
   name: string;
   tagline: string;
   /** null = fiyat yok, teklif usulü. */
@@ -37,31 +37,60 @@ export const CURRENCY_META: Record<Currency, { symbol: string; locale: string; s
   USD: { symbol: '$', locale: 'en-US' },
 };
 
+
+/**
+ * Halka acik pazarlama sayfasinda SAYISAL fiyat gosterilmez.
+ * Fiyat altyapisi (PLANS[].price) SILINMEDI — panel/odeme tarafi
+ * bunu okumaya devam eder. Burada yalnizca SUNUM kapatilir.
+ * Public fiyat yayinlama karari verildiginde false yapilmasi yeterli.
+ */
+export const HIDE_PUBLIC_PRICES = true;
+
 export const PLANS: Plan[] = [
   {
+    id: 'demo',
+    name: 'Demo',
+    tagline: 'Try MotoFull with sample workshop data',
+    price: null, // ucretsiz
+    features: [
+      'Full panel access for 7 days',
+      'Opens with sample customers, motorcycles and work orders',
+      'Work orders and service records',
+      'Customer and motorcycle history',
+      'Inventory basics',
+      'No card required',
+    ],
+    limits: {
+      customers: 'Limited sample workspace',
+      records: 'Limited during demo',
+      ai: 'Limited during demo',
+      users: '1 user',
+    },
+  },
+  {
     id: 'starter',
-    name: 'Başlangıç',
-    tagline: 'Tek şubeli servisler için',
+    name: 'Starter',
+    tagline: 'For single-location workshops',
     price: {
       TRY: { monthly: 500, yearly: 4000 },
       EUR: { monthly: 39, yearly: 390 },
       USD: { monthly: 39, yearly: 390 },
     },
     features: [
-      'İş emri ve fatura yönetimi',
-      'Müşteri ve araç kayıtları',
-      'QR ile müşteri takip linki',
-      'Stok yönetimi',
-      'Bakım hatırlatmaları',
-      'PDF servis raporu',
-      'E-posta desteği',
+      'Work orders and invoicing',
+      'Customer and motorcycle records',
+      'Public QR tracking link for customers',
+      'Inventory management',
+      'Maintenance reminders',
+      'PDF service reports',
+      'Email support',
     ],
-    limits: { customers: '100 müşteri', records: 'Aylık 300 iş emri', ai: 'Aylık 50 YZ analizi', users: '2 kullanıcı' },
+    limits: { customers: '100 customers', records: '300 work orders / month', ai: '50 AI analyses / month', users: '2 users' },
   },
   {
     id: 'pro',
     name: 'Pro',
-    tagline: 'Büyüyen ve çok kullanıcılı servisler için',
+    tagline: 'For growing, multi-user workshops',
     highlight: true,
     price: {
       TRY: { monthly: 750, yearly: 6000 },
@@ -69,36 +98,38 @@ export const PLANS: Plan[] = [
       USD: { monthly: 59, yearly: 590 },
     },
     features: [
-      'Başlangıç paketindeki her şey',
-      'OBD/ECU arıza teşhisi',
-      'Yapay zekâ asistanı ve belge okuma',
-      'Sesli iş emri girişi',
-      'Servis şablonları',
-      'Gelişmiş raporlar',
-      'Öncelikli destek',
+      'Everything in Starter',
+      'OBD/ECU fault diagnosis',
+      'AI assistant and document reading',
+      'Voice work-order entry',
+      'Service templates',
+      'Advanced reports',
+      'Priority support',
     ],
-    limits: { customers: '500 müşteri', records: 'Aylık 2.000 iş emri', ai: 'Aylık 300 YZ analizi', users: '5 kullanıcı' },
+    limits: { customers: '500 customers', records: '2,000 work orders / month', ai: '300 AI analyses / month', users: '5 users' },
   },
   {
     id: 'enterprise',
-    name: 'Kurumsal',
-    tagline: 'Çok şubeli zincirler ve bayiler için',
+    name: 'Enterprise',
+    tagline: 'For multi-location chains and dealers',
     price: null, // teklif usulü
     features: [
-      'Pro paketindeki her şey',
-      'Sınırsız müşteri, iş emri ve kullanıcı',
-      'Çok şubeli yönetim',
-      'Özel entegrasyonlar',
-      'Kurulum ve veri taşıma desteği',
-      'Özel hizmet seviyesi anlaşması (SLA)',
-      'Atanmış müşteri temsilcisi',
+      'Everything in Pro',
+      'Unlimited customers, work orders and users',
+      'Multi-location management',
+      'Custom integrations',
+      'Onboarding and data migration support',
+      'Dedicated service level agreement (SLA)',
+      'Named account manager',
     ],
-    limits: { customers: 'Sınırsız', records: 'Sınırsız', ai: 'Sınırsız', users: 'Sınırsız' },
+    limits: { customers: 'Unlimited', records: 'Unlimited', ai: 'Unlimited', users: 'Unlimited' },
   },
 ];
 
-/** Deneme süresi — kart bilgisi istenmez. */
-export const TRIAL_DAYS = 14;
+/** Deneme suresi — kart bilgisi istenmez.
+    TEK DOGRULUK KAYNAGI. Panel/backend tarafindaki demo suresi de
+    bu degerle ayni olmalidir (backend: Tenant.trialEndDate hesabi). */
+export const TRIAL_DAYS = 7;
 
 /** Fiyatı yerel biçimde yazar. */
 export function formatPrice(amount: number, currency: Currency): string {

@@ -50,7 +50,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
             onClick={() => setIsOpen(false)}
             role="dialog"
             aria-modal="true"
-            aria-label="Demo talep formu"
+            aria-label="Contact request form"
           >
             <motion.div
               className="glass-strong relative w-full max-w-md rounded-3xl p-8"
@@ -62,7 +62,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
             >
               <button
                 onClick={() => setIsOpen(false)}
-                aria-label="Kapat"
+                aria-label="Close"
                 className="absolute right-4 top-4 rounded-full p-2 text-mist transition hover:bg-white/10 hover:text-frost"
               >
                 <X className="h-5 w-5" />
@@ -71,9 +71,9 @@ export function DemoProvider({ children }: { children: ReactNode }) {
               {sent ? (
                 <div className="flex flex-col items-center gap-4 py-8 text-center">
                   <CheckCircle2 className="h-14 w-14 text-accent" />
-                  <h3 className="font-display text-2xl font-bold text-frost">Talebiniz alındı!</h3>
+                  <h3 className="font-display text-2xl font-bold text-frost">Thanks — we have your details</h3>
                   <p className="text-mist">
-                    Ekibimiz en geç 1 iş günü içinde sizinle iletişime geçecek.
+                    Our team will get back to you within one business day.
                   </p>
                 </div>
               ) : (
@@ -83,10 +83,16 @@ export function DemoProvider({ children }: { children: ReactNode }) {
                       <CalendarCheck className="h-6 w-6" />
                     </span>
                     <div>
-                      <h3 className="font-display text-xl font-bold text-frost">Demo Talep Et</h3>
-                      <p className="text-sm text-mist">15 dakikalık ücretsiz tanıtım</p>
+                      <h3 className="font-display text-xl font-bold text-frost">Talk to us</h3>
+                      <p className="text-sm text-mist">Tell us about your workshop and we will scope a plan with you.</p>
                     </div>
                   </div>
+                  {/* BILINEN KUSUR — GONDERIM YOK.
+                      Bu form su an hicbir uc noktaya POST etmiyor; onSubmit
+                      yalnizca setSent(true) yapiyor. Yani ziyaretciye
+                      "aldik" deniyor ama talep HICBIR YERE ULASMIYOR.
+                      Lead sessizce kayboluyor. Backend uc noktasi
+                      baglanana kadar bu bir uretim kusurudur. */}
                   <form
                     className="flex flex-col gap-4"
                     onSubmit={(e) => {
@@ -95,9 +101,9 @@ export function DemoProvider({ children }: { children: ReactNode }) {
                     }}
                   >
                     {[
-                      { id: "name", label: "Ad Soyad", type: "text", ph: "Adınız" },
-                      { id: "workshop", label: "Servis Adı", type: "text", ph: "Servisinizin adı" },
-                      { id: "phone", label: "Telefon", type: "tel", ph: "05xx xxx xx xx" },
+                      { id: "name", label: "Full name", type: "text", ph: "Your name" },
+                      { id: "workshop", label: "Workshop name", type: "text", ph: "Your workshop" },
+                      { id: "email", label: "Email", type: "email", ph: "you@workshop.com" },
                     ].map((f) => (
                       <label key={f.id} className="flex flex-col gap-1.5 text-sm font-medium text-frost">
                         {f.label}
@@ -114,10 +120,10 @@ export function DemoProvider({ children }: { children: ReactNode }) {
                       type="submit"
                       className="mt-2 rounded-xl bg-accent px-6 py-3.5 font-semibold text-white transition hover:bg-accent-soft glow-orange"
                     >
-                      Demo Talebini Gönder
+                      Send
                     </button>
                     <p className="text-center text-xs text-mist/70">
-                      Bilgileriniz yalnızca demo süreci için kullanılır.
+                      We only use your details to contact you about MotoFull.
                     </p>
                   </form>
                 </>

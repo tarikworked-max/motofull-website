@@ -4,7 +4,23 @@ import { motion } from "framer-motion";
 import { BellRing, PlayCircle, QrCode, Sparkles } from "lucide-react";
 import { useDemo } from "./demo-modal";
 import { DashboardMockup } from "./dashboard-mockup";
-import { Counter, Magnetic } from "./ui";
+import { Magnetic } from "./ui";
+import { TRIAL_DAYS } from "@/lib/pricing";
+
+/* Hero
+   NOT: Burada "250+ aktif servis", "48.000+ is emri", "%98 memnuniyet"
+   seklinde dogrulanmamis sayilar vardi. Bu iddialarin depoda hicbir
+   kaniti yok; kanitsiz sosyal kanit yaniltici reklamdir. Kaldirildi.
+   Yerine yalnizca urunun GERCEKTEN yaptigi isler yaziliyor.
+   Gercek olcumler elde edildiginde buraya kaynagiyla birlikte eklenebilir. */
+
+const capabilities = [
+  "Customer & motorcycle records",
+  "Work orders",
+  "Service history",
+  "Inventory",
+  "Maintenance reminders",
+];
 
 export function Hero() {
   const { open } = useDemo();
@@ -31,7 +47,7 @@ export function Hero() {
             className="glass mb-6 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm text-mist"
           >
             <Sparkles className="h-4 w-4 text-accent" />
-            AI destekli servis yönetimi artık Türkiye&apos;de
+            Built for motorcycle workshops worldwide
           </motion.span>
 
           <motion.h1
@@ -40,9 +56,9 @@ export function Hero() {
             transition={{ duration: 0.7, delay: 0.1 }}
             className="font-display text-4xl font-bold leading-[1.08] tracking-tight text-frost sm:text-6xl lg:text-7xl"
           >
-            Motosiklet servisinizin
+            Workshop management
             <br />
-            <span className="text-gradient">işletim sistemi.</span>
+            <span className="text-gradient">for motorcycle service.</span>
           </motion.h1>
 
           <motion.p
@@ -51,8 +67,9 @@ export function Hero() {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="mt-6 max-w-2xl text-lg leading-relaxed text-mist sm:text-xl"
           >
-            İş emirleri, müşteriler, stok, AI teşhis ve raporlar — servisinizin tamamı tek
-            panelde. Kağıt defterleri kapatın, atölyenizi geleceğe taşıyın.
+            MotoFull keeps customers, motorcycles, service history, work orders and parts in
+            one place — so your team stops retyping the same details and starts every job with
+            the full picture.
           </motion.p>
 
           <motion.div
@@ -66,7 +83,7 @@ export function Hero() {
                 onClick={open}
                 className="pulse-ring relative rounded-2xl bg-accent px-8 py-4 text-base font-semibold text-white transition hover:bg-accent-soft glow-orange"
               >
-                Demo Talep Et
+                Start {TRIAL_DAYS}-day demo
               </button>
             </Magnetic>
             <a
@@ -74,31 +91,35 @@ export function Hero() {
               className="glass flex items-center gap-2 rounded-2xl px-7 py-4 text-base font-medium text-frost transition hover:border-white/20 hover:bg-white/8"
             >
               <PlayCircle className="h-5 w-5 text-accent" />
-              Paneli İncele
+              See how it works
             </a>
           </motion.div>
 
-          {/* trust stats */}
-          <motion.dl
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.7, delay: 0.4 }}
+            className="mt-4 text-sm text-mist"
+          >
+            Free for {TRIAL_DAYS} days. No card required.
+          </motion.p>
+
+          {/* Dogrulanmamis istatistik yerine gercek yetenek listesi. */}
+          <motion.ul
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.5 }}
-            className="mt-12 grid grid-cols-3 gap-6 sm:gap-12"
+            className="mt-11 flex flex-wrap items-center justify-center gap-2.5"
           >
-            {[
-              { value: 250, suffix: "+", label: "Aktif servis" },
-              { value: 48000, suffix: "+", label: "Tamamlanan iş emri" },
-              { value: 98, suffix: "%", label: "Memnuniyet" },
-            ].map((s) => (
-              <div key={s.label} className="text-center">
-                <dt className="sr-only">{s.label}</dt>
-                <dd className="font-display text-2xl font-bold text-frost sm:text-3xl">
-                  <Counter value={s.value} suffix={s.suffix} />
-                </dd>
-                <p className="mt-1 text-xs text-mist sm:text-sm">{s.label}</p>
-              </div>
+            {capabilities.map((c) => (
+              <li
+                key={c}
+                className="glass rounded-full px-4 py-2 text-xs font-medium text-mist sm:text-sm"
+              >
+                {c}
+              </li>
             ))}
-          </motion.dl>
+          </motion.ul>
         </div>
 
         {/* dashboard visual */}
@@ -121,8 +142,8 @@ export function Hero() {
                 <Sparkles className="h-5 w-5" />
               </span>
               <div>
-                <p className="text-xs font-semibold text-frost">AI Teşhis</p>
-                <p className="text-[11px] text-mist">P0301 — Ateşleme hatası</p>
+                <p className="text-xs font-semibold text-frost">AI diagnosis</p>
+                <p className="text-[11px] text-mist">P0301 — misfire detected</p>
               </div>
             </div>
           </div>
@@ -132,8 +153,8 @@ export function Hero() {
                 <BellRing className="h-5 w-5" />
               </span>
               <div>
-                <p className="text-xs font-semibold text-frost">SMS gönderildi</p>
-                <p className="text-[11px] text-mist">&quot;Motorunuz teslime hazır&quot;</p>
+                <p className="text-xs font-semibold text-frost">Customer notified</p>
+                <p className="text-[11px] text-mist">&quot;Your motorcycle is ready&quot;</p>
               </div>
             </div>
           </div>
@@ -143,8 +164,8 @@ export function Hero() {
                 <QrCode className="h-5 w-5" />
               </span>
               <div>
-                <p className="text-xs font-semibold text-frost">QR Takip</p>
-                <p className="text-[11px] text-mist">Müşteri durumu görüntüledi</p>
+                <p className="text-xs font-semibold text-frost">QR tracking</p>
+                <p className="text-[11px] text-mist">Customer checked the status</p>
               </div>
             </div>
           </div>

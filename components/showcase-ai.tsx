@@ -22,13 +22,13 @@ export function DashboardShowcase() {
       />
       <div className="relative mx-auto max-w-7xl px-5 lg:px-8">
         <SectionHeading
-          eyebrow="Panel"
+          eyebrow="The panel"
           title={
             <>
-              Gerçek bir <span className="text-gradient-blue">SaaS deneyimi</span>
+              Built to be used <span className="text-gradient-blue">during a busy day</span>
             </>
           }
-          subtitle="Karmaşık menüler yok. Servisinizin nabzını tek bakışta gösteren, hızlı ve modern bir panel."
+          subtitle="No buried menus. The screens a workshop actually needs, reachable while the bike is on the lift."
         />
 
         <div ref={ref} className="mt-16" style={{ perspective: "1200px" }}>
@@ -44,9 +44,9 @@ export function DashboardShowcase() {
 
         <div className="mt-14 grid gap-4 sm:grid-cols-3">
           {[
-            { icon: Zap, title: "Işık hızında", desc: "Her ekran anında açılır. Bekleme yok, donma yok." },
-            { icon: Gauge, title: "Tek bakışta durum", desc: "Açık işler, ciro, kritik stok — panel her sabah brifing verir." },
-            { icon: ShieldCheck, title: "Verileriniz güvende", desc: "Şifreli bağlantı, otomatik yedekleme, şube bazlı izolasyon." },
+            { icon: Zap, title: "Quick to open", desc: "Screens load fast enough to use between jobs, not after them." },
+            { icon: Gauge, title: "The day at a glance", desc: "Open jobs, work in progress and low stock on one screen." },
+            { icon: ShieldCheck, title: "Your data stays yours", desc: "Encrypted connection, regular backups, and strict separation between workshops." },
           ].map((f, i) => (
             <Reveal key={f.title} delay={i * 0.08}>
               <div className="glass card-hover h-full rounded-2xl p-6 text-center">
@@ -66,12 +66,12 @@ export function DashboardShowcase() {
 
 /* --- AI section --- */
 const aiChat = [
-  { role: "user", text: "Honda CB650R, P0301 kodu veriyor. Rölantide teklemesi var." },
+  { role: "user", text: "Honda CB650R throwing a P0301. It misfires at idle." },
   {
     role: "ai",
-    text: "P0301: 1. silindir ateşleme hatası. CB650R'de en sık nedenler sırasıyla: (1) buji aşınması, (2) bobin arızası, (3) enjektör tıkanıklığı. Önce 1. silindir bujisini 3. silindirle yer değiştirip kodu tekrar okuyun.",
+    text: "P0301 is a cylinder 1 misfire. On this engine the usual order to check is: (1) worn spark plug, (2) failing ignition coil, (3) blocked injector. Swap the cylinder 1 plug with cylinder 3, clear the code and re-read it — if the misfire follows the plug, you have your answer.",
   },
-  { role: "user", text: "Buji değişti, kod silindi. Teşekkürler!" },
+  { role: "user", text: "Plug replaced, code cleared. Thanks!" },
 ];
 
 export function AISection() {
@@ -88,19 +88,19 @@ export function AISection() {
           <div>
             <SectionHeading
               align="left"
-              eyebrow="Yapay Zeka"
+              eyebrow="AI assistance"
               title={
                 <>
-                  Ustanın yanında bir de <span className="text-gradient">AI asistan</span>
+                  A second opinion for <span className="text-gradient">the technician</span>
                 </>
               }
-              subtitle="MotoFull AI, arıza kodlarını ve şikayetleri marka/modele özel bilgi tabanıyla analiz eder. Deneyimin yerini tutmaz — deneyimi hızlandırır."
+              subtitle="MotoFull reads fault codes and complaints against make and model specific knowledge, then suggests where to look first. It does not replace the technician's judgement — it shortens the search."
             />
             <ul className="mt-8 space-y-4">
               {[
-                { icon: Timer, title: "Daha hızlı teşhis", desc: "Olası nedenler saniyeler içinde, kontrol sırasıyla birlikte." },
-                { icon: ShieldCheck, title: "Daha az hata", desc: "Yanlış parça değişimini azaltır, müşteri maliyetini düşürür." },
-                { icon: Brain, title: "Geleceğe hazır servis", desc: "AI kullanan atölye, müşterinin gözünde bir adım öndedir." },
+                { icon: Timer, title: "Faster first check", desc: "Likely causes in a sensible order, instead of starting from scratch." },
+                { icon: ShieldCheck, title: "Fewer parts swapped blindly", desc: "Checking in the right order avoids replacing parts that were never faulty." },
+                { icon: Brain, title: "Useful on unfamiliar models", desc: "Most valuable on the bikes your workshop sees only once or twice a year." },
               ].map((b) => (
                 <li key={b.title} className="flex gap-4">
                   <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent/12 text-accent">
@@ -117,7 +117,7 @@ export function AISection() {
               onClick={open}
               className="mt-9 rounded-2xl bg-accent px-7 py-3.5 font-semibold text-white transition hover:bg-accent-soft glow-orange"
             >
-              AI Teşhisi Canlı Görün
+              See how it works
             </button>
           </div>
 
@@ -129,9 +129,9 @@ export function AISection() {
                   <Brain className="h-5 w-5" />
                 </span>
                 <div>
-                  <p className="font-display font-semibold text-frost">MotoFull AI Teşhis</p>
+                  <p className="font-display font-semibold text-frost">MotoFull AI assistant</p>
                   <p className="flex items-center gap-1.5 text-xs text-mist">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" /> Çevrimiçi
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" /> Online
                   </p>
                 </div>
               </div>

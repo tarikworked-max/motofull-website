@@ -20,74 +20,74 @@ const features = [
   {
     id: "musteri",
     icon: Users,
-    tab: "Müşteri",
-    title: "Müşteri Yönetimi",
-    desc: "Tüm müşterileriniz, iletişim bilgileri ve araçları tek ekranda. Aradığınız kaydı saniyeler içinde bulun.",
-    benefits: ["Plaka veya isimle anında arama", "Müşteri başına sınırsız araç kaydı", "İletişim geçmişi ve notlar"],
-    preview: { title: "Müşteri Kartı", lines: ["Ahmet Yılmaz · 0532 *** ** **", "2 araç · 14 servis kaydı", "Son ziyaret: 12 Temmuz 2026"] },
+    tab: "Customers",
+    title: "Customer management",
+    desc: "Every customer, their contact details and their motorcycles on one screen. Find a returning rider in seconds.",
+    benefits: ["Search by plate, name or phone", "Unlimited motorcycles per customer", "Contact history and notes"],
+    preview: { title: "Customer record", lines: ["Sample customer · +•• ••• •• ••", "2 motorcycles · 14 service records", "Last visit: 12 July 2026"] },
   },
   {
     id: "isemri",
     icon: ClipboardList,
-    tab: "İş Emri",
-    title: "İş Emirleri",
-    desc: "Kabul edilen her motosiklet için dijital iş emri. Durum, teknisyen, parça ve işçilik — hepsi tek kayıtta.",
-    benefits: ["Durum akışı: Kabul → Serviste → Hazır", "Parça ve işçilik kalemleri otomatik toplanır", "Tek tıkla PDF servis formu"],
-    preview: { title: "İş Emri #2841", lines: ["Honda CB650R · 34 ABC 123", "Periyodik bakım + balata", "Teknisyen: Mehmet · Durum: Serviste"] },
+    tab: "Work orders",
+    title: "Work orders",
+    desc: "A digital work order for every motorcycle taken in. Status, technician, parts and labour in a single record.",
+    benefits: ["Status flow: Received → In service → Ready", "Parts and labour totalled automatically", "One-click PDF service sheet"],
+    preview: { title: "Work order #2841", lines: ["Honda CB650R · AB-12-CD", "Scheduled service + brake pads", "Technician assigned · In service"] },
   },
   {
     id: "arac",
     icon: Bike,
-    tab: "Araç Geçmişi",
-    title: "Araç ve Servis Geçmişi",
-    desc: "Her motosikletin km bazlı tam servis geçmişi. Yıllar sonra bile hangi işlemin ne zaman yapıldığını görün.",
-    benefits: ["Marka/model/yıl katalog entegrasyonu", "Km bazlı bakım kronolojisi", "Garanti kapsamı takibi"],
-    preview: { title: "Yamaha MT-07 · 2023", lines: ["24.350 km · 8 servis kaydı", "Son işlem: Zincir seti değişimi", "Sonraki bakım: 28.000 km"] },
+    tab: "History",
+    title: "Motorcycle and service history",
+    desc: "A full mileage-based history for every motorcycle, so you can see what was done and when — years later.",
+    benefits: ["Make, model and year from the catalogue", "Mileage-based service timeline", "Warranty coverage tracking"],
+    preview: { title: "Yamaha MT-07 · 2023", lines: ["24,350 km · 8 service records", "Last job: chain and sprocket set", "Next service due: 28,000 km"] },
   },
   {
     id: "stok",
     icon: Boxes,
-    tab: "Stok",
-    title: "Yedek Parça Stoğu",
-    desc: "Parça giriş-çıkışı otomatik. Kritik seviyeye düşen parçalar için sistem sizi uyarır, sipariş asla gecikmez.",
-    benefits: ["İş emrine eklenen parça stoktan düşer", "Kritik stok uyarıları", "Tedarikçi ve maliyet takibi"],
-    preview: { title: "Stok Durumu", lines: ["Fren balatası (EBC) · 12 adet", "Yağ filtresi (HF204) · 3 adet ⚠", "10W-40 motor yağı · 28 litre"] },
+    tab: "Inventory",
+    title: "Parts and inventory",
+    desc: "Stock moves as parts are used. Low levels are flagged before a missing part stops a job.",
+    benefits: ["Parts on a work order come off stock", "Low-stock warnings", "Supplier and cost tracking"],
+    preview: { title: "Stock levels", lines: ["Brake pads (EBC) · 12 in stock", "Oil filter (HF204) · 3 left ⚠", "10W-40 engine oil · 28 litres"] },
   },
   {
     id: "ai",
     icon: Sparkles,
-    tab: "AI Teşhis",
-    title: "AI Teşhis Asistanı",
-    desc: "Arıza kodunu veya şikayeti yazın; yapay zeka marka ve modele özel olası nedenleri ve çözüm adımlarını sıralasın.",
-    benefits: ["OBD arıza kodu analizi", "Markaya özel bilgi tabanı", "Deneyimli ustanın dijital yardımcısı"],
-    preview: { title: "AI Analiz · P0301", lines: ["Silindir 1 ateşleme hatası", "Olası: buji, bobin, enjektör", "Önerilen kontrol sırası hazır"] },
+    tab: "AI diagnosis",
+    title: "AI diagnosis assistant",
+    desc: "Enter a fault code or a complaint and get likely causes for that make and model, in a sensible order to check.",
+    benefits: ["OBD fault-code analysis", "Make-specific knowledge base", "A decision aid, not a replacement"],
+    preview: { title: "AI analysis · P0301", lines: ["Cylinder 1 misfire", "Likely: spark plug, coil, injector", "Suggested check order ready"] },
   },
   {
     id: "rapor",
     icon: FileBarChart,
-    tab: "Raporlar",
-    title: "Raporlar ve Analiz",
-    desc: "Ciro, iş hacmi, teknisyen performansı ve en çok kullanılan parçalar — kararlarınızı veriyle alın.",
-    benefits: ["Günlük / aylık ciro görünümü", "Teknisyen performans karşılaştırması", "PDF ve Excel dışa aktarım"],
-    preview: { title: "Temmuz Özeti", lines: ["Ciro: ₺186.400 (%22 ↑)", "Tamamlanan iş: 96", "Ort. teslim süresi: 1,8 gün"] },
+    tab: "Reports",
+    title: "Reports and analysis",
+    desc: "Job volume, technician workload and the parts you use most — so month-end is not rebuilt from receipts.",
+    benefits: ["Daily and monthly overview", "Workload by technician", "Export to PDF and Excel"],
+    preview: { title: "Monthly summary", lines: ["Completed jobs: 96", "Average turnaround: 1.8 days", "Busiest service: scheduled maintenance"] },
   },
   {
     id: "qr",
     icon: QrCode,
-    tab: "QR Takip",
-    title: "QR ile Müşteri Takibi",
-    desc: "Servise bırakılan her motosiklet için QR kod. Müşteri okutup aracının durumunu kendi telefonundan izler.",
-    benefits: ["Telefonla durum sorma trafiği biter", "Şeffaflık müşteri güvenini artırır", "Teslimde otomatik bildirim"],
-    preview: { title: "Müşteri Görünümü", lines: ["34 ABC 123 · Serviste", "Balata değişimi tamamlandı ✓", "Tahmini teslim: Bugün 17:00"] },
+    tab: "Tracking",
+    title: "Customer status tracking",
+    desc: "A tracking link for every motorcycle in the workshop, so the rider can check progress from their own phone.",
+    benefits: ["Fewer status phone calls", "Visible progress builds trust", "Notification when the bike is ready"],
+    preview: { title: "What the rider sees", lines: ["AB-12-CD · In service", "Brake pads replaced ✓", "Estimated ready: today 17:00"] },
   },
   {
     id: "sube",
     icon: Building2,
-    tab: "Çoklu Şube",
-    title: "Çoklu Şube ve Bulut",
-    desc: "İster tek atölye ister 10 şube. Tüm veriler bulutta, her cihazdan erişilebilir, şubeler arası tam izolasyon.",
-    benefits: ["Multi-tenant SaaS mimarisi", "Şube bazlı yetkilendirme", "Otomatik yedekleme ve senkronizasyon"],
-    preview: { title: "Şube Görünümü", lines: ["Kadıköy · 14 açık iş emri", "Ankara · 9 açık iş emri", "Toplam ciro: ₺412K / ay"] },
+    tab: "Multi-location",
+    title: "Multiple locations",
+    desc: "One workshop or ten. Data is reachable from any device, and each location's records stay separate.",
+    benefits: ["Separate tenant per business", "Per-location permissions", "Automatic backup and sync"],
+    preview: { title: "Across locations", lines: ["Location A · 14 open work orders", "Location B · 9 open work orders", "Combined view for the owner"] },
   },
 ];
 
@@ -98,18 +98,18 @@ export function Features() {
     <section id="ozellikler" className="relative py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
         <SectionHeading
-          eyebrow="Modüller"
+          eyebrow="Modules"
           title={
             <>
-              Servisinizin ihtiyacı olan <span className="text-gradient">her şey</span>
+              Everything a workshop <span className="text-gradient">actually runs on</span>
             </>
           }
-          subtitle="MotoFull bir yazılım değil; atölyenizin dijital işletim sistemi. Her modül sahada, gerçek servis ihtiyaçlarıyla şekillendi."
+          subtitle="Each module covers one part of the working day. They share the same customer and motorcycle records, so nothing has to be entered twice."
         />
 
         {/* tabs */}
         <Reveal className="mt-12">
-          <div className="flex flex-wrap justify-center gap-2" role="tablist" aria-label="Özellik modülleri">
+          <div className="flex flex-wrap justify-center gap-2" role="tablist" aria-label="Feature modules">
             {features.map((f) => (
               <button
                 key={f.id}

@@ -13,9 +13,9 @@ import {
 const chartBars = [42, 58, 45, 70, 62, 84, 76, 92, 68, 88, 95, 80];
 
 const rows = [
-  { plate: "34 ABC 123", model: "Honda CB650R", job: "Periyodik bakım", status: "Devam ediyor", tone: "text-amber-400 bg-amber-400/10" },
-  { plate: "06 KLM 456", model: "Yamaha MT-07", job: "Balata değişimi", status: "Tamamlandı", tone: "text-emerald-400 bg-emerald-400/10" },
-  { plate: "35 XYZ 789", model: "KTM Duke 390", job: "AI teşhis · P0301", status: "Parça bekliyor", tone: "text-sky-400 bg-sky-400/10" },
+  { plate: "AB-12-CD", model: "Honda CB650R", job: "Scheduled service", status: "In progress", tone: "text-amber-400 bg-amber-400/10" },
+  { plate: "EF-34-GH", model: "Yamaha MT-07", job: "Brake pad replacement", status: "Completed", tone: "text-emerald-400 bg-emerald-400/10" },
+  { plate: "IJ-56-KL", model: "KTM 390 Duke", job: "AI diagnosis · P0301", status: "Awaiting parts", tone: "text-sky-400 bg-sky-400/10" },
 ];
 
 /* Hand-built SaaS dashboard illustration — no screenshots needed. */
@@ -24,7 +24,7 @@ export function DashboardMockup() {
     <div
       className="glass-strong overflow-hidden rounded-2xl text-left shadow-2xl shadow-black/50"
       role="img"
-      aria-label="MotoFull yönetim paneli önizlemesi"
+      aria-label="Illustration of the MotoFull management panel"
     >
       {/* window chrome */}
       <div className="flex items-center gap-2 border-b border-white/8 bg-white/[0.03] px-4 py-2.5">
@@ -40,12 +40,12 @@ export function DashboardMockup() {
         {/* sidebar */}
         <div className="hidden w-40 shrink-0 flex-col gap-1 border-r border-white/8 p-3 sm:flex">
           {[
-            { icon: LayoutDashboard, label: "Panel", active: true },
-            { icon: ClipboardList, label: "İş Emirleri" },
-            { icon: Users, label: "Müşteriler" },
-            { icon: Bike, label: "Araçlar" },
-            { icon: Boxes, label: "Stok" },
-            { icon: Sparkles, label: "AI Teşhis" },
+            { icon: LayoutDashboard, label: "Dashboard", active: true },
+            { icon: ClipboardList, label: "Work orders" },
+            { icon: Users, label: "Customers" },
+            { icon: Bike, label: "Motorcycles" },
+            { icon: Boxes, label: "Inventory" },
+            { icon: Sparkles, label: "AI diagnosis" },
           ].map((item) => (
             <div
               key={item.label}
@@ -64,9 +64,9 @@ export function DashboardMockup() {
           {/* stat cards */}
           <div className="grid grid-cols-3 gap-3">
             {[
-              { label: "Açık İş Emri", value: "14", sub: "+3 bugün" },
-              { label: "Aylık Ciro", value: "₺186K", sub: "%22 ↑" },
-              { label: "Bekleyen Parça", value: "6", sub: "2 kritik" },
+              { label: "Open work orders", value: "14", sub: "+3 today" },
+              { label: "Jobs this month", value: "96", sub: "sample data" },
+              { label: "Parts on order", value: "6", sub: "2 critical" },
             ].map((s) => (
               <div key={s.label} className="rounded-xl border border-white/8 bg-white/[0.03] p-3">
                 <p className="text-[10px] text-mist">{s.label}</p>
@@ -79,8 +79,8 @@ export function DashboardMockup() {
           {/* chart */}
           <div className="rounded-xl border border-white/8 bg-white/[0.03] p-3">
             <div className="mb-2 flex items-center justify-between">
-              <p className="text-[11px] font-medium text-frost">Haftalık servis hacmi</p>
-              <span className="text-[10px] text-mist">Son 12 hafta</span>
+              <p className="text-[11px] font-medium text-frost">Weekly service volume</p>
+              <span className="text-[10px] text-mist">Last 12 weeks</span>
             </div>
             <div className="flex h-20 items-end gap-1.5">
               {chartBars.map((h, i) => (
@@ -97,7 +97,7 @@ export function DashboardMockup() {
           <div className="overflow-hidden rounded-xl border border-white/8 bg-white/[0.03]">
             <div className="flex items-center gap-2 border-b border-white/8 px-3 py-2">
               <Wrench className="h-3.5 w-3.5 text-accent" />
-              <p className="text-[11px] font-medium text-frost">Aktif iş emirleri</p>
+              <p className="text-[11px] font-medium text-frost">Active work orders</p>
             </div>
             {rows.map((r) => (
               <div

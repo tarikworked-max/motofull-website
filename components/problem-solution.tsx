@@ -19,53 +19,19 @@ import {
 import { Reveal, SectionHeading } from "./ui";
 
 /* --- Trusted-by marquee --- */
-const workshops = [
-  "Moto Garage İstanbul",
-  "İki Teker Servis",
-  "RPM Motosiklet",
-  "Vira Moto Ankara",
-  "Torque Atölye",
-  "Pist Dışı Garage",
-  "Ege Moto Servis",
-  "Redline Workshop",
-  "Anadolu Moto Teknik",
-  "Full Gaz Servis",
-];
-
-export function TrustedBy() {
-  return (
-    <section className="border-y border-white/5 bg-navy/40 py-10" aria-label="Bize güvenen servisler">
-      <p className="mb-6 text-center text-xs font-semibold uppercase tracking-[0.2em] text-mist">
-        Türkiye&apos;nin dört bir yanındaki servislerin tercihi
-      </p>
-      <div className="relative overflow-hidden" aria-hidden="true">
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-ink to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-ink to-transparent" />
-        <div className="animate-marquee flex w-max gap-12 pr-12">
-          {[...workshops, ...workshops].map((w, i) => (
-            <span
-              key={i}
-              className="whitespace-nowrap font-display text-lg font-semibold text-mist/50"
-            >
-              {w}
-            </span>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
+/* KALDIRILDI — DOGRULANMAMIS IDDIA: TrustedBy.
+   Kanitlanamayan istatistik/musteri iddiasi yayinlanmaz. */
 
 /* --- Problem section --- */
 const problems = [
-  { icon: BookX, title: "Kağıt defterler", desc: "Servis kayıtları yırtılıyor, kayboluyor, kimse geriye dönüp bulamıyor." },
-  { icon: UserX, title: "Kaybolan müşteri bilgisi", desc: "Telefon numarası bir kağıtta, plaka başka bir deftere yazılmış." },
-  { icon: CalendarClock, title: "Unutulan bakımlar", desc: "Müşteriye bakım zamanını hatırlatan yok — o da başka servise gidiyor." },
-  { icon: PackageSearch, title: "Stok karmaşası", desc: "Hangi parçadan kaç adet kaldı? Kimse emin değil, sipariş hep gecikiyor." },
-  { icon: MessageSquareOff, title: "İletişim kopukluğu", desc: "\"Motorum ne durumda?\" telefonları gün boyu işi bölüyor." },
-  { icon: FileWarning, title: "Garanti takibi", desc: "Hangi işlem garantideydi? Belge yok, tartışma çok." },
-  { icon: Clock, title: "Zaman kaybı", desc: "Günün saatleri evrak işine gidiyor; asıl işe, tamire vakit kalmıyor." },
-  { icon: AlertTriangle, title: "İnsan hatası", desc: "Yanlış parça, atlanan işlem, unutulan söz — hepsi güven kaybettiriyor." },
+  { icon: BookX, title: "Paper job cards", desc: "Records tear, go missing, and nobody can reconstruct what was done six months ago." },
+  { icon: UserX, title: "Details retyped every visit", desc: "The phone number is on one note, the plate in another book, and the counter asks for both again." },
+  { icon: CalendarClock, title: "Forgotten follow-ups", desc: "Nobody reminds the rider the next service is due, so it happens somewhere else." },
+  { icon: PackageSearch, title: "Disconnected inventory", desc: "How many of that part are left? Nobody is sure, so the order is always late." },
+  { icon: MessageSquareOff, title: "\"Is my bike ready yet?\"", desc: "The same phone call interrupts the workshop all day long." },
+  { icon: FileWarning, title: "Warranty disputes", desc: "Which job was under warranty? No document, plenty of argument." },
+  { icon: Clock, title: "Time lost to paperwork", desc: "Hours go into admin instead of the actual repair work." },
+  { icon: AlertTriangle, title: "Human error", desc: "Wrong part, skipped step, forgotten promise — each one costs trust." },
 ];
 
 export function Problem() {
@@ -73,13 +39,13 @@ export function Problem() {
     <section className="relative py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
         <SectionHeading
-          eyebrow="Sorun"
+          eyebrow="The problem"
           title={
             <>
-              Atölyenizde her gün yaşanan <span className="text-gradient">kaos</span> tanıdık mı?
+              Does this sound like <span className="text-gradient">your workshop</span>?
             </>
           }
-          subtitle="Türkiye'deki motosiklet servislerinin çoğu hâlâ kağıt, kalem ve hafızayla yönetiliyor. Sonuç: kaybolan müşteri, kaçan gelir."
+          subtitle="Most motorcycle workshops still run on paper, memory and scattered messages. The cost is quiet: details retyped, follow-ups missed, and jobs nobody can reconstruct later."
         />
         <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {problems.map((p, i) => (
@@ -101,12 +67,12 @@ export function Problem() {
 
 /* --- Solution section --- */
 const solutions = [
-  { icon: ClipboardList, title: "Dijital iş emirleri", desc: "Her iş tek tıkla kayıt altında. Kim, ne zaman, hangi işlemi yaptı — hepsi izlenebilir." },
-  { icon: Brain, title: "AI destekli teşhis", desc: "Arıza kodunu girin; yapay zeka marka ve modele özel olası nedenleri saniyeler içinde listelesin." },
-  { icon: Boxes, title: "Akıllı stok takibi", desc: "Parça azaldığında sistem uyarır. İş emrine parça eklenince stok otomatik düşer." },
-  { icon: BellOff, title: "Otomatik hatırlatmalar", desc: "Bakım zamanı gelen müşteriye sistem SMS gönderir. Müşteri geri gelir, siz kazanırsınız." },
-  { icon: QrCode, title: "QR ile şeffaf takip", desc: "Müşteri telefonundan servis durumunu görür. \"Ne durumda?\" telefonları biter." },
-  { icon: ShieldCheck, title: "Dijital servis geçmişi", desc: "Aracın tüm geçmişi tek ekranda. Garanti tartışması yok, güven tam." },
+  { icon: ClipboardList, title: "Digital work orders", desc: "Every job records who did what and when, so the sheet is ready before the rider sits down." },
+  { icon: Brain, title: "AI-assisted diagnosis", desc: "Enter a fault code and get likely causes in a suggested check order — a starting point, not a verdict." },
+  { icon: Boxes, title: "Connected inventory", desc: "Parts added to a work order come off stock automatically, and low stock is flagged before it stops a job." },
+  { icon: BellOff, title: "Maintenance reminders", desc: "The next service is scheduled and the rider reminded, instead of quietly lost." },
+  { icon: QrCode, title: "Customer status tracking", desc: "A public tracking link lets riders check status themselves — the interruption calls stop." },
+  { icon: ShieldCheck, title: "Full service history", desc: "Every past job stays attached to the motorcycle, so the next technician starts with context." },
 ];
 
 export function Solution() {
@@ -118,13 +84,13 @@ export function Solution() {
       />
       <div className="relative mx-auto max-w-7xl px-5 lg:px-8">
         <SectionHeading
-          eyebrow="Çözüm"
+          eyebrow="The solution"
           title={
             <>
-              MotoFull her sorunu <span className="text-gradient">tek panelde</span> çözer
+              One answer to each of them, <span className="text-gradient">in one panel</span>
             </>
           }
-          subtitle="Dağınık defterlerin, unutulan işlerin ve stok karmaşasının yerine: modern, hızlı ve güvenilir tek bir sistem."
+          subtitle="Each problem above has a direct answer in MotoFull — and a practical result on the workshop floor."
         />
         <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {solutions.map((s, i) => (

@@ -20,7 +20,8 @@ export default function DistanceSalesPage() {
           rows={[
             ['Unvan', company.legalName],
             ['Adres', formattedAddress()],
-            ['Telefon', company.phone],
+            // Telefon satırı kaldırıldı: satıcı iletişimi e-posta
+            // üzerinden yürüyor (bkz. lib/company.ts).
             ['E-posta', company.email],
             ['MERSİS No', company.mersisNo],
             ['Ticaret Sicil No', company.tradeRegistryNo],

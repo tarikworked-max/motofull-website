@@ -1,6 +1,6 @@
 "use client";
 
-import { Mail, MapPin, MessageCircle, Phone, Send } from "lucide-react";
+import { Mail, MapPin, Send } from "lucide-react";
 import { useState } from "react";
 import { useDemo } from "./demo-modal";
 import { Logo, Reveal, SectionHeading } from "./ui";
@@ -41,9 +41,11 @@ export function Contact() {
     const fd = new FormData(e.currentTarget);
 
     setStatus('sending');
+    // Telefon TOPLANMIYOR: tüm iletişim e-posta üzerinden yürüyor.
+    // Sunucu `fullName` ve (`phone` VEYA `email`) istiyor; e-posta
+    // artık formda zorunlu olduğu için bu koşul sağlanır.
     const result = await submitContactRequest({
       fullName: String(fd.get('name') || ''),
-      phone: String(fd.get('phone') || ''),
       email: String(fd.get('email') || ''),
       workshop: String(fd.get('workshop') || ''),
       message: String(fd.get('message') || ''),
@@ -97,14 +99,12 @@ export function Contact() {
                     <input required name="workshop" placeholder="Your workshop"
                       className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-frost placeholder:text-mist/50 outline-none transition focus:border-accent/60 focus:ring-2 focus:ring-accent/20" />
                   </label>
-                  <label className="flex flex-col gap-1.5 text-sm font-medium text-frost">
-                    Phone
-                    <input required type="tel" name="phone" placeholder="+00 000 000 0000"
-                      className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-frost placeholder:text-mist/50 outline-none transition focus:border-accent/60 focus:ring-2 focus:ring-accent/20" />
-                  </label>
-                  <label className="flex flex-col gap-1.5 text-sm font-medium text-frost">
+                  {/* Telefon alanı kaldırıldı — iletişim yalnızca e-posta.
+                      E-posta bu yüzden ZORUNLU: sunucu ad soyad ve en az
+                      bir iletişim kanalı istiyor. */}
+                  <label className="flex flex-col gap-1.5 text-sm font-medium text-frost sm:col-span-2">
                     Email
-                    <input type="email" name="email" placeholder="you@workshop.com"
+                    <input required type="email" name="email" placeholder="you@workshop.com"
                       className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-frost placeholder:text-mist/50 outline-none transition focus:border-accent/60 focus:ring-2 focus:ring-accent/20" />
                   </label>
                   <label className="flex flex-col gap-1.5 text-sm font-medium text-frost sm:col-span-2">
@@ -134,9 +134,9 @@ export function Contact() {
             <div className="flex h-full flex-col gap-4">
               {/* Doldurulmamis iletisim kanali GOSTERILMEZ; ziyaretciye
                   "TODO: ..." yazmaktansa hic gostermemek dogrudur. */}
+              {/* Telefon ve WhatsApp kartları KALDIRILDI — kurumsal
+                  iletişim yalnızca e-posta üzerinden yürüyor. */}
               {[
-                { icon: Phone, label: "Phone", value: company.phone },
-                { icon: MessageCircle, label: "WhatsApp", value: company.phone },
                 { icon: Mail, label: "Email", value: company.email },
               ].filter((c) => isFilled(c.value)).map((c) => (
                 <div key={c.label} className="glass card-hover flex items-center gap-4 rounded-2xl p-5">

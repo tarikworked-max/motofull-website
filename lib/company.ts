@@ -16,7 +16,7 @@
 export const company = {
   /* ── Ticari kimlik ──────────────────────────────────────────── */
   /** Yasal ticaret unvanı — sözleşmelerde geçen tam ad. */
-  legalName: 'Motofull Software',
+  legalName: 'MotoFull Software Teknoloji Anonim Şirketi',
   /** Markanın günlük kullanılan adı. */
   brandName: 'MotoFull',
 
@@ -36,7 +36,20 @@ export const company = {
     postalCode: 'TODO: Posta kodu',
     country: 'Türkiye',
   },
-  phone: '+90 531 789 92 95',
+  /**
+   * TELEFON/WHATSAPP KASTEN YOK.
+   *
+   * Ürün kararı: tüm müşteri iletişimi e-posta üzerinden yürür.
+   * Buraya bir numara eklenirse altbilgide ve mesafeli satış
+   * sözleşmesinde otomatik görünür — o yüzden alanın kendisi
+   * kaldırıldı, boş bırakılmadı. Boş bir alan "doldurulmayı bekleyen
+   * eksik" gibi okunur; olmayan alan kararı belli eder.
+   *
+   * Mesafeli satış sözleşmesinde satıcı iletişimi olarak e-posta
+   * yeterlidir (6502 sk. kapsamında erişilebilir kalıcı veri
+   * sağlayıcısı). Yayın öncesi avukat incelemesi şartı değişmedi.
+   */
+
   /** Genel iletişim adresi. */
   email: 'info@motofull.com.tr',
   /**

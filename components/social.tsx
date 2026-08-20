@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useDemo } from "./demo-modal";
 import { Reveal, SectionHeading } from "./ui";
 import { company } from "@/lib/company";
-import { PLANS, TRIAL_DAYS } from "@/lib/pricing";
+import { PLANS, TRIAL_DAYS, MARKET_CURRENCY, formatPrice, type Market } from "@/lib/pricing";
 
 /* --- Testimonials ---
    ÖNEMLİ / IMPORTANT: Bu bölümdeki 15 görüş KURGUSALDIR. Gerçek MotoFull
@@ -173,7 +173,16 @@ const PLAN_ICONS: Record<string, typeof Rocket> = {
   enterprise: Building2,
 };
 
-export function Pricing() {
+/**
+ * Fiyat bolumu.
+ *
+ * `market` SUNUCUDAN gelir (app/page.tsx, ziyaretcinin IP ulkesi).
+ * Bilesen icinde tahmin YAPILMAZ: tarayici dili/saat dilimi kullanici
+ * tarafindan degistirilebilir, yani fiyati kullanici secebilirdi.
+ */
+export function Pricing({ market = "EU" }: { market?: Market }) {
+  const currency = MARKET_CURRENCY[market];
+
   const { open } = useDemo();
 
   return (
@@ -190,15 +199,17 @@ export function Pricing() {
               A plan for <span className="text-gradient">every workshop size</span>
             </>
           }
-          subtitle={`Start with a free ${TRIAL_DAYS}-day demo — no card required. Pricing for paid plans is tailored to your workshop.`}
+          subtitle={`Start with a free ${TRIAL_DAYS}-day demo — no card required.`}
         />
 
-        {/* Halka acik sayfada SAYISAL fiyat gosterilmiyor (HIDE_PUBLIC_PRICES).
-            Bu yuzden donem/para birimi secici de kaldirildi: gosterilecek
-            tutar yokken "aylik/yillik" secmek anlamsizdir.
-            Fiyat altyapisi lib/pricing.ts icinde DURUYOR, silinmedi. */}
+        {/* Fiyatlar ARTIK GOSTERILIYOR. Para birimi ziyaretcinin IP
+            ulkesinden SUNUCUDA secilir; sayfada para birimi secici YOK —
+            kullaniciya sectirmek, Amerika pazarindaki bir ziyaretcinin
+            Avrupa fiyatini secmesi demekti.
+            Su an yalnizca aylik tutar gosteriliyor; yillik fiyatlar
+            lib/pricing.ts icinde hazir duruyor. */}
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
           {PLANS.map((p, i) => {
             const Icon = PLAN_ICONS[p.id] ?? Rocket;
             const isDemo = p.id === "demo";
@@ -234,7 +245,9 @@ export function Pricing() {
                   <h3 className="font-display text-2xl font-bold text-frost">{p.name}</h3>
                   <p className="mt-1 text-sm text-mist">{p.tagline}</p>
 
-                  {/* Fiyat alani — sayisal tutar YOK. */}
+                  {/* Fiyat alani.
+                      Demo ucretsiz; Pro'da ziyaretcinin pazarindaki tutar;
+                      Kurumsal'da UYDURMA rakam yerine "iletisime gecin". */}
                   <div className="mt-6 min-h-[76px]">
                     {isDemo ? (
                       <>
@@ -243,10 +256,20 @@ export function Pricing() {
                         </span>
                         <p className="mt-1.5 text-xs text-mist">No card required.</p>
                       </>
+                    ) : p.price ? (
+                      <>
+                        <span className="font-display text-4xl font-bold text-frost">
+                          {formatPrice(p.price[currency].monthly, currency)}
+                        </span>
+                        <span className="ml-1.5 text-sm text-mist">/ month</span>
+                        <p className="mt-1.5 text-xs text-mist">
+                          Billed monthly. Cancel anytime.
+                        </p>
+                      </>
                     ) : (
                       <>
                         <span className="font-display text-3xl font-bold text-frost">
-                          Tailored pricing
+                          Contact us
                         </span>
                         <p className="mt-1.5 text-xs text-mist">
                           Tell us your workshop size and we will scope it with you.

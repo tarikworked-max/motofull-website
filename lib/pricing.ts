@@ -20,7 +20,7 @@ export interface PlanPrice {
 
 export interface Plan {
   /** Sistemdeki paket anahtarı — Tenant.planType ile aynı olmalı. */
-  id: 'demo' | 'starter' | 'pro' | 'enterprise';
+  id: 'demo' | 'pro' | 'enterprise';
   name: string;
   tagline: string;
   /** null = fiyat yok, teklif usulü. */
@@ -44,7 +44,34 @@ export const CURRENCY_META: Record<Currency, { symbol: string; locale: string; s
  * bunu okumaya devam eder. Burada yalnizca SUNUM kapatilir.
  * Public fiyat yayinlama karari verildiginde false yapilmasi yeterli.
  */
-export const HIDE_PUBLIC_PRICES = true;
+export const HIDE_PUBLIC_PRICES = false;
+
+/** Pazar — fiyat bu ikisine gore degisir. */
+export type Market = 'EU' | 'US';
+
+/** Pazar -> para birimi. */
+export const MARKET_CURRENCY: Record<Market, Currency> = { EU: 'EUR', US: 'USD' };
+
+/**
+ * Amerika pazari sayilan ulkeler (ISO 3166-1 alpha-2).
+ * backend/src/utils/pricing.js icindeki liste ile AYNI olmalidir.
+ */
+const US_MARKET_COUNTRIES = new Set([
+  'US', 'CA', 'MX',
+  'AR', 'BO', 'BR', 'CL', 'CO', 'CR', 'CU', 'DO', 'EC', 'GT', 'HN',
+  'HT', 'JM', 'NI', 'PA', 'PE', 'PR', 'PY', 'SV', 'UY', 'VE',
+]);
+
+/**
+ * Ulke kodundan pazari cozer.
+ *
+ * Bilinmeyen ulke Avrupa'ya duser: iki fiyattan DUSUK olani. Yanlislikla
+ * fazla ucret istemek, az istemekten daha kotudur.
+ */
+export function marketFromCountry(country?: string | null): Market {
+  if (!country || country.length !== 2) return 'EU';
+  return US_MARKET_COUNTRIES.has(country.toUpperCase()) ? 'US' : 'EU';
+}
 
 export const PLANS: Plan[] = [
   {
@@ -52,53 +79,49 @@ export const PLANS: Plan[] = [
     name: 'Demo',
     tagline: 'Try MotoFull with sample workshop data',
     price: null, // ucretsiz
+    /**
+     * Demo kapsami ACIKCA yazilir. "Sinirli deneme" gibi mugalak bir
+     * ifade, kullanicinin limite carptigi anda surpriz olur; sayilar
+     * onceden gorunurse limit bir kisitlama degil, bilinen bir sinir olur.
+     */
     features: [
       'Full panel access for 7 days',
       'Opens with sample customers, motorcycles and work orders',
       'Work orders and service records',
-      'Customer and motorcycle history',
-      'Inventory basics',
+      'Catalogue access limited to 40 motorcycle models',
+      'OBD diagnostics: 3 sessions',
+      'Inventory: up to 3 items',
+      'Service templates: up to 2',
       'No card required',
     ],
+    /**
+     * Sayilar backend/src/models/Tenant.js -> PLAN_DEFAULTS.demo ile
+     * AYNI olmalidir. Ayrisirsa musteriye soz verilen kapsam ile
+     * sunucunun uyguladigi kapsam birbirini tutmaz.
+     */
     limits: {
-      customers: 'Limited sample workspace',
-      records: 'Limited during demo',
-      ai: 'Limited during demo',
+      customers: '5 customers',
+      records: '50 work orders / month',
+      ai: '10 AI analyses / month',
       users: '1 user',
     },
-  },
-  {
-    id: 'starter',
-    name: 'Starter',
-    tagline: 'For single-location workshops',
-    price: {
-      TRY: { monthly: 500, yearly: 4000 },
-      EUR: { monthly: 39, yearly: 390 },
-      USD: { monthly: 39, yearly: 390 },
-    },
-    features: [
-      'Work orders and invoicing',
-      'Customer and motorcycle records',
-      'Public QR tracking link for customers',
-      'Inventory management',
-      'Maintenance reminders',
-      'PDF service reports',
-      'Email support',
-    ],
-    limits: { customers: '100 customers', records: '300 work orders / month', ai: '50 AI analyses / month', users: '2 users' },
   },
   {
     id: 'pro',
     name: 'Pro',
     tagline: 'For growing, multi-user workshops',
     highlight: true,
+    /**
+     * Yillik fiyat = aylik x 10 (iki ay bedava). Bu oran pazarlama
+     * metnine ELLE yazilmaz; monthsFree() buradan hesaplar.
+     */
     price: {
-      TRY: { monthly: 750, yearly: 6000 },
-      EUR: { monthly: 59, yearly: 590 },
-      USD: { monthly: 59, yearly: 590 },
+      TRY: { monthly: 3499, yearly: 34990 },
+      EUR: { monthly: 99, yearly: 990 },
+      USD: { monthly: 149, yearly: 1490 },
     },
     features: [
-      'Everything in Starter',
+      'Unlimited customers, work orders and users',
       'OBD/ECU fault diagnosis',
       'AI assistant and document reading',
       'Voice work-order entry',
@@ -106,7 +129,7 @@ export const PLANS: Plan[] = [
       'Advanced reports',
       'Priority support',
     ],
-    limits: { customers: '500 customers', records: '2,000 work orders / month', ai: '300 AI analyses / month', users: '5 users' },
+    limits: { customers: 'Unlimited customers', records: 'Unlimited work orders', ai: 'Unlimited AI analyses', users: 'Unlimited users' },
   },
   {
     id: 'enterprise',
@@ -160,7 +183,15 @@ export function yearlyDiscountPercent(price: PlanPrice): number {
 }
 
 /**
- * Ziyaretçinin para birimini tahmin eder.
+ * TARAYICI TAHMINI — YALNIZCA SON CARE.
+ *
+ * KULLANMA: pazar (ve dolayisiyla fiyat) sunucuda, ziyaretcinin IP
+ * ulkesinden cozulur (marketFromCountry + app/page.tsx). Buradaki
+ * tahmin dil ve saat dilimine bakar; ikisi de kullanici tarafindan
+ * degistirilebilir, yani fiyati kullanicinin kendisi secebilirdi.
+ *
+ * Yalnizca cografi bilginin hic olmadigi durumlar icin durur.
+ *
  * Sunucuda çalışmaz (locale tarayıcıdan okunur); bileşen içinde
  * useEffect ile çağrılmalı, ilk render TRY ile yapılmalıdır.
  */

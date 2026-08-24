@@ -104,7 +104,14 @@ const testimonials: Testimonial[] = [
   },
 ];
 
+/** İlk yüklemede gösterilen kart sayısı — geri kalanı "Daha fazla göster" ile açılır. */
+const INITIAL_COUNT = 6;
+
 export function Testimonials() {
+  const [expanded, setExpanded] = useState(false);
+  const visible = expanded ? testimonials : testimonials.slice(0, INITIAL_COUNT);
+  const hiddenCount = testimonials.length - INITIAL_COUNT;
+
   return (
     <section className="relative py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
@@ -124,7 +131,7 @@ export function Testimonials() {
         </p>
 
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {testimonials.map((t, i) => (
+          {visible.map((t, i) => (
             <Reveal key={t.name} delay={Math.min(i, 5) * 0.06}>
               <figure className="card-hover glass flex h-full flex-col rounded-3xl p-7">
                 <div className="mb-4 flex items-center justify-between gap-3">
@@ -157,6 +164,21 @@ export function Testimonials() {
             </Reveal>
           ))}
         </div>
+
+        {hiddenCount > 0 && (
+          <div className="mt-10 flex justify-center">
+            <button
+              type="button"
+              onClick={() => setExpanded((v) => !v)}
+              className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/5 px-5 py-2.5 text-sm font-semibold text-frost transition hover:bg-white/10"
+            >
+              {expanded ? "Show fewer" : `Show ${hiddenCount} more`}
+              <ChevronDown
+                className={`h-4 w-4 transition-transform ${expanded ? "rotate-180" : ""}`}
+              />
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

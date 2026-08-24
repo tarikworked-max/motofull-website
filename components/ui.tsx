@@ -1,27 +1,27 @@
 "use client";
 
 import { motion, useInView, useMotionValue, useSpring } from "framer-motion";
+import Image from "next/image";
 import { useEffect, useRef, type ReactNode } from "react";
 
-/* MotoFull logo mark: a stylized "M" built from speed lines + orange dot. */
+/**
+ * MotoFull logosu — gercek marka gorseli.
+ *
+ * ONCEDEN elle cizilmis bir SVG placeholder kullaniliyordu (stilize
+ * "M" + turuncu nokta); gercek marka bu DEGILDI. Kaynak dosya panel
+ * ve mobil uygulamayla AYNI: frontend/src/assets/brand/motofull-wordmark.png.
+ */
 export function Logo({ className = "h-9" }: { className?: string }) {
   return (
-    <span className={`flex items-center gap-2.5 ${className}`}>
-      <svg viewBox="0 0 40 40" className="h-full w-auto" aria-hidden="true">
-        <rect x="1" y="1" width="38" height="38" rx="11" fill="#101a2e" stroke="rgba(255,255,255,0.12)" />
-        <path
-          d="M10 28V13.5L16.5 22L23 13.5V28"
-          fill="none"
-          stroke="#e6edf7"
-          strokeWidth="3.2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <circle cx="30" cy="25" r="3.6" fill="#ff6b1a" />
-      </svg>
-      <span className="font-display text-xl font-bold tracking-tight text-frost">
-        Moto<span className="text-accent">Full</span>
-      </span>
+    <span className={`inline-flex items-center ${className}`}>
+      <Image
+        src="/brand/logo.png"
+        alt="MotoFull"
+        width={640}
+        height={114}
+        className="h-full w-auto object-contain"
+        priority
+      />
     </span>
   );
 }

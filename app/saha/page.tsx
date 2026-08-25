@@ -1,11 +1,16 @@
-'use client';
-
-import { useEffect } from 'react';
-
 export default function SahaPage() {
-  useEffect(() => {
-    window.location.href = 'https://motofull-zeta.vercel.app/saha';
-  }, []);
-
-  return null;
+  return (
+    <div style={{ width: '100%', height: '100vh', margin: 0, padding: 0 }}>
+      <iframe
+        src="https://motofull-zeta.vercel.app/saha"
+        style={{
+          width: '100%',
+          height: '100%',
+          border: 'none',
+          display: 'block',
+        }}
+        title="Partner Sales Panel"
+      />
+    </div>
+  );
 }

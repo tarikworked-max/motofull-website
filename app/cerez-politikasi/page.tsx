@@ -3,6 +3,7 @@ import LegalPage, { Section, Table } from '@/components/legal-layout';
 import { company } from '@/lib/company';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/cerez-politikasi' },
   title: 'Çerez Politikası',
   description:
     'MotoFull hangi çerezleri ve tarayıcı depolamasını kullanıyor, neden kullanıyor ve nasıl kapatabilirsiniz.',

@@ -3,6 +3,7 @@ import LegalPage, { Section } from '@/components/legal-layout';
 import { company, formattedAddress } from '@/lib/company';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/kullanim-sartlari' },
   title: 'Kullanım Şartları',
   description:
     'MotoFull hizmetinin kullanım koşulları: hesap sorumluluğu, kabul edilebilir kullanım, hizmet seviyesi, veri sahipliği ve fesih.',

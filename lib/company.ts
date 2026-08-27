@@ -69,7 +69,7 @@ export const company = {
   supportEmail: 'info@motofull.com.tr',
 
   /* ── Alan adları ────────────────────────────────────────────── */
-  websiteUrl: 'https://motofull.com.tr',
+  websiteUrl: 'https://www.motofull.com.tr',
   panelUrl: 'https://panel.motofull.com.tr',
 
   /**

@@ -32,7 +32,7 @@ export function DashboardMockup() {
         <span className="h-2.5 w-2.5 rounded-full bg-amber-400/70" />
         <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/70" />
         <span className="ml-3 hidden rounded-md bg-white/5 px-3 py-1 text-[10px] text-mist sm:block">
-          app.motofull.com/panel
+          panel.motofull.com.tr
         </span>
       </div>
 

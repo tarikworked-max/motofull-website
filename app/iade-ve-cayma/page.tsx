@@ -3,6 +3,7 @@ import LegalPage, { Section } from '@/components/legal-layout';
 import { company } from '@/lib/company';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/iade-ve-cayma' },
   title: 'İade ve Cayma Hakkı',
   description:
     'MotoFull abonelikleri için iade koşulları, cayma hakkı ve para iadesi süreci.',

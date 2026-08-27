@@ -6,7 +6,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin", "latin-ext"], variable: "--font-inter" });
 const grotesk = Space_Grotesk({ subsets: ["latin", "latin-ext"], variable: "--font-grotesk" });
 
-const siteUrl = "https://motofull.com";
+const siteUrl = "https://www.motofull.com.tr";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -39,6 +39,7 @@ export const metadata: Metadata = {
     description:
       "Workshop management software for motorcycle service businesses. Start a free 7-day demo.",
   },
+  alternates: { canonical: "/" },
   robots: { index: true, follow: true },
 };
 

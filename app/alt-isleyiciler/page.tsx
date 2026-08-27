@@ -3,6 +3,7 @@ import LegalPage, { Section, Table } from '@/components/legal-layout';
 import { company } from '@/lib/company';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/alt-isleyiciler' },
   title: 'Alt İşleyiciler',
   description:
     'MotoFull hizmetini sunarken kullandığımız tedarikçilerin (alt işleyicilerin) güncel listesi.',

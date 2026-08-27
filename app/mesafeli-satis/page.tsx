@@ -3,6 +3,7 @@ import LegalPage, { Section, Table } from '@/components/legal-layout';
 import { company, formattedAddress } from '@/lib/company';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/mesafeli-satis' },
   title: 'Mesafeli Satış Sözleşmesi',
   description:
     'MotoFull abonelik satışlarına ilişkin, 6502 sayılı Tüketicinin Korunması Hakkında Kanun kapsamında mesafeli satış sözleşmesi.',

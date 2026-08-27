@@ -3,6 +3,7 @@ import LegalPage, { Section, Table } from '@/components/legal-layout';
 import { company, formattedAddress } from '@/lib/company';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/privacy' },
   title: 'Privacy Policy',
   description:
     'How MotoFull collects, uses, shares and protects personal data, and the rights you have under the GDPR.',

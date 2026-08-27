@@ -62,6 +62,12 @@ export default function CookiePage() {
               'Aynı ziyarette kaç sayfa görüntülendiğini sayar. Sekmeyi kapatınca silinir.',
               'Sekme kapanana kadar',
             ],
+            [
+              <code key="n">motofull_storage_notice</code>,
+              'localStorage',
+              'Sitenin altında çıkan depolama bildirimini kapattığınızı hatırlar; olmazsa bildirim her ziyarette yeniden çıkar.',
+              'Siz temizleyene kadar',
+            ],
           ]}
         />
         <p className="text-sm text-mist">

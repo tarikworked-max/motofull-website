@@ -12,6 +12,7 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   return (
     <LegalPage
+      lang="en"
       title="Privacy Policy"
       subtitle="This policy explains how we handle personal data under the EU General Data Protection Regulation (GDPR). Turkish users may also read our KVKK notice."
     >

@@ -12,13 +12,16 @@ export default function LegalPage({
   title,
   subtitle,
   children,
+  lang = 'tr',
 }: {
   title: string;
   subtitle?: string;
   children: React.ReactNode;
+  /** Kök layout <html lang="en"> ilan ediyor; Türkçe metinler bunu geçersiz kılmalı. */
+  lang?: 'tr' | 'en';
 }) {
   return (
-    <main className="min-h-screen bg-ink text-frost">
+    <main lang={lang} className="min-h-screen bg-ink text-frost">
       <div className="mx-auto max-w-3xl px-5 py-14 sm:py-20">
         <Link
           href="/"

@@ -6,3 +6,4 @@ dist
 
 # TypeScript artımlı derleme önbelleği — makineye özel, depoda olmamalı
 *.tsbuildinfo
+.claude/

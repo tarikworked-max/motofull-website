@@ -1,8 +1,27 @@
 "use client";
 
-import { motion, useInView, useMotionValue, useSpring } from "framer-motion";
+import { motion, useInView, useMotionValue, useScroll, useSpring } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useRef, type ReactNode } from "react";
+
+/**
+ * Sayfanin en ustunde okuma ilerleme cubugu.
+ *
+ * Uzun bir tek-sayfa sitede ziyaretci "bu daha ne kadar surecek"
+ * bilmez; bilmedigi icin de erken birakir. Cubuk hem o soruyu
+ * yanitlar hem sayfaya surekli bir hareket katar.
+ */
+export function ScrollProgress() {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 140, damping: 26, restDelta: 0.001 });
+  return (
+    <motion.div
+      aria-hidden="true"
+      style={{ scaleX }}
+      className="scroll-progress fixed inset-x-0 top-0 z-[60] h-0.5 bg-gradient-to-r from-accent via-accent-soft to-electric"
+    />
+  );
+}
 
 /**
  * MotoFull logosu — gercek marka gorseli.

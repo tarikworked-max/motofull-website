@@ -9,11 +9,15 @@ import { TRIAL_DAYS } from "@/lib/pricing";
 
 const links = [
   { href: "#ozellikler", label: "Features" },
+  { href: "#panel", label: "The panel" },
   { href: "#ai", label: "AI Diagnosis" },
   { href: "#surec", label: "How it works" },
+  /* Guven bolumu menude: "gercek bir sirket miyiz" sorusu ziyaretcinin
+     aklina fiyati gormeden once geliyor, cevabi da menuden ulasilabilir
+     olmali. */
+  { href: "#guven", label: "Who we are" },
   { href: "#fiyatlar", label: "Plans" },
   { href: "#sss", label: "FAQ" },
-  { href: "#iletisim", label: "Contact" },
 ];
 
 export function Navbar() {

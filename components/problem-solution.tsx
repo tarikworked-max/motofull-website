@@ -77,7 +77,7 @@ const solutions = [
 
 export function Solution() {
   return (
-    <section className="relative py-24 sm:py-32">
+    <section className="relative overflow-hidden py-24 sm:py-32">
       <div
         className="absolute left-1/2 top-1/2 h-[500px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/8 blur-[160px]"
         aria-hidden="true"

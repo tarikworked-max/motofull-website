@@ -8,8 +8,10 @@ import { Problem, Solution } from "@/components/problem-solution";
 import { Features } from "@/components/features";
 import { AISection, DashboardShowcase } from "@/components/showcase-ai";
 import { BeforeAfter, Workflow } from "@/components/workflow-stats";
-import { FAQ, Pricing, Testimonials } from "@/components/social";
+import { FAQ, Pricing } from "@/components/social";
+import { Trust } from "@/components/trust";
 import { Contact, Footer, StickyCTA } from "@/components/contact-footer";
+import { ScrollProgress } from "@/components/ui";
 
 /**
  * PAZAR SUNUCUDA COZULUR.
@@ -32,6 +34,7 @@ export default async function Home() {
 
   return (
     <DemoProvider>
+      <ScrollProgress />
       <Navbar />
       <main>
         <Hero />
@@ -42,7 +45,12 @@ export default async function Home() {
         <AISection />
         <Workflow />
         <BeforeAfter />
-        <Testimonials />
+        {/* KURGUSAL REFERANSLAR KALDIRILDI.
+            Uydurma isimli 15 "musteri gorusu" vardi; "Demo Example"
+            etiketi tasisalar bile ziyaretcide dolandiricilik hissi
+            yaratiyordu. Yerine dogrulanabilir sirket gercekleri ve
+            acik bir "ne iddia ETMIYORUZ" bolumu geldi. */}
+        <Trust />
         <Pricing market={market} live={live} />
         <FAQ />
         <Contact />

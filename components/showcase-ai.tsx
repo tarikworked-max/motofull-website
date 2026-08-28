@@ -4,41 +4,37 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { Brain, Gauge, ShieldCheck, Timer, Zap } from "lucide-react";
 import { useRef } from "react";
 import { useDemo } from "./demo-modal";
-import { DashboardMockup } from "./dashboard-mockup";
+import { ProductTour } from "./product-ui";
 import { Reveal, SectionHeading } from "./ui";
 
-/* --- Laptop dashboard showcase with scroll parallax --- */
+/* --- Gezilebilir panel turu ---
+   ONCEDEN: tek bir basit dashboard cizimi, dizustu cercevesi icinde,
+   hero'dakiyle AYNI gorsel. Ziyaretci ayni resmi iki kez goruyordu.
+   SIMDI: panelin alti ayri ekrani, kendi kendine gecen ama tiklaninca
+   duran gercek bir tur. */
 export function DashboardShowcase() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const rotateX = useTransform(scrollYProgress, [0, 0.45], [16, 0]);
-  const y = useTransform(scrollYProgress, [0, 0.45], [60, 0]);
+  const rotateX = useTransform(scrollYProgress, [0, 0.45], [12, 0]);
+  const y = useTransform(scrollYProgress, [0, 0.45], [50, 0]);
 
   return (
     <section id="panel" className="relative overflow-hidden py-24 sm:py-32">
-      <div
-        className="absolute left-1/2 top-24 h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-electric/10 blur-[150px]"
-        aria-hidden="true"
-      />
+      <div className="aurora left-1/2 top-24 h-[420px] w-[720px] -translate-x-1/2 bg-electric/10" aria-hidden="true" />
       <div className="relative mx-auto max-w-7xl px-5 lg:px-8">
         <SectionHeading
           eyebrow="The panel"
           title={
             <>
-              Built to be used <span className="text-gradient-blue">during a busy day</span>
+              Six screens, <span className="text-gradient-blue">one busy day</span>
             </>
           }
-          subtitle="No buried menus. The screens a workshop actually needs, reachable while the bike is on the lift."
+          subtitle="No buried menus. Pick a screen and see exactly what your team would be looking at while the bike is on the lift."
         />
 
-        <div ref={ref} className="mt-16" style={{ perspective: "1200px" }}>
-          <motion.div style={{ rotateX, y }} className="mx-auto max-w-5xl will-change-transform">
-            {/* laptop frame */}
-            <div className="rounded-t-3xl border border-white/10 bg-gradient-to-b from-slate-700/60 to-slate-900/80 p-2.5 sm:p-4">
-              <DashboardMockup />
-            </div>
-            <div className="mx-auto h-4 w-full max-w-5xl rounded-b-2xl bg-gradient-to-b from-slate-600/70 to-slate-800/70" />
-            <div className="mx-auto h-1.5 w-40 rounded-b-xl bg-slate-700/60" />
+        <div ref={ref} className="mt-14" style={{ perspective: "1400px" }}>
+          <motion.div style={{ rotateX, y }} className="mx-auto max-w-6xl will-change-transform">
+            <ProductTour />
           </motion.div>
         </div>
 

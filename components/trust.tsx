@@ -22,12 +22,15 @@ import {
   BadgeCheck,
   Database,
   FileText,
+  Gauge,
   Globe2,
+  GraduationCap,
   Lock,
   MessageSquareOff,
   Scale,
   ServerCog,
   ShieldCheck,
+  Smile,
 } from "lucide-react";
 import { company, isFilled } from "@/lib/company";
 import { Reveal, SectionHeading } from "./ui";
@@ -84,11 +87,46 @@ const safeguards = [
   },
 ];
 
+/* Atolyede NE DEGISIR.
+ *
+ * Bu blok, kullanicinin istedigi uc mesaji tasiyor: musteriler daha
+ * memnun, isler daha hizli, ogrenmesi kisa.
+ *
+ * ONEMLI — NEDEN "MUSTERI YORUMU" DEGIL:
+ * Bunlar uydurma bir kisinin agzindan "yorum" olarak yazilmadi.
+ * Uydurma yorum, tanimi geregi ziyaretcinin GERCEK sanmasi icin
+ * yazilir; 6502 sayili kanun ve AB UCPD bunu acikca yasaklar. Ayni
+ * mesaj, urunun KENDI sesiyle ve tasarlanmis davranisi anlatarak
+ * verilebilir — bu hem yasal hem daha inandiricidir.
+ *
+ * Her madde, urunun gercekten yaptigi bir seye dayanmalidir. Olculmemis
+ * yuzde ("%40 daha hizli") BURAYA DA YAZILMAZ. */
+const changes = [
+  {
+    icon: Smile,
+    title: "Riders stop chasing you for an update",
+    desc: "Every motorcycle in the workshop gets a status link. The rider watches the job move instead of phoning to ask — and collects a bike whose full service history they can actually read.",
+    proof: "Rider tracking · notification when work finishes",
+  },
+  {
+    icon: Gauge,
+    title: "The same job, far fewer keystrokes",
+    desc: "Search the plate and the bike, its owner and every past service are already on screen. Parts come off stock as you add them, and the job sheet is a PDF in one step.",
+    proof: "Plate search · linked inventory · one-click job sheet",
+  },
+  {
+    icon: GraduationCap,
+    title: "Your team is using it the same day",
+    desc: "Six screens, no training course, no consultant, no setup project. The demo opens with sample workshop data, so nobody has to learn on live customer records.",
+    proof: "Sample data on day one · no migration required",
+  },
+];
+
 /* Ne SOYLEMEDIGIMIZ — iddiayi daraltmak, en guclu guven sinyalidir. */
 const honesty = [
   {
-    no: "We do not publish customer testimonials we cannot prove.",
-    yes: "When real workshops agree to be named, their words go here — with their name on them.",
+    no: "We do not invent customer reviews.",
+    yes: "Everything above describes what the product does, in our own words. A quote appears here only when a real workshop agrees to put their name on it.",
   },
   {
     no: "We do not quote success percentages or time savings.",
@@ -136,6 +174,27 @@ export function Trust() {
                   {f.label === "Legal entity" && !showLegalName ? "Registered company" : f.value}
                 </p>
                 <p className="mt-2 text-sm leading-relaxed text-mist">{f.note}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+
+        {/* Atolyede ne degisir — uc somut fayda, urunun kendi sesiyle. */}
+        <div className="mt-12 grid gap-5 lg:grid-cols-3">
+          {changes.map((c, i) => (
+            <Reveal key={c.title} delay={i * 0.08}>
+              <div className="card-hover sheen glass flex h-full flex-col rounded-3xl p-7">
+                <span className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-accent/12 text-accent">
+                  <c.icon className="h-6 w-6" />
+                </span>
+                <h3 className="font-display text-xl font-semibold leading-snug text-frost">{c.title}</h3>
+                <p className="mt-3 flex-1 leading-relaxed text-mist">{c.desc}</p>
+                {/* Her iddianin altinda onu SAGLAYAN ozellik yazar.
+                    Kanitsiz bir fayda cumlesi, uydurma yorumdan cok da
+                    farkli degildir. */}
+                <p className="mt-5 border-t border-white/8 pt-4 text-xs font-medium text-accent-soft">
+                  {c.proof}
+                </p>
               </div>
             </Reveal>
           ))}

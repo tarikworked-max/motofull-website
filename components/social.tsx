@@ -206,7 +206,12 @@ const PLAN_ICONS: Record<string, typeof Rocket> = {
 export function Pricing({ market = "EU", live }: { market?: Market; live?: LivePricing }) {
   /* Para birimi ve tutarlar SUNUCUDAN gelen canli yanittan okunur.
      `live` verilmezse (API ulasilamadi) koddaki tabloya dusulur —
-     fiyatsiz bir satis sayfasi, biraz bayat fiyattan daha kotudur. */
+     fiyatsiz bir satis sayfasi, biraz bayat fiyattan daha kotudur.
+
+     BU YALNIZCA YEDEK YOLUN BIRIMI. Gercek etiket PAKET BASINA okunur
+     (asagida `planCurrency`): sunucu bir paketin fiyatini baska bir
+     birime dusurmus olabilir ve tutari ziyaretcinin pazar biriminde
+     ETIKETLEMEK 99 EUR'yu "99 TL" gostermek demektir. */
   const currency = live?.currency ?? MARKET_CURRENCY[market];
   const trialDays = live?.trialDays ?? TRIAL_DAYS;
   const campaign = live?.campaign ?? null;
@@ -264,6 +269,10 @@ export function Pricing({ market = "EU", live }: { market?: Market; live?: LiveP
               : (staticPrice ? staticPrice.monthly : null);
             const originalMonthly = lp ? lp.originalAmount : (staticPrice ? staticPrice.monthly : null);
             const discounted = !!(lp && lp.discounted);
+            /* Tutarin KENDI birimi. Ust duzey `currency` ziyaretcinin
+               pazar birimidir; sunucu o birimde fiyat bulamayip baska
+               birime dusmus olabilir. */
+            const planCurrency = lp ? lp.currency : currency;
 
             return (
               <Reveal key={p.id} delay={i * 0.08}>
@@ -314,11 +323,11 @@ export function Pricing({ market = "EU", live }: { market?: Market; live?: LiveP
                             oldugunu gorunmez kilar. */}
                         {discounted && originalMonthly !== null && (
                           <span className="mr-2 font-display text-2xl font-bold text-mist line-through">
-                            {formatPrice(originalMonthly, currency)}
+                            {formatPrice(originalMonthly, planCurrency)}
                           </span>
                         )}
                         <span className="font-display text-4xl font-bold text-frost">
-                          {formatPrice(monthly, currency)}
+                          {formatPrice(monthly, planCurrency)}
                         </span>
                         <span className="ml-1.5 text-sm text-mist">/ month</span>
                         <p className="mt-1.5 text-xs text-mist">

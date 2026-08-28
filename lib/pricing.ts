@@ -47,10 +47,10 @@ export const CURRENCY_META: Record<Currency, { symbol: string; locale: string; s
 export const HIDE_PUBLIC_PRICES = false;
 
 /** Pazar — fiyat bu ikisine gore degisir. */
-export type Market = 'EU' | 'US';
+export type Market = 'EU' | 'US' | 'TR';
 
-/** Pazar -> para birimi. */
-export const MARKET_CURRENCY: Record<Market, Currency> = { EU: 'EUR', US: 'USD' };
+/** Pazar -> para birimi. backend/src/utils/pricing.js ile AYNI olmalidir. */
+export const MARKET_CURRENCY: Record<Market, Currency> = { EU: 'EUR', US: 'USD', TR: 'TRY' };
 
 /**
  * Amerika pazari sayilan ulkeler (ISO 3166-1 alpha-2).
@@ -70,7 +70,11 @@ const US_MARKET_COUNTRIES = new Set([
  */
 export function marketFromCountry(country?: string | null): Market {
   if (!country || country.length !== 2) return 'EU';
-  return US_MARKET_COUNTRIES.has(country.toUpperCase()) ? 'US' : 'EU';
+  const code = country.toUpperCase();
+  /* Turkiye ana pazar ve kendi para birimiyle faturalanir; ulke
+     listesinde ayrica yer almasina gerek yok, tek koddur. */
+  if (code === 'TR') return 'TR';
+  return US_MARKET_COUNTRIES.has(code) ? 'US' : 'EU';
 }
 
 export const PLANS: Plan[] = [

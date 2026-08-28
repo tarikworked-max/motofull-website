@@ -1,5 +1,6 @@
 import { headers } from "next/headers";
 import { marketFromCountry } from "@/lib/pricing";
+import { getLivePricing } from "@/lib/livePricing";
 import { DemoProvider } from "@/components/demo-modal";
 import { Navbar } from "@/components/navbar";
 import { Hero } from "@/components/hero";
@@ -20,7 +21,14 @@ import { Contact, Footer, StickyCTA } from "@/components/contact-footer";
  * Baslik yoksa marketFromCountry Avrupa'ya (dusuk fiyata) duser.
  */
 export default async function Home() {
-  const market = marketFromCountry((await headers()).get("x-vercel-ip-country"));
+  const country = (await headers()).get("x-vercel-ip-country");
+  const market = marketFromCountry(country);
+
+  /* Fiyat SUNUCUDAN, istek aninda okunur — panelden yapilan degisiklik
+     bu siteyi yeniden dagitmadan yayina girsin diye. Cagri basarisiz
+     olursa getLivePricing koddaki tabloya duser; sayfa hicbir durumda
+     fiyatsiz kalmaz ve bu cagri icin beklemez (3 sn zaman asimi). */
+  const live = await getLivePricing(market, country);
 
   return (
     <DemoProvider>
@@ -35,7 +43,7 @@ export default async function Home() {
         <Workflow />
         <BeforeAfter />
         <Testimonials />
-        <Pricing market={market} />
+        <Pricing market={market} live={live} />
         <FAQ />
         <Contact />
       </main>

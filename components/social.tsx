@@ -7,6 +7,7 @@ import { useDemo } from "./demo-modal";
 import { Reveal, SectionHeading } from "./ui";
 import { company } from "@/lib/company";
 import { PLANS, TRIAL_DAYS, MARKET_CURRENCY, formatPrice, type Market } from "@/lib/pricing";
+import type { LivePricing } from "@/lib/livePricing";
 
 /* --- Testimonials ---
    ÖNEMLİ / IMPORTANT: Bu bölümdeki 15 görüş KURGUSALDIR. Gerçek MotoFull
@@ -202,8 +203,13 @@ const PLAN_ICONS: Record<string, typeof Rocket> = {
  * Bilesen icinde tahmin YAPILMAZ: tarayici dili/saat dilimi kullanici
  * tarafindan degistirilebilir, yani fiyati kullanici secebilirdi.
  */
-export function Pricing({ market = "EU" }: { market?: Market }) {
-  const currency = MARKET_CURRENCY[market];
+export function Pricing({ market = "EU", live }: { market?: Market; live?: LivePricing }) {
+  /* Para birimi ve tutarlar SUNUCUDAN gelen canli yanittan okunur.
+     `live` verilmezse (API ulasilamadi) koddaki tabloya dusulur —
+     fiyatsiz bir satis sayfasi, biraz bayat fiyattan daha kotudur. */
+  const currency = live?.currency ?? MARKET_CURRENCY[market];
+  const trialDays = live?.trialDays ?? TRIAL_DAYS;
+  const campaign = live?.campaign ?? null;
 
   const { open } = useDemo();
 
@@ -221,8 +227,20 @@ export function Pricing({ market = "EU" }: { market?: Market }) {
               A plan for <span className="text-gradient">every workshop size</span>
             </>
           }
-          subtitle={`Start with a free ${TRIAL_DAYS}-day demo — no card required.`}
+          subtitle={`Start with a free ${trialDays}-day demo — no card required.`}
         />
+
+        {/* Kampanya rozeti. Sunucu kampanyayi YALNIZCA gecerliyse
+            gonderir (tarih penceresi ve kapsam orada kontrol edildi),
+            bu yuzden burada varlik kontrolu yeterlidir. Site Ingilizce
+            oldugu icin Ingilizce metin; girilmemisse Turkcesine dusulur. */}
+        {campaign && (campaign.badge.en || campaign.badge.tr) && (
+          <div className="mt-8 flex justify-center">
+            <span className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-sm font-semibold text-emerald-300">
+              {campaign.badge.en || campaign.badge.tr}
+            </span>
+          </div>
+        )}
 
         {/* Fiyatlar ARTIK GOSTERILIYOR. Para birimi ziyaretcinin IP
             ulkesinden SUNUCUDA secilir; sayfada para birimi secici YOK —
@@ -235,6 +253,17 @@ export function Pricing({ market = "EU" }: { market?: Market }) {
           {PLANS.map((p, i) => {
             const Icon = PLAN_ICONS[p.id] ?? Rocket;
             const isDemo = p.id === "demo";
+
+            /* Canli fiyat varsa o gecerlidir; yoksa koddaki tabloya
+               dusulur. `contactOnly` paketlerde tutar null kalir ve
+               asagida "Contact us" gosterilir. */
+            const lp = live?.byPlan[p.id];
+            const staticPrice = p.price ? p.price[currency] : null;
+            const monthly = lp
+              ? (lp.contactOnly ? null : lp.amount)
+              : (staticPrice ? staticPrice.monthly : null);
+            const originalMonthly = lp ? lp.originalAmount : (staticPrice ? staticPrice.monthly : null);
+            const discounted = !!(lp && lp.discounted);
 
             return (
               <Reveal key={p.id} delay={i * 0.08}>
@@ -274,14 +303,22 @@ export function Pricing({ market = "EU" }: { market?: Market }) {
                     {isDemo ? (
                       <>
                         <span className="font-display text-3xl font-bold text-frost">
-                          Free for {TRIAL_DAYS} days
+                          Free for {trialDays} days
                         </span>
                         <p className="mt-1.5 text-xs text-mist">No card required.</p>
                       </>
-                    ) : p.price ? (
+                    ) : monthly !== null ? (
                       <>
+                        {/* Indirimliyse ESKI fiyat da gosterilir. Indirimi
+                            yalnizca dusuk rakamla duyurmak, indirim
+                            oldugunu gorunmez kilar. */}
+                        {discounted && originalMonthly !== null && (
+                          <span className="mr-2 font-display text-2xl font-bold text-mist line-through">
+                            {formatPrice(originalMonthly, currency)}
+                          </span>
+                        )}
                         <span className="font-display text-4xl font-bold text-frost">
-                          {formatPrice(p.price[currency].monthly, currency)}
+                          {formatPrice(monthly, currency)}
                         </span>
                         <span className="ml-1.5 text-sm text-mist">/ month</span>
                         <p className="mt-1.5 text-xs text-mist">

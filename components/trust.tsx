@@ -123,11 +123,15 @@ const changes = [
 ];
 
 /* Ne SOYLEMEDIGIMIZ — iddiayi daraltmak, en guclu guven sinyalidir. */
+/* NOT — "Musteri yorumlarini biz uydurmuyoruz" maddesi KALDIRILDI.
+   Kullanici iki kez bu maddeyi istemedi: sahte yorumu yoklamak, olmayan
+   bir suclamaya savunma yapmak gibi okunuyordu ve dikkati tam da
+   dusundurmemesi gereken seye cekiyordu.
+   TAAHHUT DEGISMEDI: yukaridaki uc kart urunun kendi sesiyle yazilmis
+   iddialardir, uydurma kisilerin agzindan alinti DEGILDIR. Buraya
+   uydurma musteri yorumu EKLENMEZ; gercek bir atolye adiyla izin
+   verdiginde alinti eklenebilir. */
 const honesty = [
-  {
-    no: "We do not invent customer reviews.",
-    yes: "Everything above describes what the product does, in our own words. A quote appears here only when a real workshop agrees to put their name on it.",
-  },
   {
     no: "We do not quote success percentages or time savings.",
     yes: "You will not find a “saves 40% of admin time” claim anywhere on this site, because nobody measured it.",
@@ -223,7 +227,11 @@ export function Trust() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-60px" }}
                   transition={{ delay: i * 0.06, duration: 0.5 }}
-                  className="bg-ink/60 p-6 sm:p-7"
+                  /* Madde sayisi TEK oldugunda (su an 3) iki sutunlu
+                     gridde son hucre bos kalir ve gap'in acik arka plani
+                     bosluk olarak gorunur. Son karti tam genislige
+                     yayarak bu bosluk kapatilir. */
+                  className="bg-ink/60 p-6 sm:p-7 sm:last:col-span-2"
                 >
                   <p className="font-display text-[15px] font-semibold leading-snug text-frost">{h.no}</p>
                   <p className="mt-2.5 text-sm leading-relaxed text-mist">{h.yes}</p>

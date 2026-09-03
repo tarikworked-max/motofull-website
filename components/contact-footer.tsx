@@ -4,6 +4,7 @@ import { Mail, MapPin, Send } from "lucide-react";
 import { useState } from "react";
 import { useDemo } from "./demo-modal";
 import { Logo, Reveal, SectionHeading } from "./ui";
+import { PaymentTrust } from "./payment-trust";
 import { company, filledOr, isFilled } from "@/lib/company";
 import { submitContactRequest } from "@/lib/contact";
 import { TRIAL_DAYS } from "@/lib/pricing";
@@ -186,6 +187,11 @@ const footerCols = [
   {
     title: "Company",
     links: [
+      /* Hakkımızda TÜRKÇEDİR ve öyle etiketlenir: iyzico incelemesi
+         Türkçe bir "Hakkımızda" sayfası arar. Etiketi "About" yapmak
+         bağlantıyı İngilizce bir sayfa sanmaya yol açardı. */
+      { label: "Hakkımızda (Turkish)", href: "/hakkimizda" },
+      { label: "Abonelik ve ödeme (Turkish)", href: "/abonelik" },
       { label: "Contact", href: "/#iletisim" },
       { label: "FAQ", href: "/#sss" },
       { label: "Workshop panel login", href: "https://panel.motofull.com.tr" },
@@ -254,7 +260,21 @@ export function Footer() {
             </nav>
           ))}
         </div>
-        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/5 pt-8 sm:flex-row">
+        {/* ÖDEME GÜVEN ŞERİDİ — ana sayfanın altbilgisinde.
+            iyzico incelemecisi GİRİŞ YAPMADAN, alan adını açıp aşağı
+            inerek "iyzico ile Öde", Visa ve Mastercard logolarını
+            görebilmeli.
+
+            Neden altbilgi: fiyat bölümüne koymak, fiyatları görmeden
+            aşağı kaydıran bir incelemecide gözden kaçabilirdi;
+            altbilgi her ziyaretin sonunda aynı yerde.
+
+            Yasal sayfalar bu altbilgiyi KULLANMIYOR (legal-layout kendi
+            sade altbilgisini çiziyor). Türkçe karşılığı /hakkimizda
+            sayfasında `lang="tr"` ile duruyor. */}
+        <PaymentTrust lang="en" className="mt-14" />
+
+        <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-white/5 pt-8 sm:flex-row">
           <p className="text-sm text-mist">
             © {new Date().getFullYear()} {filledOr(company.legalName, company.brandName)}. All rights reserved.
           </p>

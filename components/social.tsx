@@ -3,7 +3,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { Building2, ChevronDown, Rocket, Warehouse } from "lucide-react";
 import { useState } from "react";
-import { useDemo } from "./demo-modal";
 import { Reveal, SectionHeading } from "./ui";
 import { company } from "@/lib/company";
 import { PLANS, TRIAL_DAYS, MARKET_CURRENCY, formatPrice, type Market } from "@/lib/pricing";
@@ -51,7 +50,10 @@ export function Pricing({ market = "EU", live }: { market?: Market; live?: LiveP
   const trialDays = live?.trialDays ?? TRIAL_DAYS;
   const campaign = live?.campaign ?? null;
 
-  const { open } = useDemo();
+  /* Demo modalı ARTIK BURADAN AÇILMIYOR: ücretli paketin düğmesi
+     /abonelik sayfasına gidiyor, demo paketininki doğrudan kayıt
+     adresine. Kullanılmayan `open` bırakmak, sonradan okuyanı
+     "burada bir modal var" diye yanıltırdı. */
 
   return (
     <section id="fiyatlar" className="relative overflow-hidden py-24 sm:py-32">
@@ -205,12 +207,18 @@ export function Pricing({ market = "EU", live }: { market?: Market; live?: LiveP
                       {`Start ${TRIAL_DAYS}-day demo`}
                     </a>
                   ) : (
-                    <button
-                      onClick={open}
-                      className="glass mt-8 w-full rounded-xl px-6 py-3.5 font-semibold text-frost transition hover:border-accent/40"
+                    /* ÜCRETLİ PAKET → SİTEDEKİ /abonelik SAYFASI.
+                       Doğrudan panele atılmaz: iyzico incelemesine
+                       yalnızca bu alan adı verildi, dolayısıyla fiyat,
+                       satıcı bilgisi, ödeme yöntemleri ve sözleşmeler
+                       SİTEDE görünmek zorunda. Kayıt adımı oradaki
+                       düğmeden devam eder. */
+                    <a
+                      href="/abonelik"
+                      className="mt-8 block w-full rounded-xl bg-accent px-6 py-3.5 text-center font-semibold text-white transition hover:bg-accent-soft"
                     >
-                      Contact us
-                    </button>
+                      Subscribe
+                    </a>
                   )}
                 </div>
               </Reveal>

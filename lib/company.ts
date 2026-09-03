@@ -15,25 +15,63 @@
 
 export const company = {
   /* ── Ticari kimlik ──────────────────────────────────────────── */
-  /** Yasal ticaret unvanı — sözleşmelerde geçen tam ad. */
-  legalName: 'MotoFull Software Teknoloji Anonim Şirketi',
+  /**
+   * Satıcının yasal kimliği — sözleşmelerde geçen ad.
+   *
+   * KAYNAK: vergi levhası (Karadeniz V.D., 03.08.2026).
+   *
+   * ŞAHIS İŞLETMESİ: levhada "TİCARET ÜNVANI" alanı BOŞTUR; satıcı
+   * gerçek kişinin kendisidir. Bu yüzden burada tüzel bir unvan değil,
+   * levhadaki AD SOYAD yazar. Önceden "MotoFull Software Teknoloji
+   * Anonim Şirketi" yazıyordu — böyle bir tüzel kişi yok; iyzico
+   * incelemesinde levhayla karşılaştırıldığında tek başına ret
+   * sebebiydi.
+   *
+   * "MotoFull" markadır, satıcı değildir (bkz. brandName).
+   */
+  legalName: 'Muhammet Tarık Kılıç',
   /** Markanın günlük kullanılan adı. */
   brandName: 'MotoFull',
 
-  /** TODO: Ticaret sicil numarası */
-  tradeRegistryNo: 'TODO: Ticaret Sicil No',
-  /** TODO: MERSİS numarası (16 hane) */
-  mersisNo: 'TODO: MERSİS No',
-  /** TODO: Vergi dairesi ve vergi kimlik numarası */
-  taxOffice: 'TODO: Vergi Dairesi',
-  taxNo: 'TODO: Vergi Kimlik No',
+  /**
+   * ŞAHIS İŞLETMESİ — ticaret sicil ve MERSİS YOK.
+   *
+   * Boş dize bilinçlidir: `isFilled()` bunu "doldurulmamış" sayar ve
+   * ilgili satır hiç render edilmez. "TODO:" yazmak "eksik, sonra
+   * doldurulacak" demektir; burada doldurulacak bir şey YOKTUR ve
+   * uydurma bir numara yazmak vergi levhasıyla çelişirdi.
+   */
+  tradeRegistryNo: '',
+  mersisNo: '',
+
+  /**
+   * Vergi levhasındaki bilgiler.
+   *
+   * ⛔ T.C. KİMLİK NUMARASI BURAYA YAZILMAZ.
+   *
+   * Levhada TCKN de yer alır ama o ÖZEL NİTELİKLİ KİŞİSEL VERİDİR.
+   * Web sitesinde yayınlamak KVKK ihlalidir ve kimlik hırsızlığına
+   * kapı açar. iyzico'ya belge zaten doğrudan yükleniyor; kimlik
+   * numarasının ayrıca sitede durmasına ihtiyaç yoktur.
+   *
+   * Mesafeli satışta satıcının tanınabilir olması için ad-soyad,
+   * adres, vergi dairesi ve vergi numarası YETERLİDİR.
+   */
+  taxOffice: 'Karadeniz Vergi Dairesi',
+  taxNo: '5520594438',
 
   /* ── İletişim ───────────────────────────────────────────────── */
   address: {
-    line: 'TODO: Açık adres (cadde, no, daire)',
-    district: 'TODO: İlçe',
-    city: 'TODO: İl',
-    postalCode: 'TODO: Posta kodu',
+    /* Vergi levhasındaki iş yeri adresiyle BİREBİR. Kapı numarası
+       levhada "12/1C İç Kapı No: 4" biçiminde; kısaltılmış bir adres
+       (örn. "12/C") belgeyle karşılaştırıldığında tutmazdı. */
+    line: 'Kanuni Mah. İstiklal Cad. No: 12/1C İç Kapı No: 4',
+    district: 'Ortahisar',
+    city: 'Trabzon',
+    /* Posta kodu levhada YOK. Trabzon/Ortahisar için bir kod tahmin
+       etmek, belgeyle karşılaştırıldığında tutmayabilirdi;
+       `formattedAddress()` boş alanı atlar. */
+    postalCode: '',
     country: 'Türkiye',
   },
   /**
@@ -120,10 +158,20 @@ export function filledOr(value: string, fallback: string): string {
   return isFilled(value) ? value : fallback;
 }
 
-/** Altbilgi ve sözleşmelerde kullanılan tek satırlık adres. */
+/**
+ * Altbilgi ve sözleşmelerde kullanılan tek satırlık adres.
+ *
+ * BOŞ ALAN ATLANIR. Posta kodu girilmemişse eskiden çıktıda çift
+ * boşluk ve başıboş bir virgül kalıyordu ("…, /Trabzon"); eksik veriyi
+ * biçim hatasına çevirmek, adresi hatalı gösterir.
+ */
 export function formattedAddress(): string {
   const a = company.address;
-  return `${a.line}, ${a.postalCode} ${a.district}/${a.city}, ${a.country}`;
+  const locality = [a.postalCode, [a.district, a.city].filter(isFilled).join('/')]
+    .filter(isFilled)
+    .join(' ');
+
+  return [a.line, locality, a.country].filter(isFilled).join(', ');
 }
 
 /**

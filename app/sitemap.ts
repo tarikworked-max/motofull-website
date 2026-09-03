@@ -6,6 +6,12 @@ import { company } from '@/lib/company';
  */
 const routes: { path: string; priority: number; changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency'] }[] = [
   { path: '/', priority: 1, changeFrequency: 'weekly' },
+  /* Kurumsal kimlik sayfasi — yasal metinlerden daha sik degisir
+     (adres/unvan guncellemesi), bu yuzden 'monthly'. */
+  { path: '/hakkimizda', priority: 0.6, changeFrequency: 'monthly' },
+  /* Satın alma sayfası — fiyat değişebildiği için yasal metinlerden
+     daha sık güncellenir. */
+  { path: '/abonelik', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/privacy', priority: 0.5, changeFrequency: 'yearly' },
   { path: '/kvkk', priority: 0.5, changeFrequency: 'yearly' },
   { path: '/kullanim-sartlari', priority: 0.5, changeFrequency: 'yearly' },

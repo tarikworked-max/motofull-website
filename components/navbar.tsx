@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useDemo } from "./demo-modal";
 import { Logo } from "./ui";
 import { TRIAL_DAYS } from "@/lib/pricing";
+import { company } from "@/lib/company";
 
 const links = [
   { href: "#ozellikler", label: "Features" },
@@ -53,6 +54,16 @@ export function Navbar() {
         </ul>
 
         <div className="hidden items-center gap-3 lg:flex">
+          {/* PANEL GİRİŞİ — hesabı olan doğrudan girsin.
+              Önceden panele giden tek bağlantı altbilgideydi; dönen
+              bir kullanıcı için giriş ekranı, demo başlatmaktan daha
+              sık aranan şeydir. */}
+          <a
+            href={company.panelUrl}
+            className="rounded-xl border border-white/12 px-4 py-2.5 text-sm font-semibold text-frost transition hover:border-accent/40 hover:text-accent-soft"
+          >
+            Panel login
+          </a>
           <button
             onClick={open}
             className="rounded-xl bg-accent px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-accent-soft glow-orange"
@@ -93,6 +104,15 @@ export function Navbar() {
                 </li>
               ))}
               <li className="mt-2">
+                <a
+                  href={company.panelUrl}
+                  onClick={() => setMobileOpen(false)}
+                  className="block w-full rounded-xl border border-white/12 px-5 py-3.5 text-center font-semibold text-frost"
+                >
+                  Panel login
+                </a>
+              </li>
+              <li>
                 <button
                   onClick={() => {
                     setMobileOpen(false);

@@ -1,0 +1,12 @@
+# Resmî ödeme markası varlıkları — SATIR SONU DÖNÜŞTÜRÜLMEZ.
+#
+# Bu SVG'ler iyzico'nun kendi logo paketinden bayt bayt alındı ve
+# özetleri (sha256) docs/billing/iyzico-website-compliance.md içinde
+# kayıtlıdır. Windows'ta autocrlf açıkken git bu dosyaların LF'lerini
+# CRLF'e çevirir; dosya görsel olarak aynı kalır ama BAYTLARI DEĞİŞİR
+# ve belgedeki özet artık tutmaz.
+#
+# Marka varlığının değiştirilmediğini kanıtlayabilmek, iyzico
+# incelemesinde işe yarayan tek şeydir; o yüzden metin muamelesi
+# görmesinler.
+public/payment/*.svg -text

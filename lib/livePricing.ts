@@ -53,6 +53,19 @@ export interface LivePricing {
   byPlan: Record<string, LivePlanPrice>;
   /** Fiyat gerçekten sunucudan mı geldi — hata ayıklama ve testler için. */
   live: boolean;
+  /**
+   * Bu para biriminde ÖDEME ALINABİLİYOR MU.
+   *
+   * FİYAT GÖSTERMEK ile TAHSİL EDEBİLMEK ayrı iki gerçektir. Sunucu
+   * hangi birimlerin sözleşmeyle açıldığını biliyor; site bunu
+   * okumazsa satın alınamayan bir fiyatı ilan etmiş olur.
+   *
+   * Yedeğe düşüldüğünde `null` olur: bilmiyoruz demektir, "kapalı"
+   * değil — bilmediğimiz için satışı kapatmak da yanlış olurdu.
+   */
+  currencyAvailable: boolean | null;
+  /** 'PENDING_MERCHANT_VERIFICATION' gibi — neden kapalı olduğu. */
+  currencyReason: string | null;
 }
 
 /** Sunucuya ulaşılamadığında koddaki tablodan üretilen yanıt. */
@@ -74,7 +87,11 @@ function fallback(market: Market): LivePricing {
     };
   }
 
-  return { currency, trialDays: TRIAL_DAYS, campaign: null, byPlan, live: false };
+  return {
+    currency, trialDays: TRIAL_DAYS, campaign: null, byPlan, live: false,
+    /* Sunucuya ulasilamadi: acik mi kapali mi BILMIYORUZ. */
+    currencyAvailable: null, currencyReason: null,
+  };
 }
 
 /**
@@ -123,6 +140,12 @@ export async function getLivePricing(market: Market, country?: string | null): P
       campaign: data.campaign || null,
       byPlan,
       live: true,
+      /* Sunucu AÇIKÇA söylemediyse `null` bırakılır — `false` yazmak
+         "kapalı" demek olurdu ve bu alanı tanımayan eski bir sunucu
+         sürümü satışı sessizce kapatırdı. */
+      currencyAvailable:
+        typeof data.currencyAvailable === 'boolean' ? data.currencyAvailable : null,
+      currencyReason: data.currencyReason || null,
     };
   } catch {
     /* Zaman aşımı, ağ hatası, bozuk JSON — hepsi aynı sonuca varır:

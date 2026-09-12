@@ -58,12 +58,17 @@ export default function SubprocessorsPage() {
               'Ödeme bilgileri doğrudan iyzico tarafından işlenir; kart verisi sunucularımıza hiç ulaşmaz',
               'Türkiye',
             ],
-            [
-              <strong key="p">Paddle.com Market Ltd.</strong>,
-              'Yurt dışı satış — kayıtlı satıcı (Merchant of Record) ve KDV yönetimi',
-              'Fatura bilgileri, ödeme bilgileri; kart verisi sunucularımıza ulaşmaz',
-              'Birleşik Krallık / AB',
-            ],
+            /* PADDLE SATIRI KALDIRILDI (2026-09-07).
+
+               Alt işleyici listesi, kişisel verinin GERÇEKTE kimlere
+               aktarıldığını gösterir; KVKK/GDPR açısından bağlayıcıdır.
+               Paddle projede hiçbir yerde entegre değil (kodda tek bir
+               satır bile yok), dolayısıyla ona aktarılan hiçbir veri de
+               yok. Var olmayan bir alt işleyiciyi listelemek, listenin
+               tamamının güvenilirliğini zedeler.
+
+               Yurt dışı satışlar da iyzico üzerinden yürüyecek; ayrı
+               bir satır gerekmiyor. */
           ]}
         />
       </Section>

@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useDemo } from "./demo-modal";
 import { Logo, Reveal, SectionHeading } from "./ui";
 import { PaymentTrust } from "./payment-trust";
-import { company, filledOr, isFilled } from "@/lib/company";
+import { company, filledOr, isFilled, formattedAddress } from "@/lib/company";
 import { submitContactRequest } from "@/lib/contact";
 import { TRIAL_DAYS } from "@/lib/pricing";
 
@@ -150,6 +150,42 @@ export function Contact() {
                   </div>
                 </div>
               ))}
+              {/* ── SATICI KİMLİĞİ ────────────────────────────────
+                  iyzico'nun başvuru koşulu, ana sayfada DOĞRUDAN
+                  erişilebilir bir iletişim bölümü ister ve içeriğini
+                  tek tek sayar: ad / vergi no / adres, KEP, e-posta,
+                  telefon. Önceden burada YALNIZCA e-posta vardı;
+                  satıcının kim olduğu ana sayfada hiç yazmıyordu.
+
+                  Doldurulmamış alan HİÇ RENDER EDİLMEZ (isFilled).
+                  Eksik bir satırı göstermemek doğrudur: uydurma bir
+                  numara ya da "TODO" yazmak, eksik olmasından çok daha
+                  ağır bir kusurdur. */}
+              <div className="glass rounded-2xl p-5">
+                <p className="mb-3 text-xs uppercase tracking-widest text-mist">
+                  Seller information
+                </p>
+                <dl className="space-y-1.5 text-sm">
+                  {([
+                    ['Trade name', filledOr(company.legalName, company.brandName)],
+                    ['Tax office / no', isFilled(company.taxNo)
+                      ? [company.taxOffice, company.taxNo].filter(isFilled).join(' / ')
+                      : ''],
+                    ['Address', formattedAddress()],
+                    ['Phone', company.phone],
+                    ['KEP', company.kepAddress],
+                    ['Email', company.email],
+                  ] as [string, string][])
+                    .filter(([, v]) => isFilled(v))
+                    .map(([label, value]) => (
+                      <div key={label} className="flex flex-col gap-0.5 sm:flex-row sm:gap-3">
+                        <dt className="min-w-[128px] shrink-0 text-mist">{label}</dt>
+                        <dd className="text-frost/90">{value}</dd>
+                      </div>
+                    ))}
+                </dl>
+              </div>
+
               {/* map placeholder */}
               <div className="glass relative flex-1 overflow-hidden rounded-2xl min-h-[180px]">
                 <div className="grid-bg absolute inset-0" aria-hidden="true" />

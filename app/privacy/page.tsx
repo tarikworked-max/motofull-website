@@ -93,8 +93,11 @@ export default function PrivacyPage() {
           <a href="/alt-isleyiciler" className="text-accent hover:underline">
             subprocessors page
           </a>
+          {/* "and Paddle" kaldirildi: Paddle entegre degil, dolayisiyla
+              ona aktarilan veri de yok. Bu sayfa alt isleyici sayfasiyla
+              AYNI gercegi soylemek zorunda. */}
           : Google (Gemini AI), MongoDB Atlas, Render, Vercel, and — for payments —
-          iyzico and Paddle.
+          iyzico.
         </p>
       </Section>
 

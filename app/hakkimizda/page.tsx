@@ -43,6 +43,9 @@ export default function AboutPage() {
     { label: 'Vergi dairesi', value: company.taxOffice },
     { label: 'Vergi kimlik no', value: company.taxNo },
     { label: 'Adres', value: formattedAddress() },
+    /* Telefon: iyzico başvuru koşulunda açıkça sayılıyor. Boşsa satır
+       zaten filtrelenir — uydurma numara yazmaktansa eksik bırakmak. */
+    { label: 'Telefon', value: company.phone },
     { label: 'E-posta', value: company.email },
   ].filter((row) => isFilled(row.value));
 

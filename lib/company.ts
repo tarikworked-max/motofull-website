@@ -88,6 +88,46 @@ export const company = {
    * sağlayıcısı). Yayın öncesi avukat incelemesi şartı değişmedi.
    */
 
+  /**
+   * ⚠️ ÖNCEKİ KARAR GERİ ALINDI — TELEFON ALANI GERİ EKLENDİ.
+   *
+   * Yukarıdaki not "alanın kendisi kaldırıldı, boş bırakılmadı" diyor;
+   * gerekçesi bir ürün kararıydı (tüm iletişim e-posta üzerinden).
+   * O gerekçe artık YETMİYOR.
+   *
+   * iyzico'nun yayımlanmış başvuru koşulları ana sayfada doğrudan
+   * erişilebilir bir iletişim bölümü ister ve içeriğini tek tek sayar:
+   * ad / vergi no / adres, KEP adresi, e-posta VE TELEFON. Telefon
+   * opsiyonel değildir; eksikse başvuru bu maddeden döner.
+   *
+   * BOŞ BIRAKILDI ÇÜNKÜ UYDURULAMAZ. Var olmayan bir numara yazmak,
+   * eksik numaradan çok daha ağır bir kusurdur — incelemeci arar.
+   * `isFilled()` boşken ilgili satırı hiç render etmez; yani yanlış
+   * bilgi yayına çıkmaz, yalnızca madde eksik kalır.
+   *
+   * DOLDURULDU (2026-09-07, işletme sahibinden alındı).
+   */
+  phone: '+90 531 789 92 95',
+
+  /**
+   * KEP (Kayıtlı Elektronik Posta) adresi.
+   *
+   * KEP ADRESİ YOK — işletme sahibi tarafından teyit edildi
+   * (2026-09-07). Şahıs işletmeleri için KEP her durumda zorunlu
+   * değildir; bu boşluk bir EKSİK DEĞİL, DOĞRULANMIŞ BİR GERÇEKTİR.
+   *
+   * Bu yüzden burası "sonra doldurulacak" bir alan olarak
+   * bırakılmadı: `isFilled()` boş gördüğü için KEP satırı hiçbir
+   * yerde render edilmez. Uydurma bir KEP adresi yazmak tebligat
+   * hukuku açısından ciddi bir hata olurdu.
+   *
+   * iyzico başvuru koşullarında KEP sayılıyor; incelemede sorulursa
+   * "şahıs işletmesi, KEP adresi bulunmuyor" yanıtı verilmelidir.
+   * KEP alınırsa buraya yazılması yeterlidir — arayüz kendiliğinden
+   * göstermeye başlar.
+   */
+  kepAddress: '',
+
   /** Genel iletişim adresi. */
   email: 'info@motofull.com.tr',
   /**

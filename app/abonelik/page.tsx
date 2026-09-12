@@ -158,6 +158,35 @@ export default async function AbonelikPage() {
               <strong className="text-frost">{TRIAL_DAYS} gün ücretsiz deneme</strong>{' '}
               kullanabilirsiniz — deneme için kart bilgisi istenmez.
             </p>
+
+            {/* ── BU BİRİMDE ÖDEME AÇIK MI ──────────────────────────
+                FİYAT GÖSTERMEK ile TAHSİL EDEBİLMEK ayrı iki gerçek.
+                Sunucu hangi para birimlerinin sözleşmeyle açıldığını
+                biliyor; sayfa bunu okumazsa ziyaretçi satın alamayacağı
+                bir fiyatı görür, hesap açar ve ödeme adımında duvara
+                toslar. Kapalıysa bunu ÖNCEDEN söylemek dürüst olandır.
+
+                `null` = sunucuya ulaşılamadı, yani BİLMİYORUZ —
+                bilmediğimiz için satışı kapatmak da yanlış olurdu. */}
+            {live.currencyAvailable === false && (
+              <div
+                className="mt-4 rounded-xl p-4"
+                style={{ background: 'rgba(249,115,22,0.07)', border: '1px solid rgba(249,115,22,0.22)' }}
+              >
+                <p className="text-sm font-semibold text-accent">
+                  Bu bölgede online ödeme henüz açılmadı
+                </p>
+                <p className="mt-1 text-xs leading-relaxed text-mist">
+                  {currency} ile online tahsilat için sağlayıcı onayı sürüyor.
+                  Bu süre içinde {TRIAL_DAYS} günlük ücretsiz denemeyi
+                  kullanabilir, abonelik için{' '}
+                  <a href={`mailto:${company.email}`} className="text-accent hover:underline">
+                    {company.email}
+                  </a>{' '}
+                  adresinden bize yazabilirsiniz.
+                </p>
+              </div>
+            )}
           </div>
         </section>
 
@@ -196,11 +225,41 @@ export default async function AbonelikPage() {
             ))}
           </ol>
 
+          {/*
+            TÜRKİYE'DEN GELEN ZİYARETÇİYE DÜRÜST UYARI.
+
+            Çevrimiçi tahsilat şu an yalnızca yurt dışı (EUR/USD)
+            kartlarına açık; TL tahsilatı henüz devrede değil
+            (backend: IYZICO_ENABLED_CURRENCIES). Bu uyarı olmasaydı
+            ziyaretçi ₺ fiyatı görüp "ödemeye geç" diyecek ve panelde
+            kapalı bir ödeme adımına çarpacaktı — parasının çekilmediği
+            ama nedenini anlamadığı bir çıkmaz.
+
+            Deneme hesabı ücretsizdir ve bundan ETKİLENMEZ; bu yüzden
+            buton kaldırılmadı, yalnızca beklenti düzeltildi.
+          */}
+          {market === 'TR' && (
+            <div className="mt-6 rounded-xl border border-amber-400/30 bg-amber-400/10 p-4">
+              <p className="text-sm font-semibold text-amber-200">
+                Türk Lirası ile çevrimiçi ödeme henüz açık değil
+              </p>
+              <p className="mt-1 text-sm leading-relaxed text-frost/85">
+                Şu anda çevrimiçi tahsilat yalnızca yurt dışı kartlarıyla
+                (EUR/USD) yapılabiliyor. Deneme hesabı açmak ücretsizdir ve
+                bundan etkilenmez. TL ile abonelik için{' '}
+                <a href={`mailto:${company.email}`} className="text-accent hover:underline">
+                  {company.email}
+                </a>{' '}
+                adresinden bize yazın.
+              </p>
+            </div>
+          )}
+
           <a
             href={`${company.panelUrl}/demo-kayit?next=/subscription`}
             className="mt-6 block w-full rounded-xl bg-accent px-6 py-4 text-center font-semibold text-white transition hover:bg-accent-soft"
           >
-            Hesap oluştur ve ödemeye geç
+            {market === 'TR' ? 'Ücretsiz deneme hesabı oluştur' : 'Hesap oluştur ve ödemeye geç'}
           </a>
           <p className="mt-3 text-center text-xs text-mist">
             Hesabınız var mı?{' '}

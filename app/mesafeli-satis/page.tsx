@@ -21,18 +21,39 @@ export default function DistanceSalesPage() {
           rows={[
             ['Unvan', company.legalName],
             ['Adres', formattedAddress()],
-            // Telefon satırı kaldırıldı: satıcı iletişimi e-posta
-            // üzerinden yürüyor (bkz. lib/company.ts).
+            /* TELEFON GERİ EKLENDİ. Daha önce "satıcı iletişimi e-posta
+               üzerinden yürüyor" gerekçesiyle çıkarılmıştı; iyzico'nun
+               başvuru koşulu telefonu açıkça sayıyor ve ön
+               bilgilendirmede satıcıya ulaşılabilir bir numara
+               bulunması beklenir. Boşsa satır render EDİLMEZ. */
+            ['Telefon', company.phone],
             ['E-posta', company.email],
             ['MERSİS No', company.mersisNo],
             ['Ticaret Sicil No', company.tradeRegistryNo],
             ['Vergi Dairesi / No', `${company.taxOffice} / ${company.taxNo}`],
           ]}
         />
+        {/* PADDLE İDDİASI KALDIRILDI (2026-09-07).
+
+            Burada "yurt dışı satışlarda kayıtlı satıcı (Merchant of
+            Record) Paddle.com Market Ltd.'dir, faturanız Paddle
+            tarafından düzenlenir" yazıyordu. BU DOĞRU DEĞİLDİ:
+            Paddle projede hiçbir yerde entegre değil — ne backend, ne
+            panel, ne mobil, ne ortam değişkeni. Tüketiciye kiminle
+            sözleşme yaptığı konusunda yanlış bilgi veriliyordu.
+
+            Ayrıca iyzico başvurusuyla doğrudan çelişiyordu: başvuru
+            yurt dışı EUR/USD tahsilatı için yapılıyor, sayfa ise aynı
+            satışların başka bir şirket üzerinden yürüdüğünü söylüyordu.
+
+            ⚠️ VERGİ TARAFI AYRI BİR KARAR: Paddle'ın çözdüğü şey AB
+            KDV/OSS yükümlülüğüydü. Doğrudan satışta bu yükümlülük
+            satıcıya kalır ve mali müşavirle netleştirilmelidir. Bu
+            metin yalnızca GERÇEĞİ yazar; vergi kararını vermez. */}
         <p className="text-sm text-mist">
-          Yurt dışı satışlarda kayıtlı satıcı (Merchant of Record) sıfatıyla
-          Paddle.com Market Ltd. hareket eder; bu durumda faturanız Paddle
-          tarafından düzenlenir ve ilgili ülke tüketici mevzuatı uygulanır.
+          Satıcı, yurt içi ve yurt dışı tüm satışlarda yukarıda bilgileri
+          verilen {company.legalName}&apos;tır. Ödemeler, lisanslı ödeme
+          kuruluşu iyzico altyapısı üzerinden tahsil edilir.
         </p>
       </Section>
 
@@ -75,8 +96,7 @@ export default function DistanceSalesPage() {
         <p>
           Ödeme, kredi/banka kartı ile yapılır. Kart bilgileri{' '}
           <strong>satıcının sunucularına hiçbir zaman ulaşmaz</strong>; işlem
-          doğrudan lisanslı ödeme kuruluşu (Türkiye içi: iyzico, yurt dışı:
-          Paddle) altyapısında gerçekleşir.
+          doğrudan lisanslı ödeme kuruluşu iyzico altyapısında gerçekleşir.
         </p>
       </Section>
 

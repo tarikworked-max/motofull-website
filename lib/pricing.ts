@@ -53,28 +53,54 @@ export type Market = 'EU' | 'US' | 'TR';
 export const MARKET_CURRENCY: Record<Market, Currency> = { EU: 'EUR', US: 'USD', TR: 'TRY' };
 
 /**
- * Amerika pazari sayilan ulkeler (ISO 3166-1 alpha-2).
- * backend/src/utils/pricing.js icindeki liste ile AYNI olmalidir.
+ * Avrupa pazari sayilan ulkeler (ISO 3166-1 alpha-2).
+ * backend/src/utils/pricing.js icindeki EU_MARKET_COUNTRIES ile AYNI olmalidir.
+ *
+ * COGRAFI Avrupa — Euro Bolgesi DEGIL. Norvec, Isvicre ve Birlesik
+ * Krallik kendi para birimini kullanir ama MotoFull'un Avrupa fiyat
+ * noktasiyla satilir; kartin kendi birimine donusumu bankasi yapar.
+ *
+ * TURKIYE BU LISTEDE YOKTUR: kendi pazari ve kendi para birimi var.
+ * Listede OLMAYAN her ulke USD'ye duser (ROW kurali).
  */
-const US_MARKET_COUNTRIES = new Set([
-  'US', 'CA', 'MX',
-  'AR', 'BO', 'BR', 'CL', 'CO', 'CR', 'CU', 'DO', 'EC', 'GT', 'HN',
-  'HT', 'JM', 'NI', 'PA', 'PE', 'PR', 'PY', 'SV', 'UY', 'VE',
+const EU_MARKET_COUNTRIES = new Set([
+  // AB uyeleri
+  'AT', 'BE', 'BG', 'CY', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI', 'FR',
+  'GR', 'HR', 'HU', 'IE', 'IT', 'LT', 'LU', 'LV', 'MT', 'NL', 'PL',
+  'PT', 'RO', 'SE', 'SI', 'SK',
+  // AEA / EFTA
+  'IS', 'LI', 'NO', 'CH',
+  // Birlesik Krallik ve bagli bolgeler
+  'GB', 'GG', 'IM', 'JE', 'GI',
+  // Diger Avrupa
+  'AL', 'AD', 'BA', 'BY', 'FO', 'MC', 'MD', 'ME', 'MK', 'RS', 'RU',
+  'SM', 'UA', 'VA', 'XK', 'AX',
 ]);
 
 /**
  * Ulke kodundan pazari cozer.
  *
- * Bilinmeyen ulke Avrupa'ya duser: iki fiyattan DUSUK olani. Yanlislikla
- * fazla ucret istemek, az istemekten daha kotudur.
+ * KURAL BACKEND ILE AYNI OLMAK ZORUNDA (backend: marketForCountry).
+ * Bu dosya bir sure ESKI ve TERS kurali tasidi: "Amerika listesi USD,
+ * GERISI EUR". Backend ise yeni kurala gecmisti: "Avrupa listesi EUR,
+ * GERISI USD". Ayrisma sessizdi ve parayla olculuyordu — Japonya'daki
+ * bir ziyaretci sitede 99 EUR gorup panelde 149 USD ile karsilasiyordu.
+ * Gosterilen tutar ile tahsil edilen tutarin ayrismasi yalnizca hata
+ * degil, tuketici hukuku sorunudur.
+ *
+ * Sira onemlidir: once Turkiye, sonra Avrupa listesi, kalan HER SEY
+ * (ABD dahil) USD pazaridir — ABD'yi ayrica listelemek iki liste
+ * tutmak olurdu ve biri guncellenip digeri unutulurdu.
+ *
+ * Cografi bilgi HIC yoksa Avrupa'ya duser: "bilinmeyen" ile "dunyanin
+ * kalani" ayni sey degildir; iki fiyattan DUSUK olani gostermek
+ * yanlislikla fazla ucret istemekten iyidir.
  */
 export function marketFromCountry(country?: string | null): Market {
   if (!country || country.length !== 2) return 'EU';
   const code = country.toUpperCase();
-  /* Turkiye ana pazar ve kendi para birimiyle faturalanir; ulke
-     listesinde ayrica yer almasina gerek yok, tek koddur. */
   if (code === 'TR') return 'TR';
-  return US_MARKET_COUNTRIES.has(code) ? 'US' : 'EU';
+  return EU_MARKET_COUNTRIES.has(code) ? 'EU' : 'US';
 }
 
 export const PLANS: Plan[] = [

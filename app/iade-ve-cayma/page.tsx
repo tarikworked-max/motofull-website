@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import LegalPage, { Section } from '@/components/legal-layout';
 import { company } from '@/lib/company';
+import { TRIAL_DAYS } from '@/lib/pricing';
 
 export const metadata: Metadata = {
   alternates: { canonical: '/iade-ve-cayma' },
@@ -84,10 +85,14 @@ export default function RefundPage() {
         </p>
       </Section>
 
+      {/* SÜRE SABİT YAZILMAZ: burada "14 gün" yazıyordu, gerçek deneme
+          ise 7 gündü (lib/pricing.ts TRIAL_DAYS ve backend demoPlan.js
+          ikisi de 7). Yasal bir metinde yanlış süre, tüketiciye verilmiş
+          yanlış bilgidir. Tek kaynaktan okunuyor ki bir daha ayrışmasın. */}
       <Section n={6} title="Ücretsiz deneme">
         <p>
-          14 günlük deneme için kart bilgisi istemiyoruz; dolayısıyla deneme
-          sonunda herhangi bir tahsilat yapılmaz ve iade konusu doğmaz.
+          {TRIAL_DAYS} günlük deneme için kart bilgisi istemiyoruz; dolayısıyla
+          deneme sonunda herhangi bir tahsilat yapılmaz ve iade konusu doğmaz.
         </p>
       </Section>
     </LegalPage>

@@ -17,7 +17,6 @@
  * uydurma referans, "1000+ atolye bize guveniyor" turu ifade.
  */
 
-import { motion } from "framer-motion";
 import {
   BadgeCheck,
   Database,
@@ -26,23 +25,15 @@ import {
   Globe2,
   GraduationCap,
   Lock,
-  MessageSquareOff,
-  Scale,
   ServerCog,
   ShieldCheck,
   Smile,
 } from "lucide-react";
-import { company, isFilled } from "@/lib/company";
+import { company } from "@/lib/company";
 import { Reveal, SectionHeading } from "./ui";
 
 /* Uydurulamayacak, dogrulanabilir gercekler. */
 const facts = [
-  {
-    icon: Scale,
-    label: "Legal entity",
-    value: company.legalName,
-    note: "A registered company, not an anonymous landing page.",
-  },
   {
     icon: Globe2,
     label: "Where the product lives",
@@ -123,32 +114,7 @@ const changes = [
 ];
 
 /* Ne SOYLEMEDIGIMIZ — iddiayi daraltmak, en guclu guven sinyalidir. */
-/* NOT — "Musteri yorumlarini biz uydurmuyoruz" maddesi KALDIRILDI.
-   Kullanici iki kez bu maddeyi istemedi: sahte yorumu yoklamak, olmayan
-   bir suclamaya savunma yapmak gibi okunuyordu ve dikkati tam da
-   dusundurmemesi gereken seye cekiyordu.
-   TAAHHUT DEGISMEDI: yukaridaki uc kart urunun kendi sesiyle yazilmis
-   iddialardir, uydurma kisilerin agzindan alinti DEGILDIR. Buraya
-   uydurma musteri yorumu EKLENMEZ; gercek bir atolye adiyla izin
-   verdiginde alinti eklenebilir. */
-const honesty = [
-  {
-    no: "We do not quote success percentages or time savings.",
-    yes: "You will not find a “saves 40% of admin time” claim anywhere on this site, because nobody measured it.",
-  },
-  {
-    no: "The AI assistant does not decide repairs.",
-    yes: "It suggests where to look first. The technician decides — and that is written on the screen too.",
-  },
-  {
-    no: "We do not ask for a card to start.",
-    yes: "The demo runs without payment details, so there is nothing to cancel if you walk away.",
-  },
-];
-
 export function Trust() {
-  const showLegalName = isFilled(company.legalName);
-
   return (
     <section id="guven" className="relative overflow-hidden py-24 sm:py-32">
       <div className="aurora aurora-slow left-[-10%] top-1/4 h-[420px] w-[520px] bg-electric/10" aria-hidden="true" />
@@ -166,7 +132,7 @@ export function Trust() {
         />
 
         {/* Dogrulanabilir gercekler seridi */}
-        <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {facts.map((f, i) => (
             <Reveal key={f.label} delay={i * 0.07}>
               <div className="glass card-hover sheen h-full rounded-2xl p-6">
@@ -175,7 +141,7 @@ export function Trust() {
                 </span>
                 <p className="text-[11px] font-semibold uppercase tracking-widest text-mist">{f.label}</p>
                 <p className="mt-1.5 break-words font-display text-base font-bold leading-snug text-frost">
-                  {f.label === "Legal entity" && !showLegalName ? "Registered company" : f.value}
+                  {f.value}
                 </p>
                 <p className="mt-2 text-sm leading-relaxed text-mist">{f.note}</p>
               </div>
@@ -204,42 +170,6 @@ export function Trust() {
           ))}
         </div>
 
-        {/* Durustluk sozlesmesi — yapmadiklarimiz / karsiligi */}
-        <Reveal>
-          <div className="mt-12 overflow-hidden rounded-3xl border border-accent/25 bg-accent/[0.05]">
-            <div className="flex items-center gap-3 border-b border-accent/20 px-6 py-5 sm:px-8">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent/15 text-accent">
-                <MessageSquareOff className="h-5 w-5" />
-              </span>
-              <div>
-                <h3 className="font-display text-lg font-bold text-frost">What you will not find on this site</h3>
-                <p className="text-sm text-mist">
-                  The claims we refuse to make are the reason you can trust the ones we do.
-                </p>
-              </div>
-            </div>
-
-            <div className="grid gap-px bg-white/8 sm:grid-cols-2">
-              {honesty.map((h, i) => (
-                <motion.div
-                  key={h.no}
-                  initial={{ opacity: 0, y: 14 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-60px" }}
-                  transition={{ delay: i * 0.06, duration: 0.5 }}
-                  /* Madde sayisi TEK oldugunda (su an 3) iki sutunlu
-                     gridde son hucre bos kalir ve gap'in acik arka plani
-                     bosluk olarak gorunur. Son karti tam genislige
-                     yayarak bu bosluk kapatilir. */
-                  className="bg-ink/60 p-6 sm:p-7 sm:last:col-span-2"
-                >
-                  <p className="font-display text-[15px] font-semibold leading-snug text-frost">{h.no}</p>
-                  <p className="mt-2.5 text-sm leading-relaxed text-mist">{h.yes}</p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </Reveal>
 
         {/* Guvenlik */}
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

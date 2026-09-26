@@ -158,7 +158,8 @@ export const company = {
   social: {
     x: '',
     linkedin: '',
-    instagram: '',
+    instagram: 'https://www.instagram.com/motofull.official/',
+    facebook: 'https://www.facebook.com/profile.php?id=1298157223382721',
     youtube: '',
   } as Record<string, string>,
 

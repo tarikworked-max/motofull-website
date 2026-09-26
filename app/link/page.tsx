@@ -61,6 +61,10 @@ export default function LinkInBioPage() {
           </a>
         ))}
       </div>
+      <div className="flex gap-3 mt-8">
+        <a href="https://www.instagram.com/motofull.official/" className="rounded-xl border border-white/15 bg-card px-5 py-2.5 text-sm font-semibold hover:border-accent/50">Instagram</a>
+        <a href="https://www.facebook.com/profile.php?id=1298157223382721" className="rounded-xl border border-white/15 bg-card px-5 py-2.5 text-sm font-semibold hover:border-accent/50">Facebook</a>
+      </div>
       <p className="text-mist text-xs mt-12">MotoFull &middot; www.motofull.com.tr</p>
     </main>
   );

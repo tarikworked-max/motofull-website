@@ -259,24 +259,23 @@ export function Footer() {
               records, service history and parts in one place.
             </p>
             <div className="mt-6 flex gap-3">
-              {/* Yalnızca adresi girilmiş hesaplar gösterilir */}
+              {/* Yalnızca adresi girilmiş hesaplar gösterilir (LinkedIn bilerek yok) */}
               {([
-                ["X", company.social.x],
-                ["in", company.social.linkedin],
-                ["ig", company.social.instagram],
-                ["yt", company.social.youtube],
+                ["Instagram", company.social.instagram, <svg key="ig" viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" /></svg>],
+                ["Facebook", company.social.facebook, <svg key="fb" viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21h3.1z" /></svg>],
               ] as const)
                 .filter(([, href]) => !!href)
-                .map(([s, href]) => (
+                .map(([label, href, icon]) => (
                 <a
-                  key={s}
+                  key={label}
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={`Sosyal medya: ${s}`}
-                  className="glass flex h-10 w-10 items-center justify-center rounded-xl text-sm font-bold text-mist transition hover:border-accent/40 hover:text-accent"
+                  aria-label={`MotoFull on ${label}`}
+                  className="glass flex h-10 items-center gap-2 rounded-xl px-4 text-sm font-semibold text-mist transition hover:border-accent/40 hover:text-accent"
                 >
-                  {s}
+                  {icon}
+                  {label}
                 </a>
               ))}
             </div>

@@ -27,7 +27,7 @@ import { company, isFilled, formattedAddress } from '@/lib/company';
  */
 
 export const metadata: Metadata = {
-  alternates: { canonical: '/hakkimizda' },
+  alternates: { canonical: '/hakkimizda', languages: { en: '/about' } },
   title: 'Hakkımızda',
   description:
     'MotoFull’u kimin geliştirdiği, hangi işi çözdüğü ve şirkete nasıl ulaşacağınız.',
@@ -51,6 +51,7 @@ export default function AboutPage() {
 
   return (
     <LegalPage
+      altHref="/about"
       title="Hakkımızda"
       subtitle="MotoFull, motosiklet servisleri için geliştirilen bir servis yönetim yazılımıdır."
     >

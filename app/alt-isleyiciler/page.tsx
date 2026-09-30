@@ -3,7 +3,7 @@ import LegalPage, { Section, Table } from '@/components/legal-layout';
 import { company } from '@/lib/company';
 
 export const metadata: Metadata = {
-  alternates: { canonical: '/alt-isleyiciler' },
+  alternates: { canonical: '/alt-isleyiciler', languages: { en: '/subprocessors' } },
   title: 'Alt İşleyiciler',
   description:
     'MotoFull hizmetini sunarken kullandığımız tedarikçilerin (alt işleyicilerin) güncel listesi.',
@@ -12,6 +12,7 @@ export const metadata: Metadata = {
 export default function SubprocessorsPage() {
   return (
     <LegalPage
+      altHref="/subprocessors"
       title="Alt İşleyiciler"
       subtitle="Hizmeti sunabilmek için kullandığımız tedarikçilerin tam listesi. Bu liste değiştiğinde önceden bilgilendirme yaparız."
     >

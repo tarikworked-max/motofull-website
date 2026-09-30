@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import LegalPage, { Section, Table } from '@/components/legal-layout';
-import { company, formattedAddress } from '@/lib/company';
+import { company, formattedAddress, isFilled } from '@/lib/company';
+import { TRIAL_DAYS } from '@/lib/pricing';
 
 export const metadata: Metadata = {
-  alternates: { canonical: '/mesafeli-satis' },
+  alternates: { canonical: '/mesafeli-satis', languages: { en: '/distance-sales' } },
   title: 'Mesafeli Satış Sözleşmesi',
   description:
     'MotoFull abonelik satışlarına ilişkin, 6502 sayılı Tüketicinin Korunması Hakkında Kanun kapsamında mesafeli satış sözleşmesi.',
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
 export default function DistanceSalesPage() {
   return (
     <LegalPage
+      altHref="/distance-sales"
       title="Mesafeli Satış Sözleşmesi"
       subtitle="6502 sayılı Tüketicinin Korunması Hakkında Kanun ve Mesafeli Sözleşmeler Yönetmeliği uyarınca düzenlenmiştir."
     >
@@ -31,7 +33,7 @@ export default function DistanceSalesPage() {
             ['MERSİS No', company.mersisNo],
             ['Ticaret Sicil No', company.tradeRegistryNo],
             ['Vergi Dairesi / No', `${company.taxOffice} / ${company.taxNo}`],
-          ]}
+          ].filter(([, v]) => isFilled(v))}
         />
         {/* PADDLE İDDİASI KALDIRILDI (2026-09-07).
 
@@ -136,7 +138,7 @@ export default function DistanceSalesPage() {
 
       <Section n={8} title="Ücretsiz deneme">
         <p>
-          14 günlük deneme süresi <strong>ücretsizdir ve kart bilgisi
+          {TRIAL_DAYS} günlük deneme süresi <strong>ücretsizdir ve kart bilgisi
           istenmez</strong>. Deneme sonunda otomatik ücretlendirme yapılmaz;
           devam etmek isterseniz ayrıca satın alma yaparsınız.
         </p>

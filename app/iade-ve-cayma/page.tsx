@@ -4,7 +4,7 @@ import { company } from '@/lib/company';
 import { TRIAL_DAYS } from '@/lib/pricing';
 
 export const metadata: Metadata = {
-  alternates: { canonical: '/iade-ve-cayma' },
+  alternates: { canonical: '/iade-ve-cayma', languages: { en: '/refund-policy' } },
   title: 'İade ve Cayma Hakkı',
   description:
     'MotoFull abonelikleri için iade koşulları, cayma hakkı ve para iadesi süreci.',
@@ -13,6 +13,7 @@ export const metadata: Metadata = {
 export default function RefundPage() {
   return (
     <LegalPage
+      altHref="/refund-policy"
       title="İade ve Cayma Hakkı"
       subtitle="Kısa versiyon: ilk 14 gün içinde, sebep belirtmeden, kullanmış olsanız bile paranızı iade ediyoruz."
     >

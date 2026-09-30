@@ -13,29 +13,44 @@ export default function LegalPage({
   subtitle,
   children,
   lang = 'tr',
+  altHref,
 }: {
   title: string;
   subtitle?: string;
   children: React.ReactNode;
   /** Kök layout <html lang="en"> ilan ediyor; Türkçe metinler bunu geçersiz kılmalı. */
   lang?: 'tr' | 'en';
+  /** Aynı metnin diğer dildeki sayfası — üstte dil geçiş bağlantısı çıkar. */
+  altHref?: string;
 }) {
+  const tx = TEXT[lang];
   return (
     <main lang={lang} className="min-h-screen bg-ink text-frost">
       <div className="mx-auto max-w-3xl px-5 py-14 sm:py-20">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-1.5 text-sm text-mist hover:text-accent transition-colors"
-        >
-          ← MotoFull ana sayfa
-        </Link>
+        <div className="flex items-center justify-between gap-4">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-1.5 text-sm text-mist hover:text-accent transition-colors"
+          >
+            {tx.back}
+          </Link>
+          {altHref && (
+            <Link
+              href={altHref}
+              hrefLang={lang === 'tr' ? 'en' : 'tr'}
+              className="rounded-lg border border-white/10 px-2.5 py-1 text-xs font-semibold text-mist hover:text-accent hover:border-accent/40 transition-colors"
+            >
+              {tx.switchLabel}
+            </Link>
+          )}
+        </div>
 
         <h1 className="mt-8 font-display text-3xl sm:text-4xl font-bold text-white">{title}</h1>
         {subtitle && <p className="mt-3 text-mist leading-relaxed">{subtitle}</p>}
 
         <p className="mt-4 text-xs text-mist/70">
-          Son güncelleme:{' '}
-          {new Date(company.legalLastUpdated).toLocaleDateString('tr-TR', {
+          {tx.updated}{' '}
+          {new Date(company.legalLastUpdated).toLocaleDateString(lang === 'tr' ? 'tr-TR' : 'en-GB', {
             day: 'numeric',
             month: 'long',
             year: 'numeric',
@@ -60,7 +75,7 @@ export default function LegalPage({
 
         <footer className="mt-16 border-t border-white/10 pt-6 text-sm text-mist">
           <p>
-            Bu metinle ilgili sorularınız için:{' '}
+            {tx.questions}{' '}
             <a href={`mailto:${company.privacyEmail}`} className="text-accent hover:underline">
               {company.privacyEmail}
             </a>
@@ -70,6 +85,21 @@ export default function LegalPage({
     </main>
   );
 }
+
+const TEXT = {
+  tr: {
+    back: '← MotoFull ana sayfa',
+    switchLabel: 'English',
+    updated: 'Son güncelleme:',
+    questions: 'Bu metinle ilgili sorularınız için:',
+  },
+  en: {
+    back: '← MotoFull home',
+    switchLabel: 'Türkçe',
+    updated: 'Last updated:',
+    questions: 'Questions about this document:',
+  },
+} as const;
 
 /** Numaralı ana başlık. */
 export function Section({ n, title, children }: { n: number; title: string; children: React.ReactNode }) {

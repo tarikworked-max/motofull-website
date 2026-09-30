@@ -19,6 +19,13 @@ const routes: { path: string; priority: number; changeFrequency: MetadataRoute.S
   { path: '/iade-ve-cayma', priority: 0.4, changeFrequency: 'yearly' },
   { path: '/cerez-politikasi', priority: 0.3, changeFrequency: 'yearly' },
   { path: '/alt-isleyiciler', priority: 0.3, changeFrequency: 'yearly' },
+  /* Yasal metinlerin İngilizce karşılıkları (Privacy zaten yukarıda). */
+  { path: '/about', priority: 0.5, changeFrequency: 'monthly' },
+  { path: '/terms', priority: 0.4, changeFrequency: 'yearly' },
+  { path: '/distance-sales', priority: 0.3, changeFrequency: 'yearly' },
+  { path: '/refund-policy', priority: 0.3, changeFrequency: 'yearly' },
+  { path: '/cookie-policy', priority: 0.2, changeFrequency: 'yearly' },
+  { path: '/subprocessors', priority: 0.2, changeFrequency: 'yearly' },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

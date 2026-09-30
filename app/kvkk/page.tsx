@@ -3,7 +3,7 @@ import LegalPage, { Section, Table } from '@/components/legal-layout';
 import { company, formattedAddress } from '@/lib/company';
 
 export const metadata: Metadata = {
-  alternates: { canonical: '/kvkk' },
+  alternates: { canonical: '/kvkk', languages: { en: '/privacy' } },
   title: 'KVKK Aydınlatma Metni',
   description:
     'MotoFull olarak kişisel verilerinizi hangi amaçla işlediğimizi, kimlerle paylaştığımızı, ne kadar sakladığımızı ve haklarınızı açıklayan aydınlatma metni.',
@@ -13,6 +13,7 @@ export const metadata: Metadata = {
 export default function KvkkPage() {
   return (
     <LegalPage
+      altHref="/privacy"
       title="KVKK Aydınlatma Metni"
       subtitle="6698 sayılı Kişisel Verilerin Korunması Kanunu'nun 10. maddesi uyarınca, kişisel verilerinizi nasıl işlediğimizi açıklıyoruz."
     >

@@ -153,10 +153,10 @@ export function StorageNotice() {
           and remember your language. No advertising cookies, no social pixels,
           no third-party analytics.{" "}
           <a
-            href="/cerez-politikasi"
+            href="/cookie-policy"
             className="font-semibold text-accent-soft underline underline-offset-4 transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
           >
-            Cookie policy (Turkish)
+            Cookie policy
           </a>
           .
         </p>

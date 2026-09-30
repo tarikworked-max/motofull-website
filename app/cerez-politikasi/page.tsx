@@ -3,7 +3,7 @@ import LegalPage, { Section, Table } from '@/components/legal-layout';
 import { company } from '@/lib/company';
 
 export const metadata: Metadata = {
-  alternates: { canonical: '/cerez-politikasi' },
+  alternates: { canonical: '/cerez-politikasi', languages: { en: '/cookie-policy' } },
   title: 'Çerez Politikası',
   description:
     'MotoFull hangi çerezleri ve tarayıcı depolamasını kullanıyor, neden kullanıyor ve nasıl kapatabilirsiniz.',
@@ -12,6 +12,7 @@ export const metadata: Metadata = {
 export default function CookiePage() {
   return (
     <LegalPage
+      altHref="/cookie-policy"
       title="Çerez Politikası"
       subtitle="Kısa versiyon: reklam ve takip çerezi kullanmıyoruz. Kullandığımız az sayıdaki teknoloji aşağıda tek tek açıklanmıştır."
     >

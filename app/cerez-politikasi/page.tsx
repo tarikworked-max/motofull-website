@@ -14,13 +14,22 @@ export default function CookiePage() {
     <LegalPage
       altHref="/cookie-policy"
       title="Çerez Politikası"
-      subtitle="Kısa versiyon: reklam ve takip çerezi kullanmıyoruz. Kullandığımız az sayıdaki teknoloji aşağıda tek tek açıklanmıştır."
+      subtitle="Kısa versiyon: izin vermediğiniz sürece hiçbir reklam veya takip aracı çalışmaz. Kullandığımız az sayıdaki teknoloji aşağıda tek tek açıklanmıştır."
     >
-      <Section n={1} title="Reklam çerezi kullanmıyoruz">
+      <Section n={1} title="Reklam ölçümü yalnızca izninizle">
         <p>
-          MotoFull&apos;de üçüncü taraf reklam çerezi, sosyal medya piksel&apos;i veya
-          davranışsal reklam takibi <strong>bulunmuyor</strong>. Google Analytics
-          benzeri harici bir analitik aracı da kullanmıyoruz.
+          Bu tanıtım sitesinde üçüncü taraf reklam çerezi veya sosyal medya
+          piksel&apos;i <strong>bulunmuyor</strong>; Google Analytics benzeri harici bir
+          analitik aracı da kullanmıyoruz.
+        </p>
+        <p>
+          Panelin demo kayıt sayfası, Facebook ve Instagram reklamlarımızdan
+          hangisinin kayıt getirdiğini ölçmek için <strong>Meta Pikseli</strong>{' '}
+          (Meta Platforms Ireland Ltd.) önerir. Piksel <strong>yalnızca o sayfada
+          &ldquo;İzin ver&rdquo;e tıklarsanız yüklenir</strong>; reddederseniz Meta&apos;ya
+          hiçbir veri gitmez. Seçiminiz <code>motofull_ad_consent</code> olarak
+          saklanır; değiştirmek için panel.motofull.com.tr site verilerini
+          temizlemeniz yeterlidir. Panelin içinde piksel kullanılmaz.
         </p>
         <p>
           Ziyaret istatistiklerini kendi sunucumuzda tutuyoruz ve bunu yaparken{' '}
@@ -65,6 +74,18 @@ export default function CookiePage() {
               'Sekme kapanana kadar',
             ],
             [
+              <code key="p">motofull_ad_consent</code>,
+              'localStorage',
+              'Demo kayıt sayfasında Meta Pikseline izin verip vermediğinizi hatırlar',
+              'Siz temizleyene kadar',
+            ],
+            [
+              <code key="f">_fbp</code>,
+              'Çerez (Meta)',
+              'Reklamdan gelen kayıtları ölçmek için Meta Pikseli tarafından konur. Yalnızca “İzin ver” dediyseniz oluşur.',
+              '90 gün',
+            ],
+            [
               <code key="n">motofull_storage_notice</code>,
               'localStorage',
               'Sitenin altında çıkan depolama bildirimini kapattığınızı hatırlar; olmazsa bildirim her ziyarette yeniden çıkar.',
@@ -73,8 +94,8 @@ export default function CookiePage() {
           ]}
         />
         <p className="text-sm text-mist">
-          Bunların tamamı <strong>çerez değil</strong>, tarayıcı depolamasıdır ve
-          sunucuya kendiliğinden gönderilmez.
+          <code>_fbp</code> dışındakilerin hiçbiri <strong>çerez değil</strong>,
+          tarayıcı depolamasıdır ve sunucuya kendiliğinden gönderilmez.
         </p>
       </Section>
 

@@ -16,13 +16,22 @@ export default function CookieEnPage() {
       lang="en"
       altHref="/cerez-politikasi"
       title="Cookie Policy"
-      subtitle="Short version: we do not use advertising or tracking cookies. The few technologies we do use are explained one by one below."
+      subtitle="Short version: no advertising or tracking runs unless you allow it. The few technologies we use are explained one by one below."
     >
-      <Section n={1} title="No advertising cookies">
+      <Section n={1} title="Advertising measurement only with your permission">
         <p>
-          MotoFull has <strong>no</strong> third-party advertising cookies, social
-          media pixels or behavioural ad tracking. We also do not use external
-          analytics tools such as Google Analytics.
+          This marketing site has <strong>no</strong> third-party advertising
+          cookies or social media pixels, and we do not use external analytics
+          tools such as Google Analytics.
+        </p>
+        <p>
+          The panel&apos;s demo sign-up page offers the <strong>Meta Pixel</strong>{' '}
+          (Meta Platforms Ireland Ltd.), which tells us which of our Facebook and
+          Instagram ads led to a sign-up. It is <strong>only loaded if you click
+          &ldquo;Allow&rdquo;</strong> on that page; if you decline, nothing is sent to
+          Meta. Your choice is stored as <code>motofull_ad_consent</code>. To
+          change it, clear site data for panel.motofull.com.tr and the question
+          will appear again. Inside the panel itself no pixel is used.
         </p>
         <p>
           We keep visit statistics on our own server, and{' '}
@@ -68,6 +77,18 @@ export default function CookieEnPage() {
               'Until the tab is closed',
             ],
             [
+              <code key="p">motofull_ad_consent</code>,
+              'localStorage',
+              'Remembers whether you allowed or declined the Meta Pixel on the demo sign-up page',
+              'Until you clear it',
+            ],
+            [
+              <code key="f">_fbp</code>,
+              'Cookie (Meta)',
+              'Set by the Meta Pixel to measure ad sign-ups. Only exists if you clicked “Allow”.',
+              '90 days',
+            ],
+            [
               <code key="n">motofull_storage_notice</code>,
               'localStorage',
               'Remembers that you dismissed the storage notice at the bottom of the site; otherwise it would appear on every visit.',
@@ -76,8 +97,8 @@ export default function CookieEnPage() {
           ]}
         />
         <p className="text-sm text-mist">
-          None of these are <strong>cookies</strong>; they are browser storage and
-          are not sent to the server automatically.
+          Apart from <code>_fbp</code>, none of these are <strong>cookies</strong>;
+          they are browser storage and are not sent to the server automatically.
         </p>
       </Section>
 

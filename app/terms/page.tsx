@@ -18,16 +18,7 @@ export default function TermsEnPage() {
       title="Terms of Use"
       subtitle={`By using ${company.brandName} you accept these terms.`}
     >
-      <Section n={1} title="Parties">
-        <p>
-          This agreement is between <strong>{company.legalName}</strong>{' '}
-          (&quot;Provider&quot;), located at {formattedAddress()}, and the
-          individual or legal entity that signs up for the service
-          (&quot;Subscriber&quot;).
-        </p>
-      </Section>
-
-      <Section n={2} title="The service">
+      <Section n={1} title="The service">
         <p>
           MotoFull is cloud-based management software for motorcycle service
           workshops. It includes modules such as work orders, customer and
@@ -39,7 +30,7 @@ export default function TermsEnPage() {
         </p>
       </Section>
 
-      <Section n={3} title="Account security">
+      <Section n={2} title="Account security">
         <p>
           The Subscriber is responsible for keeping account credentials
           confidential and for all actions taken under the account. If you
@@ -51,7 +42,7 @@ export default function TermsEnPage() {
         </p>
       </Section>
 
-      <Section n={4} title="Data ownership">
+      <Section n={3} title="Data ownership">
         <p>
           <strong>All data the Subscriber enters belongs to the Subscriber.</strong>{' '}
           The Provider processes this data only to provide and support the
@@ -66,7 +57,7 @@ export default function TermsEnPage() {
         </p>
       </Section>
 
-      <Section n={5} title="Acceptable use">
+      <Section n={4} title="Acceptable use">
         <p>When using the service, the Subscriber agrees not to:</p>
         <ul className="list-disc space-y-1.5 pl-5">
           <li>use it for unlawful purposes or infringe the rights of third parties</li>
@@ -78,7 +69,7 @@ export default function TermsEnPage() {
         </ul>
       </Section>
 
-      <Section n={6} title="Notice on AI features">
+      <Section n={5} title="Notice on AI features">
         <p>
           AI-assisted diagnostics, document reading and assistant outputs are{' '}
           <strong>advisory and may be wrong</strong>. They do not replace the
@@ -92,7 +83,7 @@ export default function TermsEnPage() {
         </p>
       </Section>
 
-      <Section n={7} title="Service continuity">
+      <Section n={6} title="Service continuity">
         <p>
           Reasonable efforts are made to provide the service without
           interruption. Planned maintenance is announced in advance. No liability
@@ -101,7 +92,7 @@ export default function TermsEnPage() {
         </p>
       </Section>
 
-      <Section n={8} title="Pricing">
+      <Section n={7} title="Pricing">
         <p>
           Prices and plan scopes are published on the pricing page. If prices
           change, the Subscriber is notified at least <strong>30 days</strong> in
@@ -121,7 +112,7 @@ export default function TermsEnPage() {
         </p>
       </Section>
 
-      <Section n={9} title="Termination">
+      <Section n={8} title="Termination">
         <p>
           The Subscriber may end the subscription at any time from the panel; the
           service continues until the end of the paid period. The Provider may
@@ -130,7 +121,7 @@ export default function TermsEnPage() {
         </p>
       </Section>
 
-      <Section n={10} title="Limitation of liability">
+      <Section n={9} title="Limitation of liability">
         <p>
           The Provider&apos;s total liability is limited to the total amount paid
           by the Subscriber in the <strong>12 months</strong> before the claim
@@ -140,7 +131,7 @@ export default function TermsEnPage() {
         </p>
       </Section>
 
-      <Section n={11} title="Governing law and jurisdiction">
+      <Section n={10} title="Governing law and jurisdiction">
         <p>
           This agreement is governed by Turkish law. The courts and enforcement
           offices of {company.address.city} have jurisdiction over disputes. For
@@ -148,6 +139,15 @@ export default function TermsEnPage() {
           committees and consumer courts is reserved.
         </p>
       </Section>
+      <Section n={11} title="Parties">
+        <p>
+          This agreement is between <strong>{company.legalName}</strong>{' '}
+          (&quot;Provider&quot;), located at {formattedAddress()}, and the
+          individual or legal entity that signs up for the service
+          (&quot;Subscriber&quot;).
+        </p>
+      </Section>
+
     </LegalPage>
   );
 }

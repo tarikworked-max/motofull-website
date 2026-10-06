@@ -15,35 +15,9 @@ export default function PrivacyPage() {
       altHref="/kvkk"
       lang="en"
       title="Privacy Policy"
-      subtitle="This policy explains how we handle personal data under the EU General Data Protection Regulation (GDPR). Turkish users may also read our KVKK notice."
+      subtitle="This policy explains how we handle personal data under the EU General Data Protection Regulation (GDPR) and the UK GDPR."
     >
-      <Section n={1} title="Who we are">
-        <p>
-          <strong>{company.legalName}</strong> (&quot;{company.brandName}&quot;,
-          &quot;we&quot;) is established at {formattedAddress()}. You can reach our
-          privacy contact at{' '}
-          <a href={`mailto:${company.privacyEmail}`} className="text-accent hover:underline">
-            {company.privacyEmail}
-          </a>
-          .
-        </p>
-        {company.euRepresentative ? (
-          <p>
-            Our representative in the EU under Art. 27 GDPR is{' '}
-            <strong>{company.euRepresentative.name}</strong>,{' '}
-            {company.euRepresentative.address} ({company.euRepresentative.email}).
-          </p>
-        ) : (
-          <p className="rounded-lg border border-amber-500/30 bg-amber-500/10 p-3 text-sm text-amber-100/90">
-            ⚠️ An EU representative under Art. 27 GDPR has not been appointed yet.
-            One must be appointed before offering the service to customers in the
-            EU. Set <code className="rounded bg-black/30 px-1">euRepresentative</code>{' '}
-            in <code className="rounded bg-black/30 px-1">lib/company.ts</code>.
-          </p>
-        )}
-      </Section>
-
-      <Section n={2} title="Controller or processor?">
+      <Section n={1} title="Controller or processor?">
         <p>
           MotoFull is software sold to motorcycle repair shops. This creates two
           distinct roles, and it determines who you should contact about your data:
@@ -67,7 +41,7 @@ export default function PrivacyPage() {
         </p>
       </Section>
 
-      <Section n={3} title="What we collect and why">
+      <Section n={2} title="What we collect and why">
         <Table
           head={['Data', 'Purpose', 'Legal basis (Art. 6 GDPR)']}
           rows={[
@@ -87,7 +61,7 @@ export default function PrivacyPage() {
         </p>
       </Section>
 
-      <Section n={4} title="Who we share data with">
+      <Section n={3} title="Who we share data with">
         <p>
           We do not sell personal data and we do not share it for advertising. We
           use the processors listed on our{' '}
@@ -102,7 +76,7 @@ export default function PrivacyPage() {
         </p>
       </Section>
 
-      <Section n={5} title="International transfers">
+      <Section n={4} title="International transfers">
         <p>
           Some processors are located outside the EEA, primarily in the United
           States. Such transfers rely on the European Commission&apos;s Standard
@@ -118,7 +92,7 @@ export default function PrivacyPage() {
         </p>
       </Section>
 
-      <Section n={6} title="How long we keep data">
+      <Section n={5} title="How long we keep data">
         <Table
           head={['Data', 'Retention']}
           rows={[
@@ -132,7 +106,7 @@ export default function PrivacyPage() {
         />
       </Section>
 
-      <Section n={7} title="Your rights">
+      <Section n={6} title="Your rights">
         <p>Under the GDPR you have the right to:</p>
         <ul className="list-disc space-y-1.5 pl-5">
           <li>Access the personal data we hold about you (Art. 15)</li>
@@ -158,7 +132,7 @@ export default function PrivacyPage() {
         </p>
       </Section>
 
-      <Section n={8} title="Security">
+      <Section n={7} title="Security">
         <p>
           Data is encrypted in transit using TLS. Passwords are stored only as
           irreversible bcrypt hashes — we cannot read them. Each repair shop&apos;s
@@ -172,19 +146,38 @@ export default function PrivacyPage() {
         </p>
       </Section>
 
-      <Section n={9} title="Children">
+      <Section n={8} title="Children">
         <p>
           The service is intended for businesses and adult motorcycle owners. We do
           not knowingly collect data from children under 16.
         </p>
       </Section>
 
-      <Section n={10} title="Changes">
+      <Section n={9} title="Changes">
         <p>
           We may update this policy. Material changes will be announced in the
           application before they take effect.
         </p>
       </Section>
+      <Section n={10} title="Who we are">
+        <p>
+          <strong>{company.legalName}</strong> (&quot;{company.brandName}&quot;,
+          &quot;we&quot;) is established at {formattedAddress()}. You can reach our
+          privacy contact at{' '}
+          <a href={`mailto:${company.privacyEmail}`} className="text-accent hover:underline">
+            {company.privacyEmail}
+          </a>
+          .
+        </p>
+        {company.euRepresentative && (
+          <p>
+            Our representative in the EU under Art. 27 GDPR is{' '}
+            <strong>{company.euRepresentative.name}</strong>,{' '}
+            {company.euRepresentative.address} ({company.euRepresentative.email}).
+          </p>
+        )}
+      </Section>
+
     </LegalPage>
   );
 }

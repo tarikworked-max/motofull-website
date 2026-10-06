@@ -34,7 +34,9 @@ export default function LegalPage({
           >
             {tx.back}
           </Link>
-          {altHref && (
+          {/* Ingilizce sayfada Turkce dugmesi gosterilmez (6 Eki 2026, Tarik): UK/IE
+              ziyaretci hicbir yerde Turkce gormemeli. Turkce sayfa Ingilizce'ye gecebilir. */}
+          {altHref && lang === 'tr' && (
             <Link
               href={altHref}
               hrefLang={lang === 'tr' ? 'en' : 'tr'}

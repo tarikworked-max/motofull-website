@@ -10,7 +10,7 @@
  * Türkiye → TRY, ABD/Kanada → USD, diğer → EUR.
  */
 
-export type Currency = 'TRY' | 'EUR' | 'USD';
+export type Currency = 'TRY' | 'EUR' | 'USD' | 'GBP';
 export type Period = 'monthly' | 'yearly';
 
 export interface PlanPrice {
@@ -35,6 +35,7 @@ export const CURRENCY_META: Record<Currency, { symbol: string; locale: string; s
   TRY: { symbol: '₺', locale: 'tr-TR' },
   EUR: { symbol: '€', locale: 'de-DE' },
   USD: { symbol: '$', locale: 'en-US' },
+  GBP: { symbol: '£', locale: 'en-GB' },
 };
 
 
@@ -47,10 +48,13 @@ export const CURRENCY_META: Record<Currency, { symbol: string; locale: string; s
 export const HIDE_PUBLIC_PRICES = false;
 
 /** Pazar — fiyat bu ikisine gore degisir. */
-export type Market = 'EU' | 'US' | 'TR';
+export type Market = 'EU' | 'US' | 'TR' | 'UK';
 
 /** Pazar -> para birimi. backend/src/utils/pricing.js ile AYNI olmalidir. */
-export const MARKET_CURRENCY: Record<Market, Currency> = { EU: 'EUR', US: 'USD', TR: 'TRY' };
+export const MARKET_CURRENCY: Record<Market, Currency> = { EU: 'EUR', US: 'USD', TR: 'TRY', UK: 'GBP' };
+
+/** Birlesik Krallik ve bagli bolgeler — GBP. backend UK_MARKET_COUNTRIES ile AYNI. Irlanda EUR kalir. */
+const UK_MARKET_COUNTRIES = new Set(['GB', 'GG', 'IM', 'JE', 'GI']);
 
 /**
  * Avrupa pazari sayilan ulkeler (ISO 3166-1 alpha-2).
@@ -70,8 +74,7 @@ const EU_MARKET_COUNTRIES = new Set([
   'PT', 'RO', 'SE', 'SI', 'SK',
   // AEA / EFTA
   'IS', 'LI', 'NO', 'CH',
-  // Birlesik Krallik ve bagli bolgeler
-  'GB', 'GG', 'IM', 'JE', 'GI',
+  // Birlesik Krallik ve bagli bolgeler: kendi pazari (UK_MARKET_COUNTRIES)
   // Diger Avrupa
   'AL', 'AD', 'BA', 'BY', 'FO', 'MC', 'MD', 'ME', 'MK', 'RS', 'RU',
   'SM', 'UA', 'VA', 'XK', 'AX',
@@ -100,6 +103,7 @@ export function marketFromCountry(country?: string | null): Market {
   if (!country || country.length !== 2) return 'EU';
   const code = country.toUpperCase();
   if (code === 'TR') return 'TR';
+  if (UK_MARKET_COUNTRIES.has(code)) return 'UK';
   return EU_MARKET_COUNTRIES.has(code) ? 'EU' : 'US';
 }
 
@@ -147,8 +151,10 @@ export const PLANS: Plan[] = [
      */
     price: {
       TRY: { monthly: 3499, yearly: 34990 },
-      EUR: { monthly: 99, yearly: 990 },
+      // 6 Eki 2026: USD 149 sabit; EUR/GBP yuvarlanmis kur karsiligi (backend ile AYNI)
+      EUR: { monthly: 129, yearly: 1290 },
       USD: { monthly: 149, yearly: 1490 },
+      GBP: { monthly: 109, yearly: 1090 },
     },
     features: [
       'Unlimited customers, work orders and users',

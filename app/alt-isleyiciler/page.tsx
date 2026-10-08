@@ -59,6 +59,18 @@ export default function SubprocessorsPage() {
               'Ödeme bilgileri doğrudan iyzico tarafından işlenir; kart verisi sunucularımıza hiç ulaşmaz',
               'Türkiye',
             ],
+            [
+              <strong key="b">Sendinblue SAS (Brevo)</strong>,
+              'E-posta gönderimi: doğrulama ve şifre sıfırlama kodları, demo ve hesap bildirimleri',
+              'Alıcı e-posta adresi, ad ve e-posta içeriği',
+              'AB (Fransa)',
+            ],
+            [
+              <strong key="e">650 Industries, Inc. (Expo)</strong>,
+              'Mobil uygulama anlık bildirim iletimi',
+              'Cihaz bildirim jetonu ve bildirim metni',
+              'ABD',
+            ],
             /* PADDLE SATIRI KALDIRILDI (2026-09-07).
 
                Alt işleyici listesi, kişisel verinin GERÇEKTE kimlere

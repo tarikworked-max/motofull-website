@@ -119,6 +119,8 @@ export default function KvkkPage() {
             ['MongoDB Atlas', 'Veritabanı', 'AB / yurt dışı'],
             ['Render', 'Uygulama sunucusu', 'Yurt dışı'],
             ['Vercel', 'Web arayüzü dağıtımı', 'Yurt dışı'],
+            ['Brevo (Sendinblue)', 'E-posta gönderimi (doğrulama, şifre sıfırlama, hesap bildirimleri)', 'AB (Fransa)'],
+            ['Expo', 'Mobil uygulama anlık bildirimleri', 'Yurt dışı'],
           ]}
         />
         <p>

@@ -71,7 +71,7 @@ export default function PrivacyPage() {
           {/* "and Paddle" kaldirildi: Paddle entegre degil, dolayisiyla
               ona aktarilan veri de yok. Bu sayfa alt isleyici sayfasiyla
               AYNI gercegi soylemek zorunda. */}
-          : Google (Gemini AI), MongoDB Atlas, Render, Vercel, and — for payments —
+          : Google (Gemini AI), MongoDB Atlas, Render, Vercel, Brevo (email delivery), Expo (mobile push notifications), and — for payments —
           iyzico.
         </p>
       </Section>

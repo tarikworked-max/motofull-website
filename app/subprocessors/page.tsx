@@ -60,6 +60,18 @@ export default function SubprocessorsEnPage() {
               'Payment details are processed directly by iyzico; card data never reaches our servers',
               'Türkiye',
             ],
+            [
+              <strong key="b">Sendinblue SAS (Brevo)</strong>,
+              'Email delivery: verification and password-reset codes, trial and account notifications',
+              'Recipient email address, name and message content',
+              'EU (France)',
+            ],
+            [
+              <strong key="e">650 Industries, Inc. (Expo)</strong>,
+              'Push notification delivery for the mobile app',
+              'Device push token and notification text',
+              'USA',
+            ],
           ]}
         />
       </Section>

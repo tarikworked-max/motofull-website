@@ -20,11 +20,16 @@ export default function KvkkPage() {
       <Section n={1} title="Veri sorumlusu kimdir?">
         <p>
           Bu metin kapsamında veri sorumlusu <strong>{company.legalName}</strong>{' '}
-          (&quot;{company.brandName}&quot;) olup, adresi {formattedAddress()}, MERSİS numarası{' '}
-          {company.mersisNo}&apos;dur.
+          (&quot;{company.brandName}&quot;) olup, adresi {formattedAddress()},{' '}
+          {/* Şahıs işletmesinin MERSİS numarası yok; boş alan "MERSİS
+              numarası 'dur." diye canlıda görünüyordu. Kimlik vergi
+              kaydıyla verilir. */}
+          {company.mersisNo
+            ? `MERSİS numarası ${company.mersisNo}'dur.`
+            : `vergi dairesi ve numarası ${company.taxOffice} / ${company.taxNo}'dur.`}
           {company.verbisNo
             ? ` VERBİS kayıt numarası: ${company.verbisNo}.`
-            : ' Şirketimiz, KVKK kapsamındaki istisna kriterleri sebebiyle VERBİS kaydına tabi değildir.'}
+            : ' İşletmemiz, KVKK kapsamındaki istisna kriterleri sebebiyle VERBİS kaydına tabi değildir.'}
         </p>
       </Section>
 

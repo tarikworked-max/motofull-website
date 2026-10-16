@@ -1,5 +1,5 @@
 # Yayınlanmış/silinmiş sosyal medya videoları Vercel deploy boyutunu şişiriyor (10 GB ücretsiz sınır).
-# Dosyalar depoda kalır, yalnız deploy edilmez. Üretici: social/state kuyruğundan, 2026-10-17.
+# Dosyalar depoda kalır, yalnız deploy edilmez. Üretici: social/ops/vercelignore-sync.mjs
 # Gelecekte yayınlanacak içeriklerin medyası ve tüm görseller hariç tutulmaz.
 /public/social/2026-W39/02-same-fault-third-time.mp4
 /public/social/2026-W39/05-panel-tour.mp4

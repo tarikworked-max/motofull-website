@@ -118,6 +118,14 @@ export default function PrivacyPage() {
           <li>Withdraw consent at any time, without affecting prior processing (Art. 7(3))</li>
         </ul>
         <p>
+          <strong>Workshop (service) accounts:</strong> in the MotoFull mobile app go to{' '}
+          <strong>More → Account &amp; security → Delete account</strong>, or use the same
+          option in the web panel. Deleting removes the account and all of the
+          workshop&apos;s data (customers, vehicles, service records, inventory,
+          appointments). If you cannot sign in, write to the address below and we
+          will delete the account after verifying ownership.
+        </p>
+        <p>
           You can delete your account and data yourself from{' '}
           <strong>Profile → Delete account</strong> in the customer portal. For
           anything else, write to{' '}

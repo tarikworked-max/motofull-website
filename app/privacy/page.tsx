@@ -59,6 +59,16 @@ export default function PrivacyPage() {
           GDPR). Identity-document scanning was deliberately removed from the
           product because the risk it carried was disproportionate to its benefit.
         </p>
+        <p>
+          <strong>Emails:</strong> we use your email address for account and service
+          messages and, during the free trial, a short series of product tips. Every
+          tip email has an unsubscribe link.
+        </p>
+        <p>
+          <strong>Voice dictation:</strong> in the mobile app, dictation uses your
+          phone&apos;s built-in speech recognition service (Apple or Google). MotoFull
+          never receives the audio, only the resulting text.
+        </p>
       </Section>
 
       <Section n={3} title="Who we share data with">
@@ -96,8 +106,9 @@ export default function PrivacyPage() {
         <Table
           head={['Data', 'Retention']}
           rows={[
-            ['Service records and invoices', '10 years (statutory bookkeeping obligation)'],
-            ['Account data', 'While the account is active, plus 6 months'],
+            ['Workshop data (customers, vehicles, service records, invoices, photos)', 'Until the workshop deletes it or deletes its account, then permanently deleted. Workshops that must keep invoices for tax purposes should export them before deleting.'],
+            ['MotoFull subscription billing records', '10 years (statutory bookkeeping obligation)'],
+            ['Account data', 'While the account is open; deleted immediately when the account is deleted'],
             ['AI chat history', '1 year, deleted automatically'],
             ['Ride records', 'Until you delete them or close your account'],
             ['Website visit records', '180 days, deleted automatically'],

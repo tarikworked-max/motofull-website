@@ -93,6 +93,16 @@ export default function KvkkPage() {
           özelliği, taşıdığı risk sağladığı faydayla orantısız olduğu için üründen
           tamamen kaldırılmıştır.
         </p>
+        <p>
+          <strong>E-postalar:</strong> e-posta adresinizi hesap ve hizmet bildirimleri
+          için, ücretsiz deneme süresince de kısa bir ürün ipuçları dizisi için
+          kullanırız. Her ipucu e-postasında abonelikten çıkma bağlantısı vardır.
+        </p>
+        <p>
+          <strong>Sesle yazma:</strong> mobil uygulamada sesle yazma, telefonunuzun
+          kendi konuşma tanıma hizmetini (Apple ya da Google) kullanır. Ses kaydı
+          MotoFull&apos;a hiç ulaşmaz; yalnızca yazıya dönüşen metin gelir.
+        </p>
       </Section>
 
       <Section n={4} title="Hangi amaçlarla ve hangi hukuki sebeple?">
@@ -161,8 +171,9 @@ export default function KvkkPage() {
         <Table
           head={['Veri', 'Saklama süresi', 'Gerekçe']}
           rows={[
-            ['Servis kayıtları ve faturalar', '10 yıl', 'TTK ve VUK saklama yükümlülüğü'],
-            ['Hesap bilgileri', 'Hesap açık olduğu sürece + 6 ay', 'Yanlışlıkla silmeye karşı geri alma penceresi'],
+            ['Servisin verileri (müşteriler, araçlar, servis kayıtları, faturalar, fotoğraflar)', 'Servis silene ya da hesabını silene kadar; sonra kalıcı olarak silinir', 'Faturalarını vergi için saklaması gereken servis, silmeden önce dışa aktarmalıdır'],
+            ['MotoFull abonelik muhasebe kayıtları', '10 yıl', 'TTK ve VUK saklama yükümlülüğü'],
+            ['Hesap bilgileri', 'Hesap açık olduğu sürece; hesap silinince hemen silinir', 'Hizmeti sunmak'],
             ['Yapay zekâ sohbet geçmişi', '1 yıl (otomatik silinir)', 'Sohbeti sürdürebilmek; süresiz saklamanın faydası yok'],
             ['Sürüş kayıtları', 'Siz silene veya hesabınızı kapatana kadar', 'Kendi istatistikleriniz'],
             ['Web sitesi ziyaret kayıtları', '180 gün (otomatik silinir)', 'Trafik analizi'],

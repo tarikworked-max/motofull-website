@@ -30,7 +30,7 @@ const capabilities = [
   "PDF job sheets",
 ];
 
-export function Hero() {
+export function Hero({ offerBadge = null }: { offerBadge?: string | null }) {
   const { open } = useDemo();
   const [wordIdx, setWordIdx] = useState(0);
 
@@ -57,6 +57,16 @@ export function Hero() {
             <span className="live-dot h-1.5 w-1.5 rounded-full bg-emerald-400" />
             Live and running at panel.motofull.com.tr
           </motion.span>
+
+          {/* Fiyat bölümündeki rozetin aynısı; metin ve süre sunucudan gelir. */}
+          {offerBadge && (
+            <a
+              href="#fiyatlar"
+              className="-mt-3 mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-sm font-semibold text-emerald-300"
+            >
+              {offerBadge}
+            </a>
+          )}
 
           <motion.h1
             initial={{ opacity: 0, y: 24 }}

@@ -121,23 +121,35 @@ export async function getLivePricing(market: Market, country?: string | null): P
     if (!data || data.success !== true || !Array.isArray(data.plans)) return fallback(market);
 
     const byPlan: Record<string, LivePlanPrice> = {};
+    let offerShown = false;
     for (const p of data.plans) {
+      /* Teklif: fiyat zaten düşürülmüş, sunucu yalnız önceki fiyatı
+         gönderir. Sayfa için kampanya ile aynı görünüm: üstü çizili. */
+      const hasPrevious = typeof p.previousAmount === 'number';
+      if (hasPrevious) offerShown = true;
       byPlan[p.id] = {
         id: p.id,
         amount: p.amount ?? null,
-        originalAmount: p.originalAmount ?? p.amount ?? null,
+        originalAmount: hasPrevious ? p.previousAmount : (p.originalAmount ?? p.amount ?? null),
         yearly: p.yearly ?? null,
-        yearlyOriginal: p.yearlyOriginal ?? p.yearly ?? null,
+        yearlyOriginal: typeof p.previousYearly === 'number'
+          ? p.previousYearly
+          : (p.yearlyOriginal ?? p.yearly ?? null),
         currency: (p.currency as Currency) || MARKET_CURRENCY[market],
         contactOnly: !!p.contactOnly,
-        discounted: !!p.discounted,
+        discounted: !!p.discounted || hasPrevious,
       };
     }
+    /* Rozet yalnız teklif birimindeki ziyaretçiye: önceki fiyatı olan
+       paket yoksa (ör. Avrupa) teklif rozeti gösterilmez. */
+    const offer = offerShown && data.offer ? data.offer : null;
 
     return {
       currency: (data.currency as Currency) || MARKET_CURRENCY[market],
       trialDays: typeof data.trialDays === 'number' ? data.trialDays : TRIAL_DAYS,
-      campaign: data.campaign || null,
+      campaign: data.campaign || (offer
+        ? { badge: offer.badge, discountType: 'fixed', discountValue: 0, appliesTo: offer.plans || [], endsAt: offer.endsAt || null }
+        : null),
       byPlan,
       live: true,
       /* Sunucu AÇIKÇA söylemediyse `null` bırakılır — `false` yazmak

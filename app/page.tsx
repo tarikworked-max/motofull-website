@@ -37,7 +37,7 @@ export default async function Home() {
       <ScrollProgress />
       <Navbar />
       <main>
-        <Hero />
+        <Hero offerBadge={live.campaign ? (live.campaign.badge.en || live.campaign.badge.tr) : null} />
         <Problem />
         <Solution />
         <Features />

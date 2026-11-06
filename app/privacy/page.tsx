@@ -172,13 +172,40 @@ export default function PrivacyPage() {
         </p>
       </Section>
 
-      <Section n={9} title="Changes">
+      <Section n={9} title="Text messages (SMS)">
+        <p>
+          If you give us your mobile number and tick the SMS consent box (for
+          example on our lead form), MotoFull may send you text messages about
+          your demo account, setup help and product updates. Message frequency
+          varies, usually no more than 4 messages per month. Message and data
+          rates may apply.
+        </p>
+        <p>
+          Reply <strong>STOP</strong> at any time to unsubscribe, or{' '}
+          <strong>HELP</strong> for help. You can also email{' '}
+          <a href={`mailto:${company.privacyEmail}`} className="text-accent hover:underline">
+            {company.privacyEmail}
+          </a>
+          . Consent to receive text messages is not a condition of any purchase.
+        </p>
+        <p>
+          <strong>
+            No mobile information will be shared with third parties or affiliates
+            for marketing or promotional purposes.
+          </strong>{' '}
+          Text messaging originator opt-in data and consent will not be shared
+          with any third parties, except the SMS provider that delivers our
+          messages.
+        </p>
+      </Section>
+
+      <Section n={10} title="Changes">
         <p>
           We may update this policy. Material changes will be announced in the
           application before they take effect.
         </p>
       </Section>
-      <Section n={10} title="Who we are">
+      <Section n={11} title="Who we are">
         <p>
           <strong>{company.legalName}</strong> (&quot;{company.brandName}&quot;,
           &quot;we&quot;) is established at {formattedAddress()}. You can reach our

@@ -1,6 +1,6 @@
 "use client";
 
-import { Mail, MapPin, Send } from "lucide-react";
+import { Mail, MapPin, Phone, Send } from "lucide-react";
 import { useState } from "react";
 import { useDemo } from "./demo-modal";
 import { Logo, Reveal, SectionHeading } from "./ui";
@@ -138,9 +138,10 @@ export function Contact() {
               {/* Telefon ve WhatsApp kartları KALDIRILDI — kurumsal
                   iletişim yalnızca e-posta üzerinden yürüyor. */}
               {[
-                { icon: Mail, label: "Email", value: company.email },
+                { icon: Phone, label: "Call or text · US & Canada", value: company.usPhone, href: company.usPhoneHref },
+                { icon: Mail, label: "Email", value: company.email, href: `mailto:${company.email}` },
               ].filter((c) => isFilled(c.value)).map((c) => (
-                <div key={c.label} className="glass card-hover flex items-center gap-4 rounded-2xl p-5">
+                <a key={c.label} href={c.href} className="glass card-hover flex items-center gap-4 rounded-2xl p-5">
                   <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-accent/12 text-accent">
                     <c.icon className="h-5 w-5" />
                   </span>
@@ -148,7 +149,7 @@ export function Contact() {
                     <p className="text-xs uppercase tracking-widest text-mist">{c.label}</p>
                     <p className="font-semibold text-frost">{c.value}</p>
                   </div>
-                </div>
+                </a>
               ))}
               {/* ── SATICI KİMLİĞİ ────────────────────────────────
                   iyzico'nun başvuru koşulu, ana sayfada DOĞRUDAN
@@ -172,7 +173,8 @@ export function Contact() {
                       ? [company.taxOffice, company.taxNo].filter(isFilled).join(' / ')
                       : ''],
                     ['Address', formattedAddress()],
-                    ['Phone', company.phone],
+                    ['Phone (Türkiye)', company.phone],
+                    ['Phone (US & Canada)', company.usPhone],
                     ['KEP', company.kepAddress],
                     ['Email', company.email],
                   ] as [string, string][])

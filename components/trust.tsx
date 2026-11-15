@@ -49,8 +49,8 @@ const facts = [
   {
     icon: BadgeCheck,
     label: "How you can check us",
-    value: company.email,
-    note: "Written questions get written answers. Ask before you commit.",
+    value: `${company.email} · ${company.usPhone}`,
+    note: "Email us, or call or text our US & Canada line. Ask before you commit.",
   },
 ];
 

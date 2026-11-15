@@ -22,7 +22,8 @@ export default function AboutEnPage() {
     { label: 'Tax office', value: company.taxOffice },
     { label: 'Tax ID', value: company.taxNo },
     { label: 'Address', value: formattedAddress() },
-    { label: 'Phone', value: company.phone },
+    { label: 'Phone (Türkiye)', value: company.phone },
+    { label: 'Phone (US & Canada, call or text)', value: company.usPhone },
     { label: 'Email', value: company.email },
   ].filter((row) => isFilled(row.value));
 

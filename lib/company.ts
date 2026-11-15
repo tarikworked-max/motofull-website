@@ -110,6 +110,15 @@ export const company = {
   phone: '+90 531 789 92 95',
 
   /**
+   * ABD toll-free hattı (2026-11-15, Tarık). Arayana İngilizce AI asistan
+   * cevap verir; SMS de alır. 877 numarası yalnız ABD/Kanada'dan aranır,
+   * bu yüzden her yerde "US & Canada" etiketiyle gösterilir. Yasal satıcı
+   * telefonu (iyzico) yukarıdaki TR numarasıdır; onun yerine geçmez.
+   */
+  usPhone: '+1 (877) 653-6934',
+  usPhoneHref: 'tel:+18776536934',
+
+  /**
    * KEP (Kayıtlı Elektronik Posta) adresi.
    *
    * KEP ADRESİ YOK — işletme sahibi tarafından teyit edildi

@@ -80,7 +80,7 @@ export function PaymentTrust({
           serit 320px'te 14.25 yerine 9.58 orana dusuyordu. Iki eksende
           de "en fazla" demek, tarayiciya oranti korunarak kucultme
           izni verir. Olculdu: 320/375/414/768/1024/1440. */}
-      <div className="mt-5 flex flex-col items-start gap-5">
+      <div className="payment-logos-strip mt-5 flex flex-col items-start gap-5">
         {/* "iyzico ile Ode" — basvurunun acikca istedigi logo. */}
         <Image
           src="/payment/iyzico-ile-ode.svg"

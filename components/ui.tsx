@@ -38,7 +38,7 @@ export function Logo({ className = "h-9" }: { className?: string }) {
         alt="MotoFull"
         width={640}
         height={114}
-        className="h-full w-auto object-contain"
+        className="site-logo h-full w-auto object-contain"
         priority
       />
     </span>

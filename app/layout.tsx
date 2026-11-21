@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import { StorageNotice } from "@/components/storage-notice";
+import { themeBootScript } from "@/lib/theme";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin", "latin-ext"], variable: "--font-inter" });
@@ -66,7 +67,10 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${grotesk.variable}`}>
+    <html lang="en" className={`${inter.variable} ${grotesk.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
+      </head>
       <body className="antialiased">
         <script
           type="application/ld+json"

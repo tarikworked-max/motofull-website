@@ -254,3 +254,77 @@ body {
     animation: none;
   }
 }
+
+/* ======================================================================
+   AYDINLIK TEMA — ThemeToggle html'e "light" sinifi ekler.
+   Site koyu zemin icin yazildi; renkler token oldugu icin cogu yer
+   token degistirerek donusur. "white" tokeni koyu murekkebe doner:
+   text-white, bg-white/5, border-white/10 gibi ince tonlar acik zeminde
+   ayni rolu oynar. Turuncu/renkli zeminlerin uzerindeki yazilar beyaz kalir.
+   ====================================================================== */
+html.light {
+  color-scheme: light;
+  --color-ink: #f6f7f9;
+  --color-navy: #eef1f5;
+  --color-surface: #ffffff;
+  --color-card: #ffffff;
+  --color-mist: #5b6676;
+  --color-frost: #0f172a;
+  --color-white: #0f172a;
+  --color-black: #ffffff;
+}
+html.light [class*="bg-accent"]:not([class*="bg-accent/"]),
+html.light [class*="from-accent"],
+html.light [class*="bg-electric"]:not([class*="bg-electric/"]),
+html.light [class*="bg-emerald-5"],
+html.light .keep-dark {
+  --color-white: #ffffff;
+}
+html.light ::selection { color: #0f172a; }
+html.light .glass {
+  background: rgba(255, 255, 255, 0.75);
+  border-color: rgba(15, 23, 42, 0.08);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 12px 32px -18px rgba(15, 23, 42, 0.18);
+}
+html.light .glass-strong {
+  background: rgba(255, 255, 255, 0.86);
+  border-color: rgba(15, 23, 42, 0.08);
+}
+html.light .text-gradient {
+  background-image: linear-gradient(100deg, #0f172a 10%, #9a3412 50%, #ff6b1a 90%);
+}
+html.light .text-gradient-blue {
+  background-image: linear-gradient(100deg, #0f172a 20%, #1d4ed8 70%, #3b82f6 100%);
+}
+html.light .grid-bg {
+  background-image:
+    linear-gradient(rgba(15, 23, 42, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 23, 42, 0.05) 1px, transparent 1px);
+}
+html.light .noise::after { opacity: 0.02; }
+html.light .card-hover:hover { box-shadow: 0 20px 50px -24px rgba(255, 107, 26, 0.35); }
+
+/* Tema gecisi perdesi: yeni tema ekrani yukaridan asagi kaplar. */
+html[data-theme-anim]::view-transition-old(root),
+html[data-theme-anim]::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+html[data-theme-anim]::view-transition-new(root) {
+  animation: mf-theme-wipe 700ms cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+@keyframes mf-theme-wipe {
+  from { clip-path: inset(0 0 100% 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+/* Logo beyaz "Moto" + turuncu "Full": invert+hue-rotate beyazi koyulastirir,
+   turuncuyu turuncu birakir (yeni logo URETILMEZ, ayni dosya). */
+html.light .site-logo { filter: invert(1) hue-rotate(180deg) saturate(1.2); }
+/* Resmi iyzico logolari beyaz (dosya degistirilmez): aydinlik temada koyu seritte durur. */
+html.light .payment-logos-strip {
+  width: fit-content;
+  max-width: 100%;
+  padding: 14px 18px;
+  border-radius: 14px;
+  background: #0f172a;
+}

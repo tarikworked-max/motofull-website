@@ -5,6 +5,7 @@ import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDemo } from "./demo-modal";
 import { Logo } from "./ui";
+import { ThemeToggle } from "./theme-toggle";
 import { TRIAL_DAYS } from "@/lib/pricing";
 import { company } from "@/lib/company";
 
@@ -54,6 +55,7 @@ export function Navbar() {
         </ul>
 
         <div className="hidden items-center gap-3 lg:flex">
+          <ThemeToggle />
           {/* PANEL GİRİŞİ — hesabı olan doğrudan girsin.
               Önceden panele giden tek bağlantı altbilgideydi; dönen
               bir kullanıcı için giriş ekranı, demo başlatmaktan daha
@@ -72,6 +74,8 @@ export function Navbar() {
           </button>
         </div>
 
+        <div className="flex items-center gap-1 lg:hidden">
+        <ThemeToggle />
         <button
           className="rounded-lg p-2 text-frost lg:hidden"
           onClick={() => setMobileOpen((v) => !v)}
@@ -80,6 +84,7 @@ export function Navbar() {
         >
           {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
+        </div>
       </nav>
 
       <AnimatePresence>

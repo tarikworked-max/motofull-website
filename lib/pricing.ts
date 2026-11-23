@@ -151,9 +151,9 @@ export const PLANS: Plan[] = [
      */
     price: {
       TRY: { monthly: 3499, yearly: 34990 },
-      // 6 Eki 2026: USD 149 sabit; EUR/GBP yuvarlanmis kur karsiligi (backend ile AYNI)
-      EUR: { monthly: 129, yearly: 1290 },
-      USD: { monthly: 149, yearly: 1490 },
+      // 23 Kas 2026: USD/EUR 79 aylik, 799 yillik (panel + iyzico planlari ile AYNI); canli fiyat yoksa yedek
+      EUR: { monthly: 79, yearly: 799 },
+      USD: { monthly: 79, yearly: 799 },
       GBP: { monthly: 109, yearly: 1090 },
     },
     features: [
